@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O'quvchilar Reyting Tizimi | Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        /* Project Specific Styles */
+        .project-header {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+            padding: 5rem 0 3rem;
+            text-align: center;
+            margin-top: 70px;
+        }
+        
+        .project-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            color: #43e97b;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        .controls-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .controls-row {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .control-group {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .control-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            color: #2D2B55;
+            font-size: 1.1rem;
+        }
+        
+        .grade-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .grade-btn {
+            padding: 0.8rem;
+            border: 2px solid #43e97b;
+            background: white;
+            color: #43e97b;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .grade-btn.active {
+            background: #43e97b;
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .grade-btn:hover:not(.active) {
+            background: rgba(67, 233, 123, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .section-selector {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .section-btn {
+            padding: 0.8rem 1.5rem;
+            border: 2px solid #43e97b;
+            background: white;
+            color: #43e97b;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .section-btn.active {
+            background: #43e97b;
+            color: white;
+        }
+        
+        .section-btn:hover:not(.active) {
+            background: rgba(67, 233, 123, 0.1);
+        }
+        
+        .export-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .export-btn {
+            padding: 0.8rem 1.5rem;
+            background: #43e97b;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .export-btn:hover {
+            background: #2ed573;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 233, 123, 0.3);
+        }
+        
+        .export-btn.pdf {
+            background: #f44336;
+        }
+        
+        .export-btn.pdf:hover {
+            background: #d32f2f;
+        }
+        
+        .rating-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+        
+        .rating-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            min-width: 1000px;
+        }
+        
+        .rating-table th {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+            padding: 1.2rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            position: sticky;
+            top: 0;
+        }
+        
+        .rating-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+            text-align: center;
+        }
+        
+        .rating-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .rating-table tr:hover {
+            background: rgba(67, 233, 123, 0.05);
+        }
+        
+        .rank-cell {
+            width: 80px;
+        }
+        
+        .rank-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: white;
+        }
+        
+        .rank-1 .rank-number {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            box-shadow: 0 3px 10px rgba(255, 165, 0, 0.3);
+        }
+        
+        .rank-2 .rank-number {
+            background: linear-gradient(135deg, #C0C0C0, #A0A0A0);
+            box-shadow: 0 3px 10px rgba(160, 160, 160, 0.3);
+        }
+        
+        .rank-3 .rank-number {
+            background: linear-gradient(135deg, #CD7F32, #A0522D);
+            box-shadow: 0 3px 10px rgba(165, 42, 42, 0.3);
+        }
+        
+        .rank-other .rank-number {
+            background: #43e97b;
+        }
+        
+        .student-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .student-avatar {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        .subject-grades {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .grade-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            cursor: help;
+        }
+        
+        .grade-dot:hover {
+            transform: scale(1.1);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+        
+        .grade-5 { background: #4CAF50; }
+        .grade-4 { background: #8BC34A; }
+        .grade-3 { background: #FFC107; }
+        .grade-2 { background: #FF9800; }
+        .grade-1 { background: #f44336; }
+        
+        .activity-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .total-score {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #43e97b;
+        }
+        
+        .charts-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .chart-wrapper {
+            height: 300px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+        }
+        
+        .add-student-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .form-group {
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2D2B55;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #43e97b;
+            box-shadow: 0 0 0 3px rgba(67, 233, 123, 0.1);
+        }
+        
+        .add-student-btn {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .add-student-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(67, 233, 123, 0.3);
+        }
+        
+        .add-student-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        /* Stats Overview */
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .stat-card h3 {
+            font-size: 2.5rem;
+            margin: 0 0 0.5rem;
+            font-weight: 700;
+        }
+        
+        .stat-card p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+        
+        .progress-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        
+        .progress-up {
+            background: #4CAF50;
+        }
+        
+        .progress-down {
+            background: #f44336;
+        }
+        
+        @media (max-width: 768px) {
+            .controls-row {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .grade-selector {
+                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .rating-table {
+                font-size: 0.9rem;
+                min-width: 700px;
+            }
+            
+            .rating-table th,
+            .rating-table td {
+                padding: 0.8rem 0.5rem;
+            }
+            
+            .subject-grades {
+                flex-wrap: wrap;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .export-buttons {
+                flex-direction: column;
+            }
+            
+            .section-selector {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <h1>SmartRating</h1>
+            </div>
+            
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html#home" class="nav-link"><i class="fas fa-home"></i> Bosh</a></li>
+                <li><a href="index.html#projects" class="nav-link"><i class="fas fa-project-diagram"></i> Loyihalar</a></li>
+                <li><a href="#rating" class="nav-link active"><i class="fas fa-chart-bar"></i> Reyting</a></li>
+                <li><a href="#add" class="nav-link"><i class="fas fa-user-plus"></i> O'quvchi Qo'shish</a></li>
+                <li class="nav-user" id="navUser">
+                    <a href="login.html" class="nav-link login-btn" id="loginBtn">
+                        <i class="fas fa-sign-in-alt"></i> Kirish
+                    </a>
+                    <div class="user-menu" id="userMenu" style="display: none;">
+                        <a href="#" class="user-menu-item" id="userName"></a>
+                        <a href="#" class="user-menu-item" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> Chiqish
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Project Header -->
+    <section class="project-header">
+        <div class="container">
+            <a href="index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Ortga
+            </a>
+            <h1>SmartRating - O'quvchilar Reyting Tizimi</h1>
+            <p>1-11 sinf o'quvchilarini baholash va reytinglashtirish tizimi</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="project-container">
+        <!-- Stats Overview -->
+        <div class="stats-overview">
+            <div class="stat-card">
+                <h3 id="totalStudents">0</h3>
+                <p>Jami O'quvchilar</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="averageGrade">0.0</h3>
+                <p>O'rtacha Baho</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="topScore">0</h3>
+                <p>Eng Yuqori Ball</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="activeStudents">0</h3>
+                <p>Faol O'quvchilar</p>
+            </div>
+        </div>
+
+        <!-- Controls Panel -->
+        <div class="controls-panel">
+            <div class="controls-row">
+                <div class="control-group">
+                    <label><i class="fas fa-graduation-cap"></i> Sinfni Tanlang:</label>
+                    <div class="grade-selector" id="gradeSelector">
+                        <!-- Grades 1-11 will be generated by JavaScript -->
+                    </div>
+                    
+                    <div class="section-selector">
+                        <button class="section-btn active" data-section="all">Barchasi</button>
+                        <button class="section-btn" data-section="a">A Sinf</button>
+                        <button class="section-btn" data-section="b">B Sinf</button>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label><i class="fas fa-cog"></i> Sozlashlar:</label>
+                    <div class="export-buttons">
+                        <button class="export-btn" id="exportCSV">
+                            <i class="fas fa-file-csv"></i> CSV Yuklash
+                        </button>
+                        <button class="export-btn pdf" id="exportPDF">
+                            <i class="fas fa-file-pdf"></i> PDF Yuklash
+                        </button>
+                        <button class="export-btn" id="printBtn">
+                            <i class="fas fa-print"></i> Chop etish
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rating Table -->
+        <div class="rating-container" id="rating">
+            <h2 style="margin-bottom: 1.5rem; color: #2D2B55;">
+                <i class="fas fa-list-ol"></i> O'quvchilar Reytingi
+            </h2>
+            <table class="rating-table">
+                <thead>
+                    <tr>
+                        <th>O'rin</th>
+                        <th>O'quvchi</th>
+                        <th>O'rtacha Baho</th>
+                        <th>Fanlar Bo'yicha</th>
+                        <th>Faollik</th>
+                        <th>Umumiy Ball</th>
+                        <th>Harakat</th>
+                    </tr>
+                </thead>
+                <tbody id="ratingTableBody">
+                    <!-- Will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-container">
+            <h2 style="margin-bottom: 1.5rem; color: #2D2B55;">
+                <i class="fas fa-chart-bar"></i> Statistik Tahlillar
+            </h2>
+            <div class="charts-grid">
+                <div class="chart-wrapper">
+                    <canvas id="averageChart"></canvas>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="distributionChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Student -->
+        <div class="add-student-container" id="add">
+            <h2 style="margin-bottom: 1.5rem; color: #2D2B55;">
+                <i class="fas fa-user-plus"></i> Yangi O'quvchi Qo'shish
+            </h2>
+            <form id="addStudentForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Ism Familiya:</label>
+                        <input type="text" id="studentName" placeholder="Ali Valiyev" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Sinf:</label>
+                        <select id="studentGrade" required>
+                            <option value="">Tanlang</option>
+                            <!-- Grades 1-11 will be populated by JavaScript -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Guruh:</label>
+                        <select id="studentSection" required>
+                            <option value="a">A</option>
+                            <option value="b">B</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Matematika:</label>
+                        <input type="number" id="mathGrade" min="1" max="5" value="4" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Ona tili:</label>
+                        <input type="number" id="languageGrade" min="1" max="5" value="4" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Tabiiy fan:</label>
+                        <input type="number" id="scienceGrade" min="1" max="5" value="4" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Tarix:</label>
+                        <input type="number" id="historyGrade" min="1" max="5" value="4" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Ingliz tili:</label>
+                        <input type="number" id="englishGrade" min="1" max="5" value="4" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Faollik (1-25):</label>
+                        <input type="number" id="activityScore" min="1" max="25" value="10" required>
+                    </div>
+                </div>
+                
+                <button type="submit" class="add-student-btn" id="addStudentBtn">
+                    <i class="fas fa-user-plus"></i> O'quvchi Qo'shish
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-chart-line"></i>
+                    <h2>SmartRating</h2>
+                    <p>O'quvchilarni baholash va reytinglashtirish</p>
+                    <p class="location"><i class="fas fa-map-marker-alt"></i> Xorazm, Xiva</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Tez O'tish</h3>
+                    <a href="index.html"><i class="fas fa-chevron-right"></i> Asosiy sahifa</a>
+                    <a href="#rating"><i class="fas fa-chevron-right"></i> Reyting</a>
+                    <a href="#add"><i class="fas fa-chevron-right"></i> O'quvchi qo'shish</a>
+                    <a href="index.html#projects"><i class="fas fa-chevron-right"></i> Boshqa loyihalar</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 SmartRating. Barcha huquqlar himoyalangan.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ====== STUDENTS DATABASE ======
+        let students = JSON.parse(localStorage.getItem('smartRatingStudents')) || generateInitialStudents();
+
+        // ====== GENERATE INITIAL STUDENTS (1-11 GRADES) ======
+        function generateInitialStudents() {
+            const initialStudents = [];
+            const firstNames = ["Ali", "Vali", "Hasan", "Husan", "Olim", "Jamol", "Bekzod", "Sherzod", "Javlon", "Sanjar"];
+            const lastNames = ["Valiyev", "Olimov", "Karimov", "Xolmatov", "Jo'rayev", "Toshmatov", "Hamidov", "Qodirov", "Yusupov", "Sobirov"];
+            
+            let id = 1;
+            
+            // Generate students for grades 1-11
+            for (let grade = 1; grade <= 11; grade++) {
+                // For grades 1-9, generate both A and B sections
+                const sections = grade <= 9 ? ['a', 'b'] : [''];
+                
+                sections.forEach(section => {
+                    // Generate 5-8 students per class
+                    const studentsInClass = Math.floor(Math.random() * 4) + 5;
+                    
+                    for (let i = 0; i < studentsInClass; i++) {
+                        const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+                        const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+                        const name = `${firstName} ${lastName}`;
+                        
+                        // Generate grades based on grade level
+                        const baseGrade = Math.min(5, Math.max(1, Math.floor(grade / 2) + 2));
+                        const mathGrade = baseGrade + (Math.random() > 0.7 ? 1 : 0);
+                        const languageGrade = baseGrade + (Math.random() > 0.5 ? 0 : -1);
+                        const scienceGrade = baseGrade;
+                        const historyGrade = baseGrade + (Math.random() > 0.8 ? 1 : 0);
+                        const englishGrade = baseGrade + (Math.random() > 0.6 ? 0 : -1);
+                        
+                        // Activity score (1-25)
+                        const activityScore = Math.floor(Math.random() * 15) + 10;
+                        
+                        initialStudents.push({
+                            id: id++,
+                            name,
+                            grade: grade,
+                            section: section || null,
+                            grades: {
+                                math: Math.max(1, Math.min(5, mathGrade)),
+                                language: Math.max(1, Math.min(5, languageGrade)),
+                                science: Math.max(1, Math.min(5, scienceGrade)),
+                                history: Math.max(1, Math.min(5, historyGrade)),
+                                english: Math.max(1, Math.min(5, englishGrade))
+                            },
+                            activity: activityScore,
+                            attendance: Math.floor(Math.random() * 20) + 80, // 80-100%
+                            lastUpdated: new Date().toISOString()
+                        });
+                    }
+                });
+            }
+            
+            localStorage.setItem('smartRatingStudents', JSON.stringify(initialStudents));
+            return initialStudents;
+        }
+
+        // ====== CALCULATION FUNCTIONS ======
+        function calculateAverage(grades) {
+            const subjects = Object.values(grades);
+            const sum = subjects.reduce((total, grade) => total + grade, 0);
+            return (sum / subjects.length).toFixed(2);
+        }
+
+        function calculateTotalScore(student) {
+            const average = parseFloat(calculateAverage(student.grades));
+            const activityScore = student.activity * 0.5; // 0.5 point per activity
+            const attendanceBonus = student.attendance >= 95 ? 5 : student.attendance >= 90 ? 3 : 0;
+            return (average * 4 + activityScore + attendanceBonus).toFixed(1);
+        }
+
+        function getGradeColor(grade) {
+            if (grade >= 4.5) return '#4CAF50';
+            if (grade >= 3.5) return '#8BC34A';
+            if (grade >= 2.5) return '#FFC107';
+            if (grade >= 1.5) return '#FF9800';
+            return '#f44336';
+        }
+
+        // ====== GENERATE GRADE BUTTONS (1-11) ======
+        function generateGradeButtons() {
+            const gradeSelector = document.getElementById('gradeSelector');
+            const gradeSelect = document.getElementById('studentGrade');
+            
+            // Generate buttons for grades 1-11
+            gradeSelector.innerHTML = '';
+            gradeSelect.innerHTML = '<option value="">Tanlang</option>';
+            
+            for (let grade = 1; grade <= 11; grade++) {
+                // Add to grade selector buttons
+                const button = document.createElement('button');
+                button.className = `grade-btn ${grade === 6 ? 'active' : ''}`;
+                button.dataset.grade = grade;
+                button.textContent = `${grade}-sinf`;
+                gradeSelector.appendChild(button);
+                
+                // Add to select dropdown
+                const option = document.createElement('option');
+                option.value = grade;
+                option.textContent = `${grade}-sinf`;
+                gradeSelect.appendChild(option);
+            }
+            
+            // Add event listeners
+            document.querySelectorAll('.grade-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.grade-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const selectedGrade = parseInt(this.dataset.grade);
+                    const selectedSection = document.querySelector('.section-btn.active').dataset.section;
+                    updateRatingTable(selectedGrade, selectedSection);
+                    updateStats(selectedGrade, selectedSection);
+                    updateCharts(selectedGrade, selectedSection);
+                });
+            });
+        }
+
+        // ====== SECTION SELECTION ======
+        document.querySelectorAll('.section-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.section-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                const selectedGrade = parseInt(document.querySelector('.grade-btn.active').dataset.grade);
+                const selectedSection = this.dataset.section;
+                updateRatingTable(selectedGrade, selectedSection);
+                updateStats(selectedGrade, selectedSection);
+                updateCharts(selectedGrade, selectedSection);
+            });
+        });
+
+        // ====== UPDATE RATING TABLE ======
+        function updateRatingTable(grade, section) {
+            // Filter students by grade and section
+            let filteredStudents = students.filter(s => s.grade === grade);
+            
+            if (section !== 'all' && section !== '') {
+                filteredStudents = filteredStudents.filter(s => s.section === section);
+            }
+            
+            // Sort by total score
+            filteredStudents.sort((a, b) => {
+                return calculateTotalScore(b) - calculateTotalScore(a);
+            });
+            
+            // Update table
+            const tbody = document.getElementById('ratingTableBody');
+            tbody.innerHTML = '';
+            
+            filteredStudents.forEach((student, index) => {
+                const average = calculateAverage(student.grades);
+                const totalScore = calculateTotalScore(student);
+                const grades = student.grades;
+                
+                const tr = document.createElement('tr');
+                tr.className = `rank-${index < 3 ? index + 1 : 'other'}`;
+                
+                // Student info with avatar
+                const initials = student.name.split(' ').map(n => n[0]).join('');
+                
+                tr.innerHTML = `
+                    <td class="rank-cell">
+                        <div class="rank-number">${index + 1}</div>
+                    </td>
+                    <td>
+                        <div class="student-info">
+                            <div class="student-avatar">${initials}</div>
+                            <div>
+                                <strong>${student.name}</strong><br>
+                                <small>${student.grade}${student.section ? student.section.toUpperCase() : ''}-sinf</small>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="font-weight: 600; font-size: 1.2rem; color: ${getGradeColor(parseFloat(average))}">
+                            ${average}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="subject-grades">
+                            <div class="grade-dot grade-${grades.math}" title="Matematika: ${grades.math}">${grades.math}</div>
+                            <div class="grade-dot grade-${grades.language}" title="Ona tili: ${grades.language}">${grades.language}</div>
+                            <div class="grade-dot grade-${grades.science}" title="Tabiiy fan: ${grades.science}">${grades.science}</div>
+                            <div class="grade-dot grade-${grades.history}" title="Tarix: ${grades.history}">${grades.history}</div>
+                            <div class="grade-dot grade-${grades.english}" title="Ingliz tili: ${grades.english}">${grades.english}</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="activity-badge">${student.activity}</div>
+                    </td>
+                    <td class="total-score">${totalScore}</td>
+                    <td>
+                        <button class="export-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;" onclick="viewStudentDetails(${student.id})">
+                            <i class="fas fa-eye"></i> Ko'rish
+                        </button>
+                    </td>
+                `;
+                
+                tbody.appendChild(tr);
+            });
+        }
+
+        // ====== UPDATE STATS ======
+        function updateStats(grade, section) {
+            let filteredStudents = students.filter(s => s.grade === grade);
+            
+            if (section !== 'all' && section !== '') {
+                filteredStudents = filteredStudents.filter(s => s.section === section);
+            }
+            
+            if (filteredStudents.length === 0) {
+                document.getElementById('totalStudents').textContent = '0';
+                document.getElementById('averageGrade').textContent = '0.0';
+                document.getElementById('topScore').textContent = '0';
+                document.getElementById('activeStudents').textContent = '0';
+                return;
+            }
+            
+            // Calculate stats
+            const totalStudents = filteredStudents.length;
+            const averageGrade = filteredStudents.reduce((sum, student) => {
+                return sum + parseFloat(calculateAverage(student.grades));
+            }, 0) / totalStudents;
+            
+            const topScore = Math.max(...filteredStudents.map(student => parseFloat(calculateTotalScore(student))));
+            const activeStudents = filteredStudents.filter(s => s.activity >= 15).length;
+            
+            // Update display
+            document.getElementById('totalStudents').textContent = totalStudents;
+            document.getElementById('averageGrade').textContent = averageGrade.toFixed(1);
+            document.getElementById('topScore').textContent = topScore.toFixed(1);
+            document.getElementById('activeStudents').textContent = activeStudents;
+        }
+
+        // ====== CHARTS ======
+        let averageChart = null;
+        let distributionChart = null;
+
+        function updateCharts(grade, section) {
+            let filteredStudents = students.filter(s => s.grade === grade);
+            
+            if (section !== 'all' && section !== '') {
+                filteredStudents = filteredStudents.filter(s => s.section === section);
+            }
+            
+            if (filteredStudents.length === 0) return;
+            
+            // Prepare data for average chart
+            const subjects = ['Matematika', 'Ona tili', 'Tabiiy fan', 'Tarix', 'Ingliz tili'];
+            const averages = subjects.map((subject, index) => {
+                const key = subject.toLowerCase().includes('matematika') ? 'math' :
+                          subject.toLowerCase().includes('ona') ? 'language' :
+                          subject.toLowerCase().includes('tabiiy') ? 'science' :
+                          subject.toLowerCase().includes('tarix') ? 'history' : 'english';
+                
+                const sum = filteredStudents.reduce((total, student) => total + student.grades[key], 0);
+                return (sum / filteredStudents.length).toFixed(2);
+            });
+            
+            // Prepare data for distribution chart
+            const gradeDistribution = {
+                '5': 0,
+                '4': 0,
+                '3': 0,
+                '2': 0,
+                '1': 0
+            };
+            
+            filteredStudents.forEach(student => {
+                const avg = parseFloat(calculateAverage(student.grades));
+                if (avg >= 4.5) gradeDistribution['5']++;
+                else if (avg >= 3.5) gradeDistribution['4']++;
+                else if (avg >= 2.5) gradeDistribution['3']++;
+                else if (avg >= 1.5) gradeDistribution['2']++;
+                else gradeDistribution['1']++;
+            });
+            
+            // Update or create average chart
+            const avgCtx = document.getElementById('averageChart').getContext('2d');
+            if (averageChart) averageChart.destroy();
+            
+            averageChart = new Chart(avgCtx, {
+                type: 'bar',
+                data: {
+                    labels: subjects,
+                    datasets: [{
+                        label: 'O\'rtacha Baholar',
+                        data: averages,
+                        backgroundColor: '#43e97b',
+                        borderColor: '#38f9d7',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 5,
+                            title: {
+                                display: true,
+                                text: 'Baho'
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Fanlar Bo\'yicha O\'rtacha Baholar'
+                        }
+                    }
+                }
+            });
+            
+            // Update or create distribution chart
+            const distCtx = document.getElementById('distributionChart').getContext('2d');
+            if (distributionChart) distributionChart.destroy();
+            
+            distributionChart = new Chart(distCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['5 (A\'lo)', '4 (Yaxshi)', '3 (Qoniqarli)', '2 (Qoniqarsiz)', '1 (Yomon)'],
+                    datasets: [{
+                        data: Object.values(gradeDistribution),
+                        backgroundColor: [
+                            '#4CAF50',
+                            '#8BC34A',
+                            '#FFC107',
+                            '#FF9800',
+                            '#f44336'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Baho Distributsiyasi'
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        // ====== ADD STUDENT FORM ======
+        document.getElementById('addStudentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('studentName').value.trim();
+            const grade = parseInt(document.getElementById('studentGrade').value);
+            const section = document.getElementById('studentSection').value;
+            const mathGrade = parseInt(document.getElementById('mathGrade').value);
+            const languageGrade = parseInt(document.getElementById('languageGrade').value);
+            const scienceGrade = parseInt(document.getElementById('scienceGrade').value);
+            const historyGrade = parseInt(document.getElementById('historyGrade').value);
+            const englishGrade = parseInt(document.getElementById('englishGrade').value);
+            const activityScore = parseInt(document.getElementById('activityScore').value);
+            
+            // Validate all grades are between 1-5
+            if ([mathGrade, languageGrade, scienceGrade, historyGrade, englishGrade].some(g => g < 1 || g > 5)) {
+                alert('Barcha baholar 1 dan 5 gacha bo\'lishi kerak!');
+                return;
+            }
+            
+            if (activityScore < 1 || activityScore > 25) {
+                alert('Faollik ballari 1 dan 25 gacha bo\'lishi kerak!');
+                return;
+            }
+            
+            // Create new student
+            const newStudent = {
+                id: students.length > 0 ? Math.max(...students.map(s => s.id)) + 1 : 1,
+                name,
+                grade,
+                section,
+                grades: {
+                    math: mathGrade,
+                    language: languageGrade,
+                    science: scienceGrade,
+                    history: historyGrade,
+                    english: englishGrade
+                },
+                activity: activityScore,
+                attendance: Math.floor(Math.random() * 20) + 80, // Random 80-100%
+                lastUpdated: new Date().toISOString()
+            };
+            
+            // Add to database
+            students.push(newStudent);
+            localStorage.setItem('smartRatingStudents', JSON.stringify(students));
+            
+            // Reset form
+            this.reset();
+            document.getElementById('mathGrade').value = 4;
+            document.getElementById('languageGrade').value = 4;
+            document.getElementById('scienceGrade').value = 4;
+            document.getElementById('historyGrade').value = 4;
+            document.getElementById('englishGrade').value = 4;
+            document.getElementById('activityScore').value = 10;
+            
+            // Update display
+            const selectedGrade = parseInt(document.querySelector('.grade-btn.active').dataset.grade);
+            const selectedSection = document.querySelector('.section-btn.active').dataset.section;
+            
+            updateRatingTable(selectedGrade, selectedSection);
+            updateStats(selectedGrade, selectedSection);
+            updateCharts(selectedGrade, selectedSection);
+            
+            // Show success message
+            alert(`✅ ${name} muvaffaqiyatli qo'shildi!\nSinf: ${grade}${section ? section.toUpperCase() : ''}\nO'rtacha baho: ${calculateAverage(newStudent.grades)}`);
+        });
+
+        // ====== EXPORT FUNCTIONS ======
+        document.getElementById('exportCSV').addEventListener('click', function() {
+            const selectedGrade = parseInt(document.querySelector('.grade-btn.active').dataset.grade);
+            const selectedSection = document.querySelector('.section-btn.active').dataset.section;
+            
+            let filteredStudents = students.filter(s => s.grade === grade);
+            if (selectedSection !== 'all' && selectedSection !== '') {
+                filteredStudents = filteredStudents.filter(s => s.section === selectedSection);
+            }
+            
+            // Sort by rank
+            filteredStudents.sort((a, b) => {
+                return calculateTotalScore(b) - calculateTotalScore(a);
+            });
+            
+            // Create CSV content
+            let csv = 'O\'rin,Ism,Sinf,O\'rtacha Baho,Matematika,Ona Tili,Tabiiy Fan,Tarix,Ingliz Tili,Faollik Ballari,Umumiy Ball\n';
+            
+            filteredStudents.forEach((student, index) => {
+                const average = calculateAverage(student.grades);
+                const totalScore = calculateTotalScore(student);
+                const grades = student.grades;
+                
+                csv += `${index + 1},`;
+                csv += `${student.name},`;
+                csv += `${student.grade}${student.section ? student.section.toUpperCase() : ''},`;
+                csv += `${average},`;
+                csv += `${grades.math},`;
+                csv += `${grades.language},`;
+                csv += `${grades.science},`;
+                csv += `${grades.history},`;
+                csv += `${grades.english},`;
+                csv += `${student.activity},`;
+                csv += `${totalScore}\n`;
+            });
+            
+            // Create download link
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `${selectedGrade}-sinf-reyting.csv`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            alert(`✅ ${selectedGrade}-sinf reytingi CSV fayli sifatida yuklandi!`);
+        });
+
+        document.getElementById('exportPDF').addEventListener('click', async function() {
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                const selectedGrade = parseInt(document.querySelector('.grade-btn.active').dataset.grade);
+                const selectedSection = document.querySelector('.section-btn.active').dataset.section;
+                
+                // Add title
+                doc.setFontSize(16);
+                doc.text(`${selectedGrade}-sinf O'quvchilar Reytingi`, 105, 15, { align: 'center' });
+                
+                doc.setFontSize(12);
+                doc.text(`Sana: ${new Date().toLocaleDateString('uz-UZ')}`, 105, 25, { align: 'center' });
+                
+                // Add table headers
+                const headers = [['O\'rin', 'O\'quvchi', 'O\'rtacha', 'Umumiy Ball']];
+                const startY = 40;
+                
+                doc.autoTable({
+                    head: headers,
+                    startY: startY,
+                    theme: 'grid',
+                    styles: { fontSize: 10, cellPadding: 3 },
+                    headStyles: { fillColor: [67, 233, 123] }
+                });
+                
+                // Get filtered and sorted students
+                let filteredStudents = students.filter(s => s.grade === selectedGrade);
+                if (selectedSection !== 'all' && selectedSection !== '') {
+                    filteredStudents = filteredStudents.filter(s => s.section === selectedSection);
+                }
+                
+                filteredStudents.sort((a, b) => {
+                    return calculateTotalScore(b) - calculateTotalScore(a);
+                });
+                
+                // Add student data
+                const studentData = filteredStudents.map((student, index) => [
+                    index + 1,
+                    student.name,
+                    calculateAverage(student.grades),
+                    calculateTotalScore(student)
+                ]);
+                
+                doc.autoTable({
+                    body: studentData,
+                    startY: doc.autoTable.previous.finalY + 10,
+                    theme: 'grid',
+                    styles: { fontSize: 9, cellPadding: 2 }
+                });
+                
+                // Add stats
+                const statsY = doc.autoTable.previous.finalY + 20;
+                doc.setFontSize(11);
+                doc.text(`Jami o'quvchilar: ${filteredStudents.length}`, 20, statsY);
+                doc.text(`O'rtacha baho: ${(filteredStudents.reduce((sum, s) => sum + parseFloat(calculateAverage(s.grades)), 0) / filteredStudents.length).toFixed(2)}`, 100, statsY);
+                doc.text(`Eng yuqori ball: ${Math.max(...filteredStudents.map(s => parseFloat(calculateTotalScore(s)))).toFixed(1)}`, 20, statsY + 7);
+                
+                // Save PDF
+                doc.save(`${selectedGrade}-sinf-reyting.pdf`);
+                
+                alert(`✅ ${selectedGrade}-sinf reytingi PDF fayli sifatida yuklandi!`);
+            } catch (error) {
+                console.error('PDF yaratishda xato:', error);
+                alert('PDF yaratishda xato yuz berdi. Iltimos, qayta urinib ko\'ring.');
+            }
+        });
+
+        document.getElementById('printBtn').addEventListener('click', function() {
+            window.print();
+        });
+
+        // ====== VIEW STUDENT DETAILS ======
+        function viewStudentDetails(studentId) {
+            const student = students.find(s => s.id === studentId);
+            if (!student) return;
+            
+            const average = calculateAverage(student.grades);
+            const totalScore = calculateTotalScore(student);
+            
+            const details = `
+                👤 <strong>${student.name}</strong>
+                📚 Sinf: ${student.grade}${student.section ? student.section.toUpperCase() : ''}
+                
+                📊 Baholar:
+                • Matematika: ${student.grades.math}
+                • Ona tili: ${student.grades.language}
+                • Tabiiy fan: ${student.grades.science}
+                • Tarix: ${student.grades.history}
+                • Ingliz tili: ${student.grades.english}
+                
+                ⭐ O'rtacha baho: ${average}
+                🏆 Faollik ballari: ${student.activity}
+                📈 Umumiy ball: ${totalScore}
+                📅 Davomat: ${student.attendance}%
+                🕐 Oxirgi yangilangan: ${new Date(student.lastUpdated).toLocaleDateString('uz-UZ')}
+            `;
+            
+            alert(details);
+        }
+
+        // ====== INITIALIZE ======
+        document.addEventListener('DOMContentLoaded', function() {
+            // Generate grade buttons
+            generateGradeButtons();
+            
+            // Initialize with grade 6, all sections
+            updateRatingTable(6, 'all');
+            updateStats(6, 'all');
+            updateCharts(6, 'all');
+            
+            // Include common scripts
+            const script = document.createElement('script');
+            script.src = 'script.js';
+            document.body.appendChild(script);
+        });
+    </script>
+</body>
+</html>

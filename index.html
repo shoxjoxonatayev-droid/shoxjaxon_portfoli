@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHOXJAXON | Kelajak Dasturchisi</title>
+    <meta name="description" content="SHOXJAXON - Full-Stack Web Dasturchi, ta'lim sohasida innovatsion yechimlar yaratuvchi">
+    <meta name="keywords" content="SHOXJAXON, web dasturchi, portfolio, Xorazm, full-stack, dasturlash">
+    <meta name="author" content="ATOBOYEV SHOXJAXON">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader">
+        <div class="loader-content">
+            <div class="loader-logo">
+                <i class="fas fa-rocket"></i>
+            </div>
+            <h2 class="loader-name"></h2>
+            <p class="loader-title">Kelajak Dasturchisi</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#home" class="logo">
+                <div class="logo-icon">S</div>
+                <div class="logo-text">
+                    <span class="logo-name">SHOXJAXON</span>
+                    <span class="logo-title">Full-Stack Developer</span>
+                </div>
+            </a>
+            
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#home" class="nav-link active">
+                    <i class="fas fa-home"></i> Bosh
+                </a></li>
+                <li><a href="#projects" class="nav-link">
+                    <i class="fas fa-project-diagram"></i> Loyihalar
+                </a></li>
+                <li><a href="#about" class="nav-link">
+                    <i class="fas fa-user"></i> Men haqimda
+                </a></li>
+                <li><a href="#goal" class="nav-link">
+                    <i class="fas fa-bullseye"></i> Maqsadim
+                </a></li>
+                <li><a href="#contact" class="nav-link">
+                    <i class="fas fa-envelope"></i> Bog'lanish
+                </a></li>
+                <li class="nav-user">
+                    <!-- Login/Kirish tugmasi (JavaScript tomonidan o'zgartiriladi) -->
+                    <a href="login.html?demo=true" class="nav-link login-btn" id="loginBtn">
+                        <i class="fas fa-sign-in-alt"></i> Kirish
+                    </a>
+                    
+                    <!-- User menu - Login qilinganda ko'rinadi -->
+                    <div class="user-menu" id="userMenu" style="display: none;">
+                        <div class="user-info">
+                            <div class="user-avatar" id="userAvatar">👤</div>
+                            <div class="user-details">
+                                <div class="user-name" id="userNameDisplay">Foydalanuvchi</div>
+                                <div class="user-role" id="userRoleDisplay">User</div>
+                            </div>
+                        </div>
+                        <a href="#" class="user-menu-item" onclick="showProfile()">
+                            <i class="fas fa-user-circle"></i> Profilim
+                        </a>
+                        <a href="#" class="user-menu-item" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> Chiqish
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-greeting">
+                    <span class="wave-emoji">👋</span> Assalomu alaykum, men
+                </div>
+                <h1 class="hero-title">ATOBOYEV <span class="highlight">SHOXJAXON</span></h1>
+                <h2 class="hero-subtitle">
+                    Men <span class="typing-container">
+                        <span id="typing-text"></span>
+                    </span>
+                </h2>
+                <p class="hero-text">
+                    Xorazmda tug'ilgan, kelajakning yorqin dasturchisi bo'lish yo'lidagi yosh mutaxassis. 
+                    Ta'lim va texnologiyalarni uyg'unlashtirib, innovatsion yechimlar yaratishga intilaman. 
+                    Har bir loyiha - kelajakdagi muvaffaqiyatimning bir qadamidir.
+                </p>
+                
+                <div class="hero-stats">
+                    <div class="stat-card" data-delay="0.1s">
+                        <div class="stat-number">4+</div>
+                        <div class="stat-text">Loyihalar</div>
+                    </div>
+                    <div class="stat-card" data-delay="0.2s">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-text">Sifat Kafolati</div>
+                    </div>
+                    <div class="stat-card" data-delay="0.3s">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-text">Qo'llab-quvvatlash</div>
+                    </div>
+                    <div class="stat-card" data-delay="0.4s">
+                        <div class="stat-number">∞</div>
+                        <div class="stat-text">O'rganish Istagi</div>
+                    </div>
+                </div>
+                
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary cta-button">
+                        <i class="fas fa-rocket"></i> Loyihalarimni Ko'rish
+                    </a>
+                    <a href="#contact" class="btn btn-secondary cta-button">
+                        <i class="fas fa-paper-plane"></i> Bog'lanish
+                    </a>
+                </div>
+            </div>
+            
+            <div class="hero-image">
+                <div class="hero-image-container">
+                    <img src="https://alicode.uz/wp-content/uploads/2024/01/thumb-scaled.jpg" 
+                         alt="SHOXJAXON - Web Developer" 
+                         class="hero-image-img">
+                    <div class="hero-image-frame"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Mening <span>Loyihalarim</span></h2>
+                <p class="section-subtitle">Ta'lim tizimini raqamlashtirish va innovatsion yechimlar</p>
+            </div>
+            
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="project-badge">Yangi</div>
+                    </div>
+                    <h3 class="project-title">Smart School Schedule</h3>
+                    <p class="project-desc">Maktablar uchun interaktiv dars jadvali tizimi. O'qituvchilar va o'quvchilar uchun qulay interfeys.</p>
+                    
+                    <div class="project-features">
+                        <span><i class="fas fa-check"></i> 1-11 sinflar</span>
+                        <span><i class="fas fa-check"></i> Kunlik 6 dars</span>
+                        <span><i class="fas fa-check"></i> O'qituvchilar paneli</span>
+                        <span><i class="fas fa-check"></i> Push-xabarlar</span>
+                    </div>
+                    
+                    <div class="project-tech">
+                        <span class="tech-tag">HTML5</span>
+                        <span class="tech-tag">CSS3</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">LocalStorage</span>
+                    </div>
+                    
+                    <button class="btn project-btn" onclick="showProjectDemo(1)">
+                        <i class="fas fa-play-circle"></i> Demo'ni Ko'rish
+                    </button>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <div class="project-badge">Popular</div>
+                    </div>
+                    <h3 class="project-title">School Food Menu</h3>
+                    <p class="project-desc">Maktab oshxonasi uchun haftalik ovqat menyusi va onlayn buyurtma tizimi.</p>
+                    
+                    <div class="project-features">
+                        <span><i class="fas fa-check"></i> Kunlik menyu</span>
+                        <span><i class="fas fa-check"></i> Kaloriya hisobi</span>
+                        <span><i class="fas fa-check"></i> Onlayn buyurtma</span>
+                        <span><i class="fas fa-check"></i> To'lov tizimi</span>
+                    </div>
+                    
+                    <div class="project-tech">
+                        <span class="tech-tag">HTML5</span>
+                        <span class="tech-tag">CSS3</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">Chart.js</span>
+                    </div>
+                    
+                    <button class="btn project-btn" onclick="showProjectDemo(2)">
+                        <i class="fas fa-play-circle"></i> Demo'ni Ko'rish
+                    </button>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="project-badge">Yangi</div>
+                    </div>
+                    <h3 class="project-title">Smart Library</h3>
+                    <p class="project-desc">Kutubxona kitoblari katalogi va qidiruv tizimi. O'qituvchilar va o'quvchilar uchun.</p>
+                    
+                    <div class="project-features">
+                        <span><i class="fas fa-check"></i> 1000+ kitob</span>
+                        <span><i class="fas fa-check"></i> Kitob olish/berish</span>
+                        <span><i class="fas fa-check"></i> Keng qidiruv</span>
+                        <span><i class="fas fa-check"></i> Elektron kitoblar</span>
+                    </div>
+                    
+                    <div class="project-tech">
+                        <span class="tech-tag">HTML5</span>
+                        <span class="tech-tag">CSS3</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">Search API</span>
+                    </div>
+                    
+                    <button class="btn project-btn" onclick="showProjectDemo(3)">
+                        <i class="fas fa-play-circle"></i> Demo'ni Ko'rish
+                    </button>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="project-badge">Trend</div>
+                    </div>
+                    <h3 class="project-title">Student Rating System</h3>
+                    <p class="project-desc">O'quvchilarni baholash va reytinglashtirish tizimi. Dinamik diagrammalar bilan.</p>
+                    
+                    <div class="project-features">
+                        <span><i class="fas fa-check"></i> 1-11 sinflar</span>
+                        <span><i class="fas fa-check"></i> Dinamik diagrammalar</span>
+                        <span><i class="fas fa-check"></i> Avtomatik hisobot</span>
+                        <span><i class="fas fa-check"></i> PDF eksport</span>
+                    </div>
+                    
+                    <div class="project-tech">
+                        <span class="tech-tag">HTML5</span>
+                        <span class="tech-tag">CSS3</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">Chart.js</span>
+                    </div>
+                    
+                    <button class="btn project-btn" onclick="showProjectDemo(4)">
+                        <i class="fas fa-play-circle"></i> Demo'ni Ko'rish
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">Men <span>Haqimda</span></h2>
+                    <p>
+                        Men <strong>ATOBOYEV SHOXJAXON</strong>, Xorazm viloyatida yashovchi va kelajak dasturchisi 
+                        bo'lish yo'lidagi yosh mutaxassis. Mening asosiy maqsadim - zamonaviy texnologiyalar 
+                        va ta'limni uyg'unlashtirib, jamiyatga foydali yechimlar yaratish.
+                    </p>
+                    
+                    <p>
+                        3 yildan beri web dasturlash bilan shug'illanib kelmoqdaman. Har bir loyihada 
+                        yangi texnologiyalarni o'rganish va amaliyotda qo'llashga harakat qilaman.
+                    </p>
+                    
+                    <div class="about-info">
+                        <div class="info-card">
+                            <i class="fas fa-user-graduate"></i>
+                            <div class="info-card-content">
+                                <h4>Ta'lim</h4>
+                                <p>13-umumiy o'rta talim maktabi</p>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div class="info-card-content">
+                                <h4>Manzil</h4>
+                                <p>Xorazm, Xiva</p>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <i class="fas fa-envelope"></i>
+                            <div class="info-card-content">
+                                <h4>Email</h4>
+                                <p>shoxjoxonatayev@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <i class="fas fa-phone"></i>
+                            <div class="info-card-content">
+                                <h4>Telefon</h4>
+                                <p>+998 90 434 33 35</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="skills-section">
+                        <h3>Texnologiyalar:</h3>
+                        <div class="skills">
+                            <div class="skill">
+                                <div class="skill-header">
+                                    <span class="skill-name">HTML5 / CSS3</span>
+                                    <span class="skill-percent">95%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="skill">
+                                <div class="skill-header">
+                                    <span class="skill-name">JavaScript</span>
+                                    <span class="skill-percent">90%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="skill">
+                                <div class="skill-header">
+                                    <span class="skill-name">React.js</span>
+                                    <span class="skill-percent">85%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="skill">
+                                <div class="skill-header">
+                                    <span class="skill-name">Node.js</span>
+                                    <span class="skill-percent">80%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-image">
+                    <div class="about-image-container">
+                        <img src="photo_5469984633983274623_y.jpg" 
+                             alt="SHOXJAXON - Web Developer" 
+                             class="about-image-img">
+                        <div class="image-shape"></div>
+                        <div class="image-shape"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Goal Section -->
+    <section id="goal" class="goal-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Mening <span>Maqsadim</span></h2>
+                <p class="section-subtitle">Kelajakdagi orzu va rejalarim</p>
+            </div>
+            
+            <div class="goal-card">
+                <div class="goal-icon">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <h3 class="goal-title">KELAJAKDA YAXSHI DASTURCHI BO'LISH</h3>
+                <p class="goal-text">
+                    Men <span class="goal-highlight">ATOBOYEV SHOXJAXON</span> sifatida kelajakda dunyo darajasidagi 
+                    dasturchi bo'lishni orzu qilaman. Har kuni yangi bilimlar o'rganib, 
+                    <span class="goal-highlight">innovatsion yechimlar</span> yaratishga intilaman.
+                    <br><br>
+                    Mening asosiy maqsadlarim:
+                    <br>
+                    ✅ <strong>Full-Stack Developer</strong> bo'lish
+                    <br>
+                    ✅ <strong>AI va Machine Learning</strong>ni o'rganish
+                    <br>
+                    ✅ <strong>Startup loyihalar</strong> yaratish
+                    <br>
+                    ✅ <strong>Xalqaro miqyosda</strong> ishlash
+                    <br>
+                    ✅ <strong>Yosh dasturchilarga</strong> yordam berish
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Bog'lanish</h2>
+                <p class="section-subtitle">Men bilan bog'laning yoki xabar qoldiring</p>
+            </div>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3>Email</h3>
+                        <p>shoxjoxonatayev@gmail.com</p>
+                        <a href="mailto:shoxjoxonatayev@gmail.com">
+                            <i class="fas fa-paper-plane"></i> Xabar yozish
+                        </a>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <h3>Telefon</h3>
+                        <p>+998 90 434 33 35</p>
+                        <a href="tel:+998904343335">
+                            <i class="fas fa-phone"></i> Qo'ng'iroq qilish
+                        </a>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h3>Manzil</h3>
+                        <p>Xorazm, Xiva</p>
+                        <a href="#" onclick="openMap()">
+                            <i class="fas fa-map"></i> Xaritada ko'rish
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h3>Xabar Yuborish</h3>
+                    <form id="messageForm">
+                        <div class="form-group">
+                            <input type="text" id="name" placeholder="Ismingiz" required>
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" placeholder="Email manzilingiz" required>
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="subject" placeholder="Mavzu" required>
+                            <i class="fas fa-tag"></i>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" placeholder="Xabaringizni bu yerga yozing..." rows="5" required></textarea>
+                            <i class="fas fa-comment"></i>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Xabarni Yuborish
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="footer-logo-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h2>SHOXJAXON</h2>
+                    <p>Kelajakning yorqin dasturchisi bo'lish yo'lida. Innovatsion yechimlar va zamonaviy texnologiyalar.</p>
+                    <p class="footer-location">
+                        <i class="fas fa-map-marker-alt"></i> Xorazm, Xiva
+                    </p>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Tez O'tish</h3>
+                    <a href="#home"><i class="fas fa-chevron-right"></i> Bosh sahifa</a>
+                    <a href="#projects"><i class="fas fa-chevron-right"></i> Loyihalar</a>
+                    <a href="#about"><i class="fas fa-chevron-right"></i> Men haqimda</a>
+                    <a href="#contact"><i class="fas fa-chevron-right"></i> Bog'lanish</a>
+                </div>
+                <div class="footer-projects">
+                    <h3>Loyihalar</h3>
+                    <a href="project1.html"><i class="fas fa-chevron-right"></i> Dars Jadvali</a>
+                    <a href="project2.html"><i class="fas fa-chevron-right"></i> Maktab Oshxonasi</a>
+                    <a href="project3.html"><i class="fas fa-chevron-right"></i> Onlayn Kutubxona</a>
+                    <a href="project4.html"><i class="fas fa-chevron-right"></i> O'quvchilar Reytingi</a>
+                </div>
+                
+
+                
+                <div class="footer-social">
+                    <h3>Ijtimoiy Tarmoqlar</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                    <div class="login-status" id="loginStatus">
+                        <a href="login.html?demo=true" class="footer-login-btn" id="footerLoginBtn">
+                            <i class="fas fa-sign-in-alt"></i> Demo Kirish
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; <span class="current-year">2023</span> ATOBOYEV SHOXJAXON Portfolio. Barcha huquqlar himoyalangan.</p>
+                <p class="footer-note">
+                    <i class="fas fa-heart"></i> Xorazmda yaratilgan, dunyoga mo'ljallangan
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+<!-- JavaScript -->
+<script src="script.js"></script>
+<script>
+    function showProjectDemo(projectNumber) {
+        const projectUrls = [
+            "project1.html",
+            "project2.html", 
+            "project3.html",
+            "project4.html"
+        ];
+        
+        const projectTitles = [
+            "Smart School Schedule",
+            "School Food Menu", 
+            "Smart Library",
+            "Student Rating System"
+        ];
+        
+        // Loyiha sahifasiga o'tish
+        window.location.href = projectUrls[projectNumber - 1];
+    }
+</script>
+</body>
+</html>

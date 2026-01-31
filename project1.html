@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O'quvchilar Dars Jadvali</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Asosiy Sahifa Tugmasi (Pastda) */
+        .back-to-home {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 999;
+            animation: slideInUp 0.8s ease;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            min-width: 180px;
+            justify-content: center;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        .back-btn:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        /* Navigation */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding-top: 10px;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: #667eea;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #667eea;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            transition: 0.3s;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8rem 0 4rem;
+            margin-top: 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') center/cover;
+            opacity: 0.1;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 3rem 0;
+            min-height: 70vh;
+            padding-bottom: 100px;
+        }
+
+        /* Main Controls */
+        .main-controls {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .control-group {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            color: #2D2B55;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .class-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .class-btn {
+            padding: 0.8rem;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .class-btn.active {
+            background: #667eea;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .class-btn:hover:not(.active) {
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .week-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .week-btn {
+            padding: 0.8rem 1.5rem;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .week-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .week-btn:hover:not(.active) {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .print-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: auto;
+            transition: all 0.3s ease;
+        }
+
+        .print-btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .current-info {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+
+        .current-info h3 {
+            color: #2D2B55;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Timetable Container */
+        .timetable-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+
+        .timetable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            min-width: 800px;
+        }
+
+        .timetable th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.2rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            position: sticky;
+            top: 0;
+        }
+
+        .timetable td {
+            border: 1px solid #e0e0e0;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .timetable tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .timetable tr:hover td {
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .time-cell {
+            background: #2D2B55;
+            color: white;
+            font-weight: 600;
+            width: 120px;
+            position: sticky;
+            left: 0;
+        }
+
+        .current-lesson {
+            background: rgba(76, 175, 80, 0.2) !important;
+            border: 2px solid #4CAF50 !important;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+        }
+
+        .subject-cell {
+            position: relative;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .subject-cell:hover {
+            transform: scale(1.02);
+            z-index: 1;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .subject-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #2D2B55;
+        }
+
+        .subject-popup {
+            position: absolute;
+            top: calc(100% + 5px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 100;
+            display: none;
+            min-width: 200px;
+            text-align: left;
+            border: 1px solid #e0e0e0;
+        }
+
+        .subject-cell:hover .subject-popup {
+            display: block;
+        }
+
+        /* Teachers Container */
+        .teachers-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .teachers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .teacher-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .teacher-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .teacher-avatar {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .teacher-info h4 {
+            margin: 0 0 0.5rem;
+            color: #2D2B55;
+            font-size: 1.2rem;
+        }
+
+        .teacher-subject {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .teacher-lessons {
+            font-size: 0.9rem;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Notification Bell */
+        .notification-bell {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            z-index: 998;
+            animation: ring 2s infinite;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4757;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        @keyframes ring {
+            0%, 100% { transform: rotate(0); }
+            10%, 30%, 50%, 70%, 90% { transform: rotate(-10deg); }
+            20%, 40%, 60%, 80% { transform: rotate(10deg); }
+        }
+
+        .notification-panel {
+            position: fixed;
+            bottom: 170px;
+            right: 30px;
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            width: 300px;
+            z-index: 997;
+            display: none;
+        }
+
+        .notification-panel.show {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .notification-item {
+            padding: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-item i {
+            color: #667eea;
+            margin-top: 2px;
+        }
+
+        /* Animations */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links h3 {
+            margin-bottom: 1rem;
+            color: #ecf0f1;
+        }
+
+        .footer-links a {
+            display: block;
+            color: #bdc3c7;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #667eea;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #34495e;
+            color: #bdc3c7;
+        }
+
+        /* Print Styles */
+        @media print {
+            .navbar, .back-to-home, .notification-bell, .print-btn, .footer,
+            .controls-row button:not(.print-btn), .notification-panel {
+                display: none !important;
+            }
+            
+            .timetable-container {
+                box-shadow: none;
+                padding: 0;
+                margin: 0;
+            }
+            
+            .timetable th {
+                background: #667eea !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                color: white !important;
+            }
+            
+            .time-cell {
+                background: #2D2B55 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                color: white !important;
+            }
+            
+            body {
+                background: white !important;
+            }
+            
+            .header {
+                display: none !important;
+            }
+            
+            .main-content {
+                padding: 0 !important;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .back-to-home {
+                bottom: 20px;
+                width: 90%;
+                max-width: 300px;
+            }
+            
+            .back-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .notification-bell {
+                bottom: 90px;
+                right: 20px;
+            }
+            
+            .notification-panel {
+                bottom: 150px;
+                right: 20px;
+                width: calc(100vw - 40px);
+            }
+            
+            .nav-container {
+                padding: 0.5rem 1rem;
+            }
+            
+            .hamburger {
+                display: flex;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                flex-direction: column;
+                background: white;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0,0,0,0.05);
+                padding: 2rem 0;
+                gap: 0;
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-menu li {
+                margin: 1rem 0;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .controls-row {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .class-selector {
+                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            }
+            
+            .week-selector {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .print-btn {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+            
+            .teachers-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timetable {
+                font-size: 0.9rem;
+            }
+            
+            .timetable th,
+            .timetable td {
+                padding: 0.8rem 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 6rem 0 3rem;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .class-btn {
+                padding: 0.6rem;
+                font-size: 0.9rem;
+            }
+            
+            .back-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Asosiy Sahifa Tugmasi (Pastda) -->
+    <div class="back-to-home">
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-home"></i> Asosiy Sahifa
+        </a>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-calendar-alt"></i>
+                <span>SmartSchool</span>
+            </div>
+            
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#home" class="nav-link active"><i class="fas fa-home"></i> Bosh Sahifa</a></li>
+                <li><a href="#timetable" class="nav-link"><i class="fas fa-calendar"></i> Dars Jadvali</a></li>
+                <li><a href="#teachers" class="nav-link"><i class="fas fa-chalkboard-teacher"></i> O'qituvchilar</a></li>
+                <li><a href="#notifications" class="nav-link"><i class="fas fa-bell"></i> Eslatmalar</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="header" id="home">
+        <div class="container">
+            <h1>SmartSchool Dars Jadvali</h1>
+            <p>1-11 sinf o'quvchilari uchun interaktiv dars jadvali tizimi. Har bir sinf uchun maxsus reja va o'qituvchilar ma'lumotlari.</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Main Controls -->
+            <div class="main-controls">
+                <div class="controls-row">
+                    <div class="control-group">
+                        <label><i class="fas fa-graduation-cap"></i> Sinfni Tanlang:</label>
+                        <div class="class-selector" id="classSelector">
+                            <!-- Classes 1-11 will be generated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label><i class="fas fa-calendar-week"></i> Haftani Tanlang:</label>
+                        <div class="week-selector">
+                            <button class="week-btn active" data-week="current">Joriy Hafta</button>
+                            <button class="week-btn" data-week="next">Keyingi Hafta</button>
+                            <button class="print-btn" onclick="window.print()">
+                                <i class="fas fa-print"></i> Chop etish
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="current-info">
+                    <h3 id="currentClassTitle">6-B Sinf Dars Jadvali</h3>
+                    <p id="currentWeekInfo">Joriy hafta: 2-7 oktyabr</p>
+                    <p id="currentLessonInfo" style="font-size: 0.9rem; margin-top: 0.5rem; color: #666;">
+                        <i class="fas fa-clock"></i> Darslar 08:00 da boshlanadi
+                    </p>
+                </div>
+            </div>
+
+            <!-- Timetable -->
+            <div class="timetable-container" id="timetable">
+                <h2 style="margin-bottom: 1.5rem; color: #2D2B55;">
+                    <i class="fas fa-table"></i> Dars Jadvali
+                </h2>
+                <table class="timetable">
+                    <thead>
+                        <tr>
+                            <th>Dars</th>
+                            <th>Dushanba</th>
+                            <th>Seshanba</th>
+                            <th>Chorshanba</th>
+                            <th>Payshanba</th>
+                            <th>Juma</th>
+                            <th>Shanba</th>
+                        </tr>
+                    </thead>
+                    <tbody id="timetableBody">
+                        <!-- Will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Teachers Info -->
+            <div class="teachers-container" id="teachers">
+                <h2 style="margin-bottom: 1.5rem; color: #2D2B55;">
+                    <i class="fas fa-chalkboard-teacher"></i> O'qituvchilar
+                </h2>
+                <div class="teachers-grid" id="teachersGrid">
+                    <!-- Teachers will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Notification Bell -->
+    <div class="notification-bell" id="notificationBell">
+        <i class="fas fa-bell"></i>
+        <div class="notification-badge" id="notificationBadge">3</div>
+    </div>
+
+    <!-- Notification Panel -->
+    <div class="notification-panel" id="notificationPanel">
+        <h3 style="margin-bottom: 1rem; color: #2D2B55;">
+            <i class="fas fa-bell"></i> Eslatmalar
+        </h3>
+        <div class="notification-list" id="notificationList">
+            <div class="notification-item">
+                <i class="fas fa-info-circle"></i>
+                <div>
+                    <strong>Ertaga:</strong> Matematika testi
+                    <br><small>8:00, 211-xona</small>
+                </div>
+            </div>
+            <div class="notification-item">
+                <i class="fas fa-book"></i>
+                <div>
+                    <strong>Darslik:</strong> Fizika kitobini olib kelish
+                    <br><small>Chorshanba kuni</small>
+                </div>
+            </div>
+            <div class="notification-item">
+                <i class="fas fa-users"></i>
+                <div>
+                    <strong>Majlis:</strong> Sinf majlisi
+                    <br><small>Juma, 7-dan keyin</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>SmartSchool</span>
+                    </div>
+                    <p>O'quvchilar uchun interaktiv dars jadvali tizimi. 1-11 sinflar uchun maxsus yaratilgan.</p>
+                    <p><i class="fas fa-clock"></i> Darslar: 08:00 - 13:20</p>
+                    <p><i class="fas fa-phone"></i> Telefon: +998 90 434 33 35</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Tez O'tish</h3>
+                    <a href="#home"><i class="fas fa-chevron-right"></i> Bosh Sahifa</a>
+                    <a href="#timetable"><i class="fas fa-chevron-right"></i> Dars Jadvali</a>
+                    <a href="#teachers"><i class="fas fa-chevron-right"></i> O'qituvchilar</a>
+                    <a href="#notifications"><i class="fas fa-chevron-right"></i> Eslatmalar</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Foydali Havolalar</h3>
+                    <a href="maktab-oshxonasi.html"><i class="fas fa-chevron-right"></i> Maktab Oshxonasi</a>
+                    <a href="index.html"><i class="fas fa-chevron-right"></i> Barcha Loyihalar</a>
+                    <a href="#"><i class="fas fa-chevron-right"></i> Maktab Sayti</a>
+                    <a href="#"><i class="fas fa-chevron-right"></i> Elektron Daftar</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 SmartSchool. Barcha huquqlar himoyalangan.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ====== TIMETABLE DATA FOR CLASSES 1-11 ======
+        const timetableData = {
+            // 1-4 sinflar (Boshlang'ich)
+            "1a": generatePrimaryTimetable(1, 'a'),
+            "1b": generatePrimaryTimetable(1, 'b'),
+            "2a": generatePrimaryTimetable(2, 'a'),
+            "2b": generatePrimaryTimetable(2, 'b'),
+            "3a": generatePrimaryTimetable(3, 'a'),
+            "3b": generatePrimaryTimetable(3, 'b'),
+            "4a": generatePrimaryTimetable(4, 'a'),
+            "4b": generatePrimaryTimetable(4, 'b'),
+            
+            // 5-9 sinflar (O'rta)
+            "5a": generateMiddleTimetable(5, 'a'),
+            "5b": generateMiddleTimetable(5, 'b'),
+            "6a": generateMiddleTimetable(6, 'a'),
+            "6b": generateMiddleTimetable(6, 'b'),
+            "7a": generateMiddleTimetable(7, 'a'),
+            "7b": generateMiddleTimetable(7, 'b'),
+            "8a": generateMiddleTimetable(8, 'a'),
+            "8b": generateMiddleTimetable(8, 'b'),
+            "9a": generateMiddleTimetable(9, 'a'),
+            "9b": generateMiddleTimetable(9, 'b'),
+            
+            // 10-11 sinflar (Yuqori)
+            "10": generateHighTimetable(10),
+            "11": generateHighTimetable(11)
+        };
+
+        // ====== TEACHERS DATA ======
+        const teachersData = {
+            "1-4": [
+                { id: 1, name: "Dilnoza Xolmatova", subject: "Boshlang'ich ta'lim", letter: "D", lessons: ["Dushanba-Juma"], phone: "+998 90 111 11 11" },
+                { id: 2, name: "Gulnora Yusupova", subject: "Matematika", letter: "G", lessons: ["Dushanba, Chorshanba"], phone: "+998 90 222 22 22" },
+                { id: 3, name: "Malika Jo'rayeva", subject: "Ona tili", letter: "M", lessons: ["Seshanba, Payshanba"], phone: "+998 90 333 33 33" },
+                { id: 4, name: "Sherzod Olimov", subject: "Tabiiy fan", letter: "S", lessons: ["Chorshanba, Juma"], phone: "+998 90 444 44 44" }
+            ],
+            "5-9": [
+                { id: 5, name: "Anvar Qodirov", subject: "Matematika", letter: "A", lessons: ["Dushanba, Chorshanba, Juma"], phone: "+998 90 555 55 55" },
+                { id: 6, name: "Zarina Xolmirzayeva", subject: "Ona tili", letter: "Z", lessons: ["Seshanba, Payshanba, Shanba"], phone: "+998 90 666 66 66" },
+                { id: 7, name: "Sanjar Yusupov", subject: "Fizika", letter: "S", lessons: ["Dushanba, Chorshanba"], phone: "+998 90 777 77 77" },
+                { id: 8, name: "Madina Karimova", subject: "Kimyo", letter: "M", lessons: ["Seshanba, Juma"], phone: "+998 90 888 88 88" },
+                { id: 9, name: "Bekzod Hamidov", subject: "Biologiya", letter: "B", lessons: ["Chorshanba, Shanba"], phone: "+998 90 999 99 99" },
+                { id: 10, name: "Laylo Azimova", subject: "Ingliz tili", letter: "L", lessons: ["Har kuni"], phone: "+998 90 101 01 01" },
+                { id: 11, name: "Javlon Sobirov", subject: "Tarix", letter: "J", lessons: ["Payshanba, Shanba"], phone: "+998 90 202 02 02" }
+            ],
+            "10-11": [
+                { id: 12, name: "Prof. Ravshan Ismoilov", subject: "Algebra", letter: "R", lessons: ["Dushanba, Seshanba, Chorshanba"], phone: "+998 90 303 03 03" },
+                { id: 13, name: "Prof. Gulchehra Xolmatova", subject: "Geometriya", letter: "G", lessons: ["Payshanba, Juma"], phone: "+998 90 404 04 04" },
+                { id: 14, name: "Prof. Shavkat Yo'ldoshev", subject: "Fizika", letter: "S", lessons: ["Dushanba, Chorshanba, Juma"], phone: "+998 90 505 05 05" },
+                { id: 15, name: "Prof. Nargiza Rasulova", subject: "Kimyo", letter: "N", lessons: ["Seshanba, Payshanba"], phone: "+998 90 606 06 06" },
+                { id: 16, name: "Prof. Bahodir Jo'rayev", subject: "Biologiya", letter: "B", lessons: ["Chorshanba, Shanba"], phone: "+998 90 707 07 07" },
+                { id: 17, name: "Prof. Sarvar Xamidov", subject: "Informatika", letter: "S", lessons: ["Har kuni"], phone: "+998 90 808 08 08" }
+            ]
+        };
+
+        // ====== NOTIFICATIONS ======
+        const notifications = [
+            { type: 'test', message: 'Matematika testi', details: '8:00, 211-xona', date: 'Ertaga' },
+            { type: 'book', message: 'Fizika kitobini olib kelish', details: 'Chorshanba kuni', date: 'Hafta davomida' },
+            { type: 'meeting', message: 'Sinf majlisi', details: 'Juma, 7-dan keyin', date: 'Bu hafta' },
+            { type: 'homework', message: 'Kimyo uy vazifasi', details: '1-5 misollar', date: 'Payshanbagacha' },
+            { type: 'event', message: 'Maktab bayrami', details: 'Juma kuni 10:00', date: 'Bu hafta' }
+        ];
+
+        // ====== GENERATE TIMETABLE FUNCTIONS ======
+        function generatePrimaryTimetable(grade, section) {
+            const subjects = [
+                "Ona tili",
+                "Matematika",
+                "Tabiiy fan",
+                "Tasviriy san'at",
+                "Jismoniy tarbiya",
+                "Musiqa",
+                "Xorijiy til",
+                "Texnologiya"
+            ];
+            
+            return generateDailySchedule(subjects, 6);
+        }
+
+        function generateMiddleTimetable(grade, section) {
+            const subjects = [
+                "Ona tili",
+                "Matematika",
+                "Fizika",
+                "Kimyo",
+                "Biologiya",
+                "Tarix",
+                "Geografiya",
+                "Ingliz tili",
+                "Rus tili",
+                "Informatika",
+                "Jismoniy tarbiya",
+                "Chizmachilik",
+                "Tasviriy san'at",
+                "Musiqa"
+            ];
+            
+            return generateDailySchedule(subjects, 6);
+        }
+
+        function generateHighTimetable(grade) {
+            const subjects = [
+                "Algebra",
+                "Geometriya",
+                "Fizika",
+                "Kimyo",
+                "Biologiya",
+                "Ona tili",
+                "Adabiyot",
+                "Tarix",
+                "Ingliz tili",
+                "Informatika",
+                "Jismoniy tarbiya",
+                "Texnologiya",
+                "Ijtimoiy fanlar",
+                "Iqtisodiyot"
+            ];
+            
+            return generateDailySchedule(subjects, 6);
+        }
+
+        function generateDailySchedule(subjects, lessonsPerDay) {
+            const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+            const schedule = {};
+            
+            days.forEach(day => {
+                schedule[day] = [];
+                const daySubjects = [...subjects].sort(() => Math.random() - 0.5);
+                
+                for (let i = 0; i < lessonsPerDay; i++) {
+                    const time = getLessonTime(i + 1);
+                    const subject = daySubjects[i % daySubjects.length];
+                    const teacher = getTeacherForSubject(subject);
+                    const room = getRoomNumber(subject, i + 1);
+                    
+                    schedule[day].push({
+                        time,
+                        subject,
+                        teacher,
+                        room,
+                        duration: "45 daqiqa"
+                    });
+                }
+            });
+            
+            return schedule;
+        }
+
+        function getLessonTime(lessonNumber) {
+            const times = [
+                "08:00-08:45",
+                "08:55-09:40",
+                "09:50-10:35",
+                "10:45-11:30",
+                "11:40-12:25",
+                "12:35-13:20",
+                "13:30-14:15"
+            ];
+            return times[lessonNumber - 1] || times[0];
+        }
+
+        function getTeacherForSubject(subject) {
+            const teachers = {
+                "Ona tili": "Zarina Xolmirzayeva",
+                "Matematika": "Anvar Qodirov",
+                "Fizika": "Sanjar Yusupov",
+                "Kimyo": "Madina Karimova",
+                "Biologiya": "Bekzod Hamidov",
+                "Tarix": "Javlon Sobirov",
+                "Ingliz tili": "Laylo Azimova",
+                "Informatika": "Sarvar Xamidov",
+                "Jismoniy tarbiya": "Rustam Tursunov",
+                "Algebra": "Ravshan Ismoilov",
+                "Geometriya": "Gulchehra Xolmatova",
+                "Adabiyot": "Zarina Xolmirzayeva",
+                "Geografiya": "Shahzod Ismoilov",
+                "Rus tili": "Olga Petrova",
+                "Musiqa": "Dilnoza Karimova",
+                "Tasviriy san'at": "Jamila Yusupova",
+                "Tabiiy fan": "Sherzod Olimov",
+                "Chizmachilik": "Akbar Isroilov",
+                "Texnologiya": "Bakhtiyor Sobirov",
+                "Ijtimoiy fanlar": "Shuhrat Jalolov",
+                "Iqtisodiyot": "Komiljon To'rayev"
+            };
+            return teachers[subject] || "O'qituvchi";
+        }
+
+        function getRoomNumber(subject, lessonNumber) {
+            // Different rooms based on subject and lesson number
+            const baseRooms = {
+                "Matematika": "201",
+                "Fizika": "205",
+                "Kimyo": "210",
+                "Biologiya": "215",
+                "Ona tili": "101",
+                "Ingliz tili": "103",
+                "Informatika": "Lab-1",
+                "Jismoniy tarbiya": "Sport zal",
+                "Algebra": "301",
+                "Geometriya": "302",
+                "Adabiyot": "102",
+                "Tarix": "104",
+                "Geografiya": "106",
+                "Rus tili": "108",
+                "Musiqa": "Musiqa xonasi",
+                "Tasviriy san'at": "San'at xonasi"
+            };
+            
+            let room = baseRooms[subject] || `20${lessonNumber}`;
+            
+            // Add floor based on lesson number
+            if (lessonNumber <= 3) {
+                room = room.replace(/\d+/, match => parseInt(match) + 100);
+            }
+            
+            return room;
+        }
+
+        // ====== GENERATE CLASS BUTTONS (1-11) ======
+        function generateClassButtons() {
+            const classSelector = document.getElementById('classSelector');
+            const classes = [];
+            
+            // 1-9 sinflar uchun a va b guruhlari
+            for (let grade = 1; grade <= 9; grade++) {
+                classes.push(`${grade}a`, `${grade}b`);
+            }
+            
+            // 10-11 sinflar uchun faqat raqam
+            classes.push('10', '11');
+            
+            classSelector.innerHTML = classes.map(cls => `
+                <button class="class-btn ${cls === '6b' ? 'active' : ''}" data-class="${cls}">
+                    ${cls.toUpperCase()}
+                </button>
+            `).join('');
+            
+            // Add event listeners
+            document.querySelectorAll('.class-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.class-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const selectedClass = this.dataset.class;
+                    updateTimetable(selectedClass);
+                    updateTeachers(selectedClass);
+                    updateNotifications();
+                });
+            });
+        }
+
+        // ====== UPDATE TIMETABLE ======
+        function updateTimetable(selectedClass) {
+            const timetable = timetableData[selectedClass];
+            if (!timetable) return;
+            
+            const daysOrder = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+            const dayNames = ["Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma", "Shanba"];
+            
+            // Update title
+            document.getElementById('currentClassTitle').textContent = 
+                `${selectedClass.toUpperCase()} Sinf Dars Jadvali`;
+            
+            // Clear table
+            const tbody = document.getElementById('timetableBody');
+            tbody.innerHTML = '';
+            
+            // Generate rows for 6 lessons
+            for (let lesson = 1; lesson <= 6; lesson++) {
+                const tr = document.createElement('tr');
+                
+                // Time cell
+                const timeCell = document.createElement('td');
+                timeCell.className = 'time-cell';
+                timeCell.textContent = getLessonTime(lesson);
+                tr.appendChild(timeCell);
+                
+                // Subject cells for each day
+                daysOrder.forEach((day, dayIndex) => {
+                    const daySchedule = timetable[day];
+                    const lessonData = daySchedule[lesson - 1];
+                    
+                    const td = document.createElement('td');
+                    td.className = 'subject-cell';
+                    
+                    if (lessonData) {
+                        td.innerHTML = `
+                            <div class="subject-name">${lessonData.subject}</div>
+                            <small style="color: #667eea; font-weight: 500;">${lessonData.room}</small>
+                            <div class="subject-popup">
+                                <strong style="color: #2D2B55; display: block; margin-bottom: 5px;">${lessonData.subject}</strong>
+                                <div style="font-size: 0.9rem;">
+                                    <div><strong>O'qituvchi:</strong> ${lessonData.teacher}</div>
+                                    <div><strong>Xona:</strong> ${lessonData.room}</div>
+                                    <div><strong>Vaqt:</strong> ${lessonData.time}</div>
+                                    <div><strong>Davomiylik:</strong> ${lessonData.duration}</div>
+                                    <div><strong>Kun:</strong> ${dayNames[dayIndex]}</div>
+                                </div>
+                            </div>
+                        `;
+                        
+                        // Check if this is current lesson
+                        markCurrentLesson(td, lessonData.time, dayIndex);
+                    }
+                    
+                    tr.appendChild(td);
+                });
+                
+                tbody.appendChild(tr);
+            }
+        }
+
+        function markCurrentLesson(cell, lessonTime, dayIndex) {
+            const currentDate = new Date();
+            const currentDay = currentDate.getDay(); // 0 = Sunday, 1 = Monday, etc.
+            const currentHour = currentDate.getHours();
+            const currentMinute = currentDate.getMinutes();
+            
+            // Convert dayIndex to match JavaScript getDay()
+            // Our dayIndex: 0=Monday, JavaScript: 1=Monday
+            const lessonDay = dayIndex + 1;
+            
+            // Check if today is the lesson day
+            if (currentDay === lessonDay) {
+                const [startTime] = lessonTime.split('-');
+                const [startHour, startMinute] = startTime.split(':').map(Number);
+                
+                // Check if current time is within lesson time (+45 minutes)
+                const currentTimeInMinutes = currentHour * 60 + currentMinute;
+                const startTimeInMinutes = startHour * 60 + startMinute;
+                const endTimeInMinutes = startTimeInMinutes + 45;
+                
+                if (currentTimeInMinutes >= startTimeInMinutes && currentTimeInMinutes <= endTimeInMinutes) {
+                    cell.classList.add('current-lesson');
+                    
+                    // Update current lesson info
+                    const lessonInfo = document.getElementById('currentLessonInfo');
+                    lessonInfo.innerHTML = `
+                        <i class="fas fa-clock"></i> Hozirgi dars: ${cell.querySelector('.subject-name').textContent} 
+                        (${lessonTime})
+                    `;
+                }
+            }
+        }
+
+        // ====== UPDATE TEACHERS ======
+        function updateTeachers(selectedClass) {
+            const grade = parseInt(selectedClass) || parseInt(selectedClass.slice(0, -1));
+            let teacherGroup = "1-4";
+            
+            if (grade >= 5 && grade <= 9) {
+                teacherGroup = "5-9";
+            } else if (grade >= 10) {
+                teacherGroup = "10-11";
+            }
+            
+            const teachers = teachersData[teacherGroup];
+            const teachersGrid = document.getElementById('teachersGrid');
+            
+            teachersGrid.innerHTML = teachers.map(teacher => `
+                <div class="teacher-card" onclick="showTeacherInfo(${teacher.id})">
+                    <div class="teacher-avatar">${teacher.letter}</div>
+                    <div class="teacher-info">
+                        <h4>${teacher.name}</h4>
+                        <span class="teacher-subject">${teacher.subject}</span>
+                        <div class="teacher-lessons">
+                            <i class="fas fa-calendar"></i>
+                            ${teacher.lessons.join(', ')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function showTeacherInfo(teacherId) {
+            // Find teacher in all groups
+            let teacher = null;
+            for (const group in teachersData) {
+                teacher = teachersData[group].find(t => t.id === teacherId);
+                if (teacher) break;
+            }
+            
+            if (teacher) {
+                alert(`O'qituvchi: ${teacher.name}\nFan: ${teacher.subject}\nDars kunlari: ${teacher.lessons.join(', ')}\nTelefon: ${teacher.phone}`);
+            }
+        }
+
+        // ====== UPDATE NOTIFICATIONS ======
+        function updateNotifications() {
+            const notificationList = document.getElementById('notificationList');
+            notificationList.innerHTML = notifications.map(notif => `
+                <div class="notification-item">
+                    <i class="fas fa-${getNotificationIcon(notif.type)}"></i>
+                    <div>
+                        <strong>${notif.date}:</strong> ${notif.message}
+                        <br><small>${notif.details}</small>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getNotificationIcon(type) {
+            const icons = {
+                'test': 'clipboard-check',
+                'book': 'book',
+                'meeting': 'users',
+                'homework': 'tasks',
+                'event': 'calendar-day'
+            };
+            return icons[type] || 'info-circle';
+        }
+
+        // ====== WEEK SELECTION ======
+        function setupWeekSelection() {
+            document.querySelectorAll('.week-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.week-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const weekType = this.dataset.week;
+                    const weekInfo = weekType === 'current' 
+                        ? 'Joriy hafta: 2-7 oktyabr' 
+                        : 'Keyingi hafta: 9-14 oktyabr';
+                    document.getElementById('currentWeekInfo').textContent = weekInfo;
+                    
+                    // In a real app, you would load different timetable data here
+                    // For now, we'll just show a message
+                    if (weekType === 'next') {
+                        alert("Keyingi hafta jadvali hali tayyorlanmoqda. Tez orada yangilanadi!");
+                    }
+                });
+            });
+        }
+
+        // ====== NOTIFICATION BELL ======
+        function setupNotificationBell() {
+            const notificationBell = document.getElementById('notificationBell');
+            const notificationPanel = document.getElementById('notificationPanel');
+            const notificationBadge = document.getElementById('notificationBadge');
+            
+            if (notificationBell && notificationPanel) {
+                notificationBell.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    notificationPanel.classList.toggle('show');
+                    
+                    // Hide badge when panel is opened
+                    if (notificationPanel.classList.contains('show')) {
+                        notificationBadge.style.display = 'none';
+                        
+                        // Mark notifications as read
+                        localStorage.setItem('notificationsRead', 'true');
+                    }
+                });
+                
+                // Close panel when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!notificationBell.contains(e.target) && !notificationPanel.contains(e.target)) {
+                        notificationPanel.classList.remove('show');
+                    }
+                });
+                
+                // Check if notifications have been read
+                const notificationsRead = localStorage.getItem('notificationsRead');
+                if (!notificationsRead) {
+                    notificationBadge.style.display = 'flex';
+                }
+            }
+        }
+
+        // ====== INITIALIZE ======
+        document.addEventListener('DOMContentLoaded', function() {
+            // Generate class buttons
+            generateClassButtons();
+            
+            // Initialize timetable
+            updateTimetable('6b');
+            updateTeachers('6b');
+            updateNotifications();
+            
+            // Setup week selection
+            setupWeekSelection();
+            
+            // Setup notification bell
+            setupNotificationBell();
+            
+            // Setup navigation
+            setupNavigation();
+            
+            // Update current lesson every minute
+            setInterval(() => {
+                const selectedClass = document.querySelector('.class-btn.active')?.dataset.class;
+                if (selectedClass) {
+                    updateTimetable(selectedClass);
+                }
+            }, 60000); // Update every minute
+        });
+
+        function setupNavigation() {
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('nav-menu');
+            
+            if (hamburger && navMenu) {
+                hamburger.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                    hamburger.classList.toggle('active');
+                });
+
+                // Close mobile menu on link click
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', () => {
+                        navMenu.classList.remove('active');
+                        hamburger.classList.remove('active');
+                    });
+                });
+            }
+
+            // Smooth scroll for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    if (this.getAttribute('href') === '#') return;
+                    
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>

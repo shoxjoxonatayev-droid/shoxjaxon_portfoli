@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onlayn Kutubxona | Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Project Specific Styles */
+        .project-header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+            margin-top: 70px;
+        }
+        
+        .project-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            color: #4facfe;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .search-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+        
+        .search-btn {
+            padding: 1rem 2rem;
+            background: #4facfe;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .search-btn:hover {
+            background: #3a9bee;
+            transform: translateY(-2px);
+        }
+        
+        .filter-options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-select {
+            padding: 0.8rem 1.2rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: white;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .book-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(79, 172, 254, 0.1);
+        }
+        
+        .book-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 30px rgba(79, 172, 254, 0.15);
+        }
+        
+        .book-cover {
+            height: 200px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+        
+        .book-details {
+            padding: 1.5rem;
+        }
+        
+        .book-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2D2B55;
+            margin-bottom: 0.5rem;
+        }
+        
+        .book-author {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+        
+        .book-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .book-genre {
+            background: rgba(79, 172, 254, 0.1);
+            color: #4facfe;
+            padding: 0.2rem 0.6rem;
+            border-radius: 10px;
+        }
+        
+        .book-year {
+            color: #666;
+        }
+        
+        .book-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .status-available {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+        }
+        
+        .status-borrowed {
+            background: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+        }
+        
+        .borrow-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: #4facfe;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .borrow-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .borrow-btn:not(:disabled):hover {
+            background: #3a9bee;
+        }
+        
+        .add-book-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .form-group {
+            flex: 1;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .add-book-btn {
+            width: 100%;
+            padding: 1rem;
+            background: #4facfe;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+        
+        .no-books {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-box {
+                flex-direction: column;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-book"></i>
+                <h1>Onlayn Kutubxona</h1>
+            </div>
+            
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html#home" class="nav-link"><i class="fas fa-home"></i> Bosh</a></li>
+                <li><a href="index.html#projects" class="nav-link"><i class="fas fa-project-diagram"></i> Loyihalar</a></li>
+                <li><a href="#catalog" class="nav-link active"><i class="fas fa-book"></i> Katalog</a></li>
+                <li><a href="#addbook" class="nav-link"><i class="fas fa-plus"></i> Kitob Qo'shish</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Project Header -->
+    <section class="project-header">
+        <div class="container">
+            <a href="index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Ortga
+            </a>
+            <h1>Onlayn Kutubxona Katalogi</h1>
+            <p>Kutubxona kitoblari katalogi va qidiruv tizimi</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="project-container">
+        <!-- Search Section -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="searchInput" placeholder="Kitob nomi, muallif yoki janr bo'yicha qidiring...">
+                <button class="search-btn" id="searchBtn">
+                    <i class="fas fa-search"></i> Qidirish
+                </button>
+            </div>
+            
+            <div class="filter-options">
+                <select class="filter-select" id="genreFilter">
+                    <option value="">Barcha Janrlar</option>
+                    <option value="badiiy">Badiiy Adabiyot</option>
+                    <option value="ilmiy">Ilmiy Adabiyot</option>
+                    <option value="darslik">Darslik</option>
+                    <option value="tarix">Tarix</option>
+                    <option value="fantastika">Fantastika</option>
+                </select>
+                
+                <select class="filter-select" id="availabilityFilter">
+                    <option value="">Barchasi</option>
+                    <option value="available">Mavjud</option>
+                    <option value="borrowed">Olingan</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Books Grid -->
+        <div class="books-grid" id="booksGrid">
+            <!-- Books will be populated by JavaScript -->
+        </div>
+
+        <!-- Add Book Section -->
+        <div class="add-book-section" id="addbook">
+            <h2>Yangi Kitob Qo'shish</h2>
+            <p>Kutubxonaga yangi kitob qo'shish uchun quyidagi formani to'ldiring:</p>
+            
+            <form id="addBookForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="text" id="bookTitle" placeholder="Kitob nomi" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="bookAuthor" placeholder="Muallif" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <select id="bookGenre" required>
+                            <option value="">Janrni tanlang</option>
+                            <option value="badiiy">Badiiy Adabiyot</option>
+                            <option value="ilmiy">Ilmiy Adabiyot</option>
+                            <option value="darslik">Darslik</option>
+                            <option value="tarix">Tarix</option>
+                            <option value="fantastika">Fantastika</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" id="bookYear" placeholder="Nashr yili" min="1900" max="2023" required>
+                    </div>
+                </div>
+                
+                <button type="submit" class="add-book-btn">
+                    <i class="fas fa-plus"></i> Kitob Qo'shish
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-book"></i>
+                    <h2>Onlayn Kutubxona</h2>
+                    <p>Raflarni aylanmasdan kitob toping</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Tez O'tish</h3>
+                    <a href="index.html"><i class="fas fa-chevron-right"></i> Asosiy sahifa</a>
+                    <a href="#catalog"><i class="fas fa-chevron-right"></i> Katalog</a>
+                    <a href="#addbook"><i class="fas fa-chevron-right"></i> Kitob qo'shish</a>
+                    <a href="project4.html"><i class="fas fa-chevron-right"></i> Keyingi loyiha</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 Onlayn Kutubxona. Barcha huquqlar himoyalangan.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Books Data
+        let books = [
+            {
+                id: 1,
+                title: "O'tkan kunlar",
+                author: "Abdulla Qodiriy",
+                genre: "badiiy",
+                year: 1926,
+                available: true
+            },
+            {
+                id: 2,
+                title: "Kecha va kunduz",
+                author: "Cho'lpon",
+                genre: "badiiy",
+                year: 1936,
+                available: false
+            },
+            {
+                id: 3,
+                title: "Matematika 6-sinf",
+                author: "O'. Usmonov",
+                genre: "darslik",
+                year: 2022,
+                available: true
+            },
+            {
+                id: 4,
+                title: "Yulduzli tunlar",
+                author: "G'afur G'ulom",
+                genre: "badiiy",
+                year: 1938,
+                available: true
+            },
+            {
+                id: 5,
+                title: "Fizika asoslari",
+                author: "A. Xolmuhamedov",
+                genre: "ilmiy",
+                year: 2019,
+                available: true
+            },
+            {
+                id: 6,
+                title: "O'zbekiston tarixi",
+                author: "A. Jo'rayev",
+                genre: "tarix",
+                year: 2021,
+                available: false
+            },
+            {
+                id: 7,
+                title: "Sehrli halqa",
+                author: "Xudoyberdi To'xtaboyev",
+                genre: "fantastika",
+                year: 1979,
+                available: true
+            }
+        ];
+
+        // Genre Names
+        const genreNames = {
+            badiiy: "Badiiy Adabiyot",
+            ilmiy: "Ilmiy Adabiyot",
+            darslik: "Darslik",
+            tarix: "Tarix",
+            fantastika: "Fantastika"
+        };
+
+        // Display Books
+        function displayBooks(booksToShow) {
+            const booksGrid = document.getElementById('booksGrid');
+            booksGrid.innerHTML = '';
+            
+            if (booksToShow.length === 0) {
+                booksGrid.innerHTML = `
+                    <div class="no-books">
+                        <i class="fas fa-book-open" style="font-size: 3rem; margin-bottom: 1rem; color: #ccc;"></i>
+                        <p>Hech qanday kitob topilmadi</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            booksToShow.forEach(book => {
+                const bookCard = document.createElement('div');
+                bookCard.className = 'book-card';
+                
+                bookCard.innerHTML = `
+                    <div class="book-cover">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="book-details">
+                        <h3 class="book-title">${book.title}</h3>
+                        <p class="book-author">${book.author}</p>
+                        
+                        <div class="book-info">
+                            <span class="book-genre">${genreNames[book.genre]}</span>
+                            <span class="book-year">${book.year} yil</span>
+                        </div>
+                        
+                        <div class="book-status ${book.available ? 'status-available' : 'status-borrowed'}">
+                            <i class="fas ${book.available ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+                            ${book.available ? 'Mavjud' : 'Olingan'}
+                        </div>
+                        
+                        <button class="borrow-btn" data-id="${book.id}" ${!book.available ? 'disabled' : ''}>
+                            ${book.available ? 'Kitob Olish' : 'Olingan'}
+                        </button>
+                    </div>
+                `;
+                
+                booksGrid.appendChild(bookCard);
+            });
+            
+            // Add event listeners to borrow buttons
+            document.querySelectorAll('.borrow-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const bookId = parseInt(this.dataset.id);
+                    borrowBook(bookId);
+                });
+            });
+        }
+
+        // Borrow Book
+        function borrowBook(bookId) {
+            const book = books.find(b => b.id === bookId);
+            
+            if (book && book.available) {
+                if (confirm(`"${book.title}" kitobini olishni tasdiqlaysizmi? Kitobni 2 hafta ichida qaytarishingiz kerak.`)) {
+                    book.available = false;
+                    
+                    // Save to localStorage
+                    const borrowedBooks = JSON.parse(localStorage.getItem('borrowedBooks') || '[]');
+                    borrowedBooks.push({
+                        id: bookId,
+                        date: new Date().toISOString(),
+                        returnDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString()
+                    });
+                    localStorage.setItem('borrowedBooks', JSON.stringify(borrowedBooks));
+                    
+                    // Update display
+                    applyFilters();
+                    alert(`"${book.title}" kitobi muvaffaqiyatli olingan!`);
+                }
+            }
+        }
+
+        // Apply Filters
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const genreFilter = document.getElementById('genreFilter').value;
+            const availabilityFilter = document.getElementById('availabilityFilter').value;
+            
+            let filteredBooks = [...books];
+            
+            // Search filter
+            if (searchTerm) {
+                filteredBooks = filteredBooks.filter(book => 
+                    book.title.toLowerCase().includes(searchTerm) ||
+                    book.author.toLowerCase().includes(searchTerm) ||
+                    genreNames[book.genre].toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            // Genre filter
+            if (genreFilter) {
+                filteredBooks = filteredBooks.filter(book => book.genre === genreFilter);
+            }
+            
+            // Availability filter
+            if (availabilityFilter) {
+                if (availabilityFilter === 'available') {
+                    filteredBooks = filteredBooks.filter(book => book.available);
+                } else if (availabilityFilter === 'borrowed') {
+                    filteredBooks = filteredBooks.filter(book => !book.available);
+                }
+            }
+            
+            displayBooks(filteredBooks);
+        }
+
+        // Add Book Form
+        document.getElementById('addBookForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('bookTitle').value.trim();
+            const author = document.getElementById('bookAuthor').value.trim();
+            const genre = document.getElementById('bookGenre').value;
+            const year = parseInt(document.getElementById('bookYear').value);
+            
+            if (!title || !author || !genre || !year) {
+                alert('Iltimos, barcha maydonlarni to\'ldiring!');
+                return;
+            }
+            
+            if (year < 1900 || year > 2023) {
+                alert('Iltimos, to\'g\'ri nashr yilini kiriting!');
+                return;
+            }
+            
+            // Create new book
+            const newBook = {
+                id: books.length > 0 ? Math.max(...books.map(b => b.id)) + 1 : 1,
+                title,
+                author,
+                genre,
+                year,
+                available: true
+            };
+            
+            books.push(newBook);
+            
+            // Reset form
+            this.reset();
+            
+            // Update display
+            applyFilters();
+            
+            // Show success message
+            alert(`"${title}" kitobi muvaffaqiyatli qo'shildi!`);
+        });
+
+        // Event Listeners
+        document.getElementById('searchBtn').addEventListener('click', applyFilters);
+        document.getElementById('searchInput').addEventListener('input', applyFilters);
+        document.getElementById('genreFilter').addEventListener('change', applyFilters);
+        document.getElementById('availabilityFilter').addEventListener('change', applyFilters);
+
+        // Enter key to search
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                applyFilters();
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load borrowed books from localStorage
+            const borrowedBooks = JSON.parse(localStorage.getItem('borrowedBooks') || '[]');
+            borrowedBooks.forEach(borrowed => {
+                const book = books.find(b => b.id === borrowed.id);
+                if (book) {
+                    book.available = false;
+                }
+            });
+            
+            // Display books
+            applyFilters();
+            
+            // Include common scripts
+            const script = document.createElement('script');
+            script.src = 'script.js';
+            document.body.appendChild(script);
+        });
+    </script>
+</body>
+</html>

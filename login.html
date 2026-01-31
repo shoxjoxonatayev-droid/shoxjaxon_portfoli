@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kirish | SHOXJAXON Portfolio</title>
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* Login Specific Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background elements */
+        .bg-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: -1;
+        }
+
+        .bg-shape-1 {
+            width: 300px;
+            height: 300px;
+            top: -150px;
+            right: -150px;
+        }
+
+        .bg-shape-2 {
+            width: 200px;
+            height: 200px;
+            bottom: -100px;
+            left: -100px;
+        }
+
+        .bg-shape-3 {
+            width: 150px;
+            height: 150px;
+            top: 50%;
+            left: -75px;
+        }
+
+        /* Back to Home Button */
+        .back-home {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            z-index: 1000;
+        }
+
+        .back-home a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 12px 24px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .back-home a:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Login Container */
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 25px 75px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: slideUp 0.6s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Login Header */
+        .login-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            animation: float 20s linear infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-30px, -30px) rotate(360deg); }
+        }
+
+        .login-header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .login-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* Tabs */
+        .login-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 18px;
+            background: none;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            outline: none;
+        }
+
+        .tab-btn:hover {
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            background: white;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        }
+
+        /* Forms */
+        .login-form {
+            padding: 40px 30px;
+            display: none;
+        }
+
+        .login-form.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 16px 20px 16px 55px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+        }
+
+        .form-group input:focus + i {
+            color: #764ba2;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #666;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .password-toggle:hover {
+            color: #667eea;
+        }
+
+        /* Form Validation Styles */
+        .form-group.error input,
+        .form-group.error select {
+            border-color: #ff4757;
+            box-shadow: 0 0 0 4px rgba(255, 71, 87, 0.15);
+        }
+
+        .form-group.success input,
+        .form-group.success select {
+            border-color: #2ed573;
+        }
+
+        .error-message {
+            color: #ff4757;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Remember Forgot */
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        .remember input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .forgot-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .forgot-link:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        /* Submit Button */
+        .login-submit {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-submit::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .login-submit:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .login-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-submit:active {
+            transform: translateY(-1px);
+        }
+
+        .login-submit:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .login-submit:disabled::before {
+            display: none;
+        }
+
+        /* Divider */
+        .login-divider {
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .login-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e0e0e0, transparent);
+        }
+
+        .login-divider span {
+            background: white;
+            padding: 0 20px;
+            color: #666;
+            font-size: 0.95rem;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Social Login */
+        .social-login {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .social-btn {
+            padding: 16px;
+            border: 2px solid;
+            background: white;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .social-btn.google {
+            color: #DB4437;
+            border-color: #DB4437;
+        }
+
+        .social-btn.github {
+            color: #333;
+            border-color: #333;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-btn.google:hover {
+            background: #DB4437;
+            color: white;
+        }
+
+        .social-btn.github:hover {
+            background: #333;
+            color: white;
+        }
+
+        /* Success Message */
+        .success-message {
+            background: linear-gradient(135deg, #2ed573 0%, #1dd1a1 100%);
+            color: white;
+            padding: 18px 20px;
+            border-radius: 12px;
+            margin: 0 30px 20px;
+            text-align: center;
+            display: none;
+            animation: slideDown 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success-message::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-message i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* Login Footer */
+        .login-footer {
+            text-align: center;
+            padding: 25px 30px;
+            border-top: 1px solid #e0e0e0;
+            background: #f8f9fa;
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        .login-footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .login-footer a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        /* Demo Credentials */
+        .demo-credentials {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 18px 20px;
+            border-radius: 12px;
+            margin: 20px 30px;
+            text-align: center;
+            animation: pulse 2s infinite;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .demo-credentials h4 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .demo-credentials p {
+            font-size: 0.95rem;
+            margin: 5px 0;
+            opacity: 0.9;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .back-home {
+                top: 20px;
+                left: 20px;
+            }
+
+            .back-home a {
+                padding: 10px 20px;
+                font-size: 0.95rem;
+            }
+
+            .login-container {
+                border-radius: 20px;
+            }
+
+            .login-header {
+                padding: 30px 20px;
+            }
+
+            .login-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .login-form {
+                padding: 30px 20px;
+            }
+
+            .social-login {
+                grid-template-columns: 1fr;
+            }
+
+            .remember-forgot {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-tabs {
+                flex-direction: column;
+            }
+
+            .tab-btn {
+                padding: 15px;
+                text-align: center;
+            }
+
+            .demo-credentials,
+            .success-message {
+                margin: 20px 15px;
+            }
+        }
+
+        /* Loading Animation */
+        .loading-dots {
+            display: inline-flex;
+            gap: 4px;
+        }
+
+        .loading-dots span {
+            width: 8px;
+            height: 8px;
+            background: currentColor;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .loading-dots span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .loading-dots span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes bounce {
+            0%, 80%, 100% {
+                transform: scale(0);
+            }
+            40% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Shapes -->
+    <div class="bg-shape bg-shape-1"></div>
+    <div class="bg-shape bg-shape-2"></div>
+    <div class="bg-shape bg-shape-3"></div>
+
+    <!-- Back to Home Button -->
+    <div class="back-home">
+        <a href="index.html">
+            <i class="fas fa-arrow-left"></i>
+            Asosiy Sahifa
+        </a>
+    </div>
+
+    <!-- Login Container -->
+    <div class="login-container">
+        <!-- Success Message -->
+        <div class="success-message" id="successMessage">
+            <i class="fas fa-check-circle"></i>
+            <span id="successText"></span>
+        </div>
+
+        <!-- Demo Credentials -->
+        <div class="demo-credentials">
+            <h4><i class="fas fa-key"></i> Demo Kirish Ma'lumotlari</h4>
+            <p><strong>Email:</strong> demo@webdev.uz</p>
+            <p><strong>Parol:</strong> password123</p>
+        </div>
+
+        <!-- Login Header -->
+        <div class="login-header">
+            <h1>SHOXJAXON Portfolio</h1>
+            <p>Loyihalarni ko'rish va boshqarish</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="login-tabs">
+            <button class="tab-btn active" data-tab="login">
+                <i class="fas fa-sign-in-alt"></i> Kirish
+            </button>
+            <button class="tab-btn" data-tab="register">
+                <i class="fas fa-user-plus"></i> Ro'yxatdan o'tish
+            </button>
+        </div>
+
+        <!-- Login Form -->
+        <form class="login-form active" id="loginForm">
+            <div class="form-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="loginEmail" placeholder="Elektron pochta" required>
+                <div class="error-message" id="loginEmailError"></div>
+            </div>
+
+            <div class="form-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="loginPassword" placeholder="Parol" required>
+                <span class="password-toggle" id="toggleLoginPassword">
+                    <i class="fas fa-eye"></i>
+                </span>
+                <div class="error-message" id="loginPasswordError"></div>
+            </div>
+
+            <div class="remember-forgot">
+                <label class="remember">
+                    <input type="checkbox" id="rememberMe">
+                    <span>Meni eslab qol</span>
+                </label>
+                <a href="#" class="forgot-link" id="forgotPassword">
+                    Parolni unutdingizmi?
+                </a>
+            </div>
+
+            <button type="submit" class="login-submit" id="loginSubmit">
+                <i class="fas fa-sign-in-alt"></i>
+                <span>Tizimga Kirish</span>
+            </button>
+
+            <div class="login-divider">
+                <span>Yoki ijtimoiy tarmoqlar orqali</span>
+            </div>
+
+            <div class="social-login">
+                <button type="button" class="social-btn google" id="googleLogin">
+                    <i class="fab fa-google"></i>
+                    Google
+                </button>
+                <button type="button" class="social-btn github" id="githubLogin">
+                    <i class="fab fa-github"></i>
+                    GitHub
+                </button>
+            </div>
+        </form>
+
+        <!-- Register Form -->
+        <form class="login-form" id="registerForm">
+            <div class="form-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="registerName" placeholder="To'liq ismingiz" required>
+                <div class="error-message" id="registerNameError"></div>
+            </div>
+
+            <div class="form-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="registerEmail" placeholder="Elektron pochta" required>
+                <div class="error-message" id="registerEmailError"></div>
+            </div>
+
+            <div class="form-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="registerPassword" placeholder="Parol (kamida 8 ta belgi)" required>
+                <span class="password-toggle" id="toggleRegisterPassword">
+                    <i class="fas fa-eye"></i>
+                </span>
+                <div class="error-message" id="registerPasswordError"></div>
+            </div>
+
+            <div class="form-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="registerConfirm" placeholder="Parolni takrorlang" required>
+                <div class="error-message" id="registerConfirmError"></div>
+            </div>
+
+            <div class="form-group">
+                <i class="fas fa-user-tag"></i>
+                <select id="registerRole" required>
+                    <option value="">Rolni tanlang</option>
+                    <option value="student">O'quvchi</option>
+                    <option value="teacher">O'qituvchi</option>
+                    <option value="parent">Ota-Ona</option>
+                    <option value="admin">Administrator</option>
+                </select>
+                <div class="error-message" id="registerRoleError"></div>
+            </div>
+
+            <div class="remember-forgot">
+                <label class="remember">
+                    <input type="checkbox" id="acceptTerms" required>
+                    <span>Men <a href="#" style="color: #667eea;">shartlar</a> bilan roziman</span>
+                </label>
+            </div>
+
+            <button type="submit" class="login-submit" id="registerSubmit">
+                <i class="fas fa-user-plus"></i>
+                <span>Ro'yxatdan O'tish</span>
+            </button>
+        </form>
+
+        <!-- Login Footer -->
+        <div class="login-footer">
+            <p>Hisobingiz bormi? 
+                <a href="#" id="switchToLogin">Kirish</a>
+            </p>
+            <p style="margin-top: 10px;">
+                <a href="index.html">
+                    <i class="fas fa-home"></i> Asosiy sahifaga qaytish
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Demo users database
+        const demoUsers = [
+            {
+                id: 1,
+                name: "Demo Foydalanuvchi",
+                email: "demo@webdev.uz",
+                password: "password123",
+                role: "student",
+                created: new Date().toISOString(),
+                location: "Xorazm, Xiva",
+                avatar: "👨‍💻"
+            },
+            {
+                id: 2,
+                name: "O'qituvchi",
+                email: "teacher@school.uz",
+                password: "teacher123",
+                role: "teacher",
+                created: new Date().toISOString(),
+                location: "Toshkent",
+                avatar: "👨‍🏫"
+            }
+        ];
+
+        // Initialize users in localStorage
+        function initUsers() {
+            if (!localStorage.getItem('portfolioUsers')) {
+                localStorage.setItem('portfolioUsers', JSON.stringify(demoUsers));
+            }
+        }
+
+        // Tab Switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Update tabs
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Update forms
+                const tab = this.dataset.tab;
+                document.querySelectorAll('.login-form').forEach(form => form.classList.remove('active'));
+                document.getElementById(`${tab}Form`).classList.add('active');
+                
+                // Clear success message
+                hideSuccessMessage();
+                
+                // Clear all errors
+                clearAllErrors();
+            });
+        });
+
+        // Switch to Login link
+        document.getElementById('switchToLogin').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('.tab-btn[data-tab="login"]').click();
+        });
+
+        // Password Toggle Functionality
+        function setupPasswordToggle(inputId, toggleId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleIcon = document.getElementById(toggleId);
+            
+            if (passwordInput && toggleIcon) {
+                toggleIcon.addEventListener('click', function() {
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    
+                    const icon = this.querySelector('i');
+                    icon.classList.toggle('fa-eye');
+                    icon.classList.toggle('fa-eye-slash');
+                });
+            }
+        }
+
+        setupPasswordToggle('loginPassword', 'toggleLoginPassword');
+        setupPasswordToggle('registerPassword', 'toggleRegisterPassword');
+
+        // Form Validation Helpers
+        function showError(elementId, message) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = message;
+                element.classList.add('show');
+                element.parentElement.classList.add('error');
+                
+                // Add shake animation
+                element.parentElement.style.animation = 'shake 0.5s ease';
+                setTimeout(() => {
+                    element.parentElement.style.animation = '';
+                }, 500);
+            }
+        }
+
+        function clearError(elementId) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = '';
+                element.classList.remove('show');
+                element.parentElement.classList.remove('error');
+            }
+        }
+
+        function clearAllErrors() {
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.textContent = '';
+                el.classList.remove('show');
+            });
+            document.querySelectorAll('.form-group').forEach(el => {
+                el.classList.remove('error', 'success');
+            });
+        }
+
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function validatePassword(password) {
+            return password.length >= 8;
+        }
+
+        // Success Message Functions
+        function showSuccessMessage(message, duration = 5000) {
+            const successElement = document.getElementById('successMessage');
+            const successText = document.getElementById('successText');
+            
+            successText.textContent = message;
+            successElement.classList.add('show');
+            
+            // Play success sound (if supported)
+            try {
+                const audio = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEAQB8AAEAfAAABAAgAZGF0YQ');
+                audio.play();
+            } catch (e) {
+                // Sound not supported
+            }
+            
+            // Auto hide
+            setTimeout(() => {
+                successElement.classList.remove('show');
+            }, duration);
+        }
+
+        function hideSuccessMessage() {
+            const successElement = document.getElementById('successMessage');
+            successElement.classList.remove('show');
+        }
+
+        // Button Loading State
+        function setButtonLoading(button, isLoading) {
+            if (isLoading) {
+                button.disabled = true;
+                const text = button.querySelector('span');
+                if (text) {
+                    button.innerHTML = `
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span class="loading-dots">
+                            <span></span><span></span><span></span>
+                        </span>
+                    `;
+                }
+            } else {
+                button.disabled = false;
+                // Restore original content based on button id
+                if (button.id === 'loginSubmit') {
+                    button.innerHTML = '<i class="fas fa-sign-in-alt"></i><span>Tizimga Kirish</span>';
+                } else if (button.id === 'registerSubmit') {
+                    button.innerHTML = '<i class="fas fa-user-plus"></i><span>Ro\'yxatdan O\'tish</span>';
+                }
+            }
+        }
+
+        // Login Form Submission
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            const submitBtn = document.getElementById('loginSubmit');
+            
+            // Clear previous errors
+            clearError('loginEmailError');
+            clearError('loginPasswordError');
+            
+            // Validation
+            let isValid = true;
+            
+            if (!email) {
+                showError('loginEmailError', 'Email manzilni kiriting');
+                isValid = false;
+            } else if (!validateEmail(email)) {
+                showError('loginEmailError', 'To\'g\'ri email manzil kiriting');
+                isValid = false;
+            }
+            
+            if (!password) {
+                showError('loginPasswordError', 'Parolni kiriting');
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            // Set loading state
+            setButtonLoading(submitBtn, true);
+            
+            // Simulate API call delay
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // Check credentials
+            const users = JSON.parse(localStorage.getItem('portfolioUsers') || '[]');
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                // Remove password from user object
+                const { password: _, ...userWithoutPassword } = user;
+                
+                // Save user to storage
+                if (rememberMe) {
+                    localStorage.setItem('currentUser', JSON.stringify(userWithoutPassword));
+                } else {
+                    sessionStorage.setItem('currentUser', JSON.stringify(userWithoutPassword));
+                }
+                
+                // Show success message
+                showSuccessMessage(`Xush kelibsiz, ${user.name}! ${user.avatar}`);
+                
+                // Redirect to home page after delay
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+            } else {
+                // Show error
+                showError('loginPasswordError', 'Noto\'g\'ri email yoki parol');
+                
+                // Reset button
+                setButtonLoading(submitBtn, false);
+            }
+        });
+
+        // Register Form Submission
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('registerName').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirm').value;
+            const role = document.getElementById('registerRole').value;
+            const acceptTerms = document.getElementById('acceptTerms').checked;
+            const submitBtn = document.getElementById('registerSubmit');
+            
+            // Clear previous errors
+            clearError('registerNameError');
+            clearError('registerEmailError');
+            clearError('registerPasswordError');
+            clearError('registerConfirmError');
+            clearError('registerRoleError');
+            
+            // Validation
+            let isValid = true;
+            
+            if (!name) {
+                showError('registerNameError', 'Ismingizni kiriting');
+                isValid = false;
+            }
+            
+            if (!email) {
+                showError('registerEmailError', 'Email manzilni kiriting');
+                isValid = false;
+            } else if (!validateEmail(email)) {
+                showError('registerEmailError', 'To\'g\'ri email manzil kiriting');
+                isValid = false;
+            }
+            
+            if (!password) {
+                showError('registerPasswordError', 'Parolni kiriting');
+                isValid = false;
+            } else if (!validatePassword(password)) {
+                showError('registerPasswordError', 'Parol kamida 8 ta belgidan iborat bo\'lishi kerak');
+                isValid = false;
+            }
+            
+            if (!confirmPassword) {
+                showError('registerConfirmError', 'Parolni takrorlang');
+                isValid = false;
+            } else if (password !== confirmPassword) {
+                showError('registerConfirmError', 'Parollar mos kelmadi');
+                isValid = false;
+            }
+            
+            if (!role) {
+                showError('registerRoleError', 'Rolni tanlang');
+                isValid = false;
+            }
+            
+            if (!acceptTerms) {
+                alert('Iltimos, foydalanish shartlariga rozilik bildiring!');
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            // Set loading state
+            setButtonLoading(submitBtn, true);
+            
+            // Simulate API call delay
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // Check if email already exists
+            const users = JSON.parse(localStorage.getItem('portfolioUsers') || '[]');
+            const emailExists = users.some(user => user.email === email);
+            
+            if (emailExists) {
+                showError('registerEmailError', 'Bu email bilan allaqachon ro\'yxatdan o\'tilgan');
+                setButtonLoading(submitBtn, false);
+                return;
+            }
+            
+            // Create new user
+            const newUser = {
+                id: users.length + 1,
+                name,
+                email,
+                password,
+                role,
+                created: new Date().toISOString(),
+                location: "Xorazm, Xiva",
+                avatar: role === 'teacher' ? '👨‍🏫' : '👨‍🎓'
+            };
+            
+            // Add user to database
+            users.push(newUser);
+            localStorage.setItem('portfolioUsers', JSON.stringify(users));
+            
+            // Remove password and save user session
+            const { password: _, ...userWithoutPassword } = newUser;
+            sessionStorage.setItem('currentUser', JSON.stringify(userWithoutPassword));
+            
+            // Show success message
+            showSuccessMessage(`Hurmatli ${name}, ro'yxatdan o'tish muvaffaqiyatli! ${newUser.avatar}`);
+            
+            // Redirect to home page after delay
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2000);
+        });
+
+        // Forgot Password
+        document.getElementById('forgotPassword').addEventListener('click', function(e) {
+            e.preventDefault();
+            const email = prompt('Parolni tiklash uchun email manzilingizni kiriting:');
+            if (email && validateEmail(email)) {
+                // Check if email exists
+                const users = JSON.parse(localStorage.getItem('portfolioUsers') || '[]');
+                const userExists = users.some(user => user.email === email);
+                
+                if (userExists) {
+                    alert(`📧 Parol tiklash havolasi "${email}" manziliga yuborildi.\n\n🔑 Demo parol: password123`);
+                    showSuccessMessage('Parol tiklash havolasi emailingizga yuborildi!', 3000);
+                } else {
+                    alert('❌ Bu email bilan ro\'yxatdan o\'tilmagan');
+                }
+            } else if (email) {
+                alert('⚠️ Iltimos, to\'g\'ri email manzil kiriting');
+            }
+        });
+
+        // Social Login (Demo)
+        document.getElementById('googleLogin').addEventListener('click', function() {
+            showSuccessMessage('Google orqali kirish demo rejimda faqat ma\'lumot uchun', 3000);
+            document.getElementById('loginEmail').value = 'demo@webdev.uz';
+            document.getElementById('loginPassword').value = 'password123';
+            
+            // Auto-submit after 1 second
+            setTimeout(() => {
+                document.getElementById('loginSubmit').click();
+            }, 1000);
+        });
+
+        document.getElementById('githubLogin').addEventListener('click', function() {
+            showSuccessMessage('GitHub orqali kirish demo rejimda faqat ma\'lumot uchun', 3000);
+            document.getElementById('loginEmail').value = 'demo@webdev.uz';
+            document.getElementById('loginPassword').value = 'password123';
+            
+            // Auto-submit after 1 second
+            setTimeout(() => {
+                document.getElementById('loginSubmit').click();
+            }, 1000);
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initUsers();
+            
+            // Check if user is already logged in
+            const currentUser = JSON.parse(
+                localStorage.getItem('currentUser') || 
+                sessionStorage.getItem('currentUser') || 
+                'null'
+            );
+            
+            if (currentUser && currentUser.email) {
+                // Already logged in, redirect to home
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Check for demo parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('demo') === 'true') {
+                document.getElementById('loginEmail').value = 'demo@webdev.uz';
+                document.getElementById('loginPassword').value = 'password123';
+                document.getElementById('rememberMe').checked = true;
+                
+                // Focus on submit button
+                document.getElementById('loginSubmit').focus();
+                
+                // Show welcome message
+                setTimeout(() => {
+                    showSuccessMessage('Demo ma\'lumotlar avtomatik to\'ldirildi! Kirish tugmasini bosing.', 4000);
+                }, 500);
+            }
+            
+            // Add shake animation keyframes
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes shake {
+                    0%, 100% { transform: translateX(0); }
+                    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                    20%, 40%, 60%, 80% { transform: translateX(5px); }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Auto-focus on first input
+            const activeForm = document.querySelector('.login-form.active');
+            if (activeForm) {
+                const firstInput = activeForm.querySelector('input');
+                if (firstInput) {
+                    firstInput.focus();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

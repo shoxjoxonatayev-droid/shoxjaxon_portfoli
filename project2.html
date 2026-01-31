@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maktab Oshxonasi Menyusi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding-top: 10px;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #e74c3c;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #e74c3c;
+        }
+
+        .cart-icon {
+            position: relative;
+        }
+
+        .cart-count-nav {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #e74c3c;
+            color: white;
+            font-size: 12px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            transition: 0.3s;
+        }
+
+        /* Back to Home Button (PASTDA) */
+        .back-to-home {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 999;
+            animation: slideInUp 0.8s ease;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #e74c3c;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .back-btn:hover {
+            background: #c0392b;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(231, 76, 60, 0.6);
+        }
+
+        .back-btn:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 8rem 0 4rem;
+            margin-top: 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') center/cover;
+            opacity: 0.1;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 3rem 0;
+            min-height: 70vh;
+            padding-bottom: 100px; /* Asosiy sahifa tugmasi uchun joy */
+        }
+
+        /* Floating Cart Button */
+        .floating-cart-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 998;
+        }
+
+        .floating-cart-btn .cart-btn-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            border-radius: 50%;
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+            color: white;
+            font-size: 1.5rem;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .floating-cart-btn .cart-btn-content:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.6);
+        }
+
+        .floating-cart-btn .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #2ecc71;
+            color: white;
+            font-size: 12px;
+            min-width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px solid white;
+            padding: 0 5px;
+        }
+
+        /* Food Categories */
+        .food-categories {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .category-btn {
+            padding: 1rem 2rem;
+            border: none;
+            background: white;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .category-btn.active {
+            background: #e74c3c;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Menu Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(231, 76, 60, 0.15);
+        }
+
+        .item-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .menu-item:hover .item-image img {
+            transform: scale(1.05);
+        }
+
+        .item-content {
+            padding: 1.5rem;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.8rem;
+        }
+
+        .item-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .item-price {
+            background: #e74c3c;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .item-description {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .item-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            background: #ecf0f1;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .tag.calories {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .item-action {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .qty-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid #e74c3c;
+            background: white;
+            color: #e74c3c;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .qty-btn:hover {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .qty-value {
+            min-width: 30px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .add-to-cart {
+            padding: 0.7rem 1.5rem;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .add-to-cart:hover {
+            background: #c0392b;
+        }
+
+        .add-to-cart.added {
+            background: #2ecc71;
+        }
+
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 25px rgba(0,0,0,0.1);
+            z-index: 1002;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1001;
+            display: none;
+        }
+
+        .cart-overlay.show {
+            display: block;
+        }
+
+        .cart-header {
+            padding: 1.5rem;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #2c3e50;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .cart-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        .cart-items {
+            margin-bottom: 1.5rem;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .cart-item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-details h4 {
+            margin-bottom: 0.3rem;
+            font-size: 1rem;
+        }
+
+        .cart-item-details p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .cart-item-qty {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cart-remove {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 5px;
+        }
+
+        .cart-footer {
+            padding: 1.5rem;
+            border-top: 2px solid #f0f0f0;
+            background: white;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .cart-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .cart-action-btn {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .clear-cart {
+            background: #ecf0f1;
+            color: #333;
+        }
+
+        .checkout {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .checkout:hover {
+            background: #27ae60;
+        }
+
+        .clear-cart:hover {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #999;
+        }
+
+        .empty-cart i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: #2ecc71;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+            z-index: 1003;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        /* Animations */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links h3 {
+            margin-bottom: 1rem;
+            color: #ecf0f1;
+        }
+
+        .footer-links a {
+            display: block;
+            color: #bdc3c7;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #e74c3c;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #34495e;
+            color: #bdc3c7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .back-to-home {
+                bottom: 20px;
+                width: 90%;
+                max-width: 300px;
+            }
+            
+            .back-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .floating-cart-btn {
+                bottom: 90px;
+                right: 20px;
+            }
+            
+            .nav-container {
+                padding: 0.5rem 1rem;
+            }
+            
+            .hamburger {
+                display: flex;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                flex-direction: column;
+                background: white;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0,0,0,0.05);
+                padding: 2rem 0;
+                gap: 0;
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-menu li {
+                margin: 1rem 0;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+            
+            .cart-actions {
+                flex-direction: column;
+            }
+            
+            .food-categories {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 1rem;
+            }
+            
+            .category-btn {
+                flex-shrink: 0;
+            }
+            
+            .notification {
+                right: 20px;
+                bottom: 150px;
+                left: 20px;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 6rem 0 3rem;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .item-action {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+            
+            .quantity-control {
+                justify-content: center;
+            }
+            
+            .back-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Asosiy Sahifa Tugmasi (PASTDA) -->
+    <div class="back-to-home">
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-home"></i> Asosiy Sahifa
+        </a>
+    </div>
+
+    <!-- Floating Cart Button -->
+    <div class="floating-cart-btn" id="floatingCartBtn">
+        <div class="cart-btn-content">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cartCountFloating">0</span>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-utensils"></i>
+                <span>Maktab Oshxonasi</span>
+            </div>
+            
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#home" class="nav-link active"><i class="fas fa-home"></i> Bosh Sahifa</a></li>
+                <li><a href="#menu" class="nav-link"><i class="fas fa-utensils"></i> Menyu</a></li>
+                <li>
+                    <a href="#" class="nav-link cart-icon" id="cartIconNav">
+                        <i class="fas fa-shopping-cart"></i> Savat
+                        <span class="cart-count-nav" id="cartCountNav">0</span>
+                    </a>
+                </li>
+                <li><a href="#about" class="nav-link"><i class="fas fa-info-circle"></i> Biz Haqimizda</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="header" id="home">
+        <div class="container">
+            <h1>Maktab Oshxonasi Menyusi</h1>
+            <p>Mazali va sog'lom ovqatlar bilan to'liq menyu. Haftaning 6 kuni turli taomlar!</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Food Categories -->
+            <div class="food-categories">
+                <button class="category-btn active" data-category="all">
+                    <i class="fas fa-th"></i> Hammasi
+                </button>
+                <button class="category-btn" data-category="breakfast">
+                    <i class="fas fa-sun"></i> Nonushta
+                </button>
+                <button class="category-btn" data-category="lunch">
+                    <i class="fas fa-cloud-sun"></i> Tushlik
+                </button>
+                <button class="category-btn" data-category="dinner">
+                    <i class="fas fa-moon"></i> Kechki Ovqat
+                </button>
+                <button class="category-btn" data-category="dessert">
+                    <i class="fas fa-ice-cream"></i> Shirinliklar
+                </button>
+            </div>
+
+            <!-- Menu Grid -->
+            <div class="menu-grid" id="menu">
+                <!-- Food items will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3><i class="fas fa-shopping-cart"></i> Savat</h3>
+            <button class="close-cart" id="closeCartBtn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="cart-content">
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items will be loaded here -->
+            </div>
+        </div>
+        
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Umumiy summa:</span>
+                <span class="total-amount" id="totalAmount">0 so'm</span>
+            </div>
+            
+            <div class="cart-actions">
+                <button class="cart-action-btn clear-cart" id="clearCartBtn">
+                    <i class="fas fa-trash"></i> Tozalash
+                </button>
+                <button class="cart-action-btn checkout" id="checkoutBtn">
+                    <i class="fas fa-check"></i> Buyurtma
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Mahsulot savatga qo'shildi!</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="about">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-utensils"></i>
+                        <span>Maktab Oshxonasi</span>
+                    </div>
+                    <p>Sog'lom va mazali ovqatlar yetkazib beramiz. Kunlik 3 marta ovqatlanishni ta'minlaymiz.</p>
+                    <p><i class="fas fa-clock"></i> Ish vaqti: 8:00 - 18:00</p>
+                    <p><i class="fas fa-phone"></i> Telefon: +998 90 434 33 35</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Tez O'tish</h3>
+                    <a href="#home"><i class="fas fa-chevron-right"></i> Bosh Sahifa</a>
+                    <a href="#menu"><i class="fas fa-chevron-right"></i> Menyu</a>
+                    <a href="#" id="cartLinkFooter"><i class="fas fa-chevron-right"></i> Savat</a>
+                    <a href="#about"><i class="fas fa-chevron-right"></i> Biz Haqimizda</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Ijtimoiy Tarmoqlar</h3>
+                    <a href="#"><i class="fab fa-telegram"></i> Telegram</a>
+                    <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                    <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+                    <a href="#"><i class="fas fa-envelope"></i> Email</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 Maktab Oshxonasi. Barcha huquqlar himoyalangan.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Food Database
+        const foodItems = [
+            {
+                id: 1,
+                name: "Sutli choy va Non",
+                price: 5000,
+                calories: 320,
+                description: "Issiq sutli choy, yangi non, sariyog' va qaymoq",
+                category: "breakfast",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg1v7S9Hv7rNvdAO1nwX054otLlHWK6nPA0w&s",
+                tags: ["Sut", "Non", "Sariyog'"]
+            },
+            {
+                id: 2,
+                name: "Tuxumli non",
+                price: 7000,
+                calories: 280,
+                description: "Qaynatilgan tuxum, yangi non, pomidor va bodring",
+                category: "breakfast",
+                image: "https://data.daryo.uz/media/cache/2020/10/non-1920x1080.jpg",
+                tags: ["Tuxum", "Non", "Sabzavot"]
+            },
+            {
+                id: 3,
+                name: "Sutli bo'tqa",
+                price: 6000,
+                calories: 350,
+                description: "Sutli guruch bo'tqasi, murabbo va qaymoq",
+                category: "breakfast",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE1nb2zthwGWkrYFoVgRoK524kQPZ4N18fNQ&s",
+                tags: ["Guruch", "Sut", "Murabbo"]
+            },
+            {
+                id: 4,
+                name: "Osh",
+                price: 15000,
+                calories: 650,
+                description: "An'anaviy o'zbek oshi, sabzi va go'sht bilan",
+                category: "lunch",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKp34NJDWOVx_b-Ie7JYemCuNQmGC_7HcIPQ&s",
+                tags: ["Guruch", "Go'sht", "Sabzi"]
+            },
+            {
+                id: 5,
+                name: "Norin",
+                price: 18000,
+                calories: 580,
+                description: "An'anaviy o'zbek norini, xamir va go'sht bilan",
+                category: "lunch",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtTTRr4FEDlkzt5DFOrfb4NIknvU3NX5yrKA&s",
+                tags: ["Xamir", "Go'sht", "Piyoz"]
+            },
+            {
+                id: 6,
+                name: "Qovurilgan baliq",
+                price: 20000,
+                calories: 520,
+                description: "Qovurilgan baliq, kartoshka va salat bilan",
+                category: "lunch",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2-XTIf0rFTqI9HiuzI6XUZPqy8L-8oSa2YA&s",
+                tags: ["Baliq", "Kartoshka", "Sabzavot"]
+            },
+            {
+                id: 7,
+                name: "Mastava",
+                price: 12000,
+                calories: 450,
+                description: "Issiq mastava, go'sht va sabzavotlar bilan",
+                category: "dinner",
+                image: "https://static.wixstatic.com/media/183ce0_3a3bcf40ab8d4a1abeb6d62d30576bd1~mv2.jpg/v1/fill/w_800,h_533,al_c,q_85/183ce0_3a3bcf40ab8d4a1abeb6d62d30576bd1~mv2.jpg",
+                tags: ["Guruch", "Go'sht", "Sabzavot"]
+            },
+            {
+                id: 8,
+                name: "Chuchvara",
+                price: 13000,
+                calories: 480,
+                description: "Uy chuchvarasi, qatiq va ziravorlar bilan",
+                category: "dinner",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpZkhIhjrU9wDx4y2CftIz75-SsX3jwH7b4g&s",
+                tags: ["Xamir", "Go'sht", "Qatiq"]
+            },
+            {
+                id: 9,
+                name: "Shashlik",
+                price: 25000,
+                calories: 620,
+                description: "Qo'y go'shti shashlik, non va piyoz bilan",
+                category: "dinner",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiQPYjQIkip6d5KTPUSrwQAmT7pEXrf-2E_w&s",
+                tags: ["Go'sht", "Piyoz", "Non"]
+            },
+            {
+                id: 10,
+                name: "Halva",
+                price: 8000,
+                calories: 320,
+                description: "Uy halvasi, yong'oq va asal bilan",
+                category: "dessert",
+                image: "https://cdn-mamafatma.b-cdn.net/wp-content/uploads/2024/09/Halva-2.jpg",
+                tags: ["Un", "Yog'", "Shakar"]
+            },
+            {
+                id: 11,
+                name: "Meva salati",
+                price: 9000,
+                calories: 180,
+                description: "Aralash mevalar, asal va yong'oq bilan",
+                category: "dessert",
+                image: "https://data.daryo.uz/media/cache/2020/06/FRUIT-600x428.jpg",
+                tags: ["Meva", "Asal", "Yong'oq"]
+            },
+            {
+                id: 12,
+                name: "Qaymoqli pirog",
+                price: 10000,
+                calories: 420,
+                description: "Qaymoqli pirog, vanil va shokolad bilan",
+                category: "dessert",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCqDHGTWqp3mOmkE8j5FjrrojYPjGtWjuTGQ&s",
+                tags: ["Xamir", "Qaymoq", "Shokolad"]
+            }
+        ];
+
+        // Cart State
+        let cart = JSON.parse(localStorage.getItem('maktabCart')) || [];
+        let currentCategory = 'all';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderMenuItems();
+            renderCart();
+            updateCartCounts();
+            setupEventListeners();
+        });
+
+        // Render Menu Items
+        function renderMenuItems() {
+            const menuGrid = document.getElementById('menu');
+            menuGrid.innerHTML = '';
+            
+            const filteredItems = currentCategory === 'all' 
+                ? foodItems 
+                : foodItems.filter(item => item.category === currentCategory);
+            
+            if (filteredItems.length === 0) {
+                menuGrid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #666;">
+                        <i class="fas fa-utensils" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <h3>Bu kategoriyada ovqatlar topilmadi</h3>
+                        <p>Boshqa kategoriyani tanlang yoki "Hammasi" tugmasini bosing</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredItems.forEach(item => {
+                const menuItem = document.createElement('div');
+                menuItem.className = 'menu-item';
+                menuItem.dataset.id = item.id;
+                
+                const cartItem = cart.find(cartItem => cartItem.id === item.id);
+                const quantity = cartItem ? cartItem.quantity : 0;
+                const isInCart = quantity > 0;
+                
+                menuItem.innerHTML = `
+                    <div class="item-image">
+                        <img src="${item.image}" alt="${item.name}" loading="lazy">
+                    </div>
+                    <div class="item-content">
+                        <div class="item-header">
+                            <div class="item-name">${item.name}</div>
+                            <div class="item-price">${item.price.toLocaleString()} so'm</div>
+                        </div>
+                        <p class="item-description">${item.description}</p>
+                        <div class="item-tags">
+                            <span class="tag calories">${item.calories} kaloriya</span>
+                            ${item.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                        <div class="item-action">
+                            <div class="quantity-control">
+                                <button class="qty-btn minus" onclick="updateQuantity(${item.id}, -1)">-</button>
+                                <span class="qty-value">${quantity}</span>
+                                <button class="qty-btn plus" onclick="updateQuantity(${item.id}, 1)">+</button>
+                            </div>
+                            <button class="add-to-cart ${isInCart ? 'added' : ''}" onclick="addToCart(${item.id})">
+                                <i class="fas ${isInCart ? 'fa-check' : 'fa-cart-plus'}"></i> 
+                                ${isInCart ? 'Qo\'shildi' : 'Savatga'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                menuGrid.appendChild(menuItem);
+            });
+        }
+
+        // Update Quantity
+        function updateQuantity(itemId, change) {
+            const item = foodItems.find(item => item.id === itemId);
+            const cartItem = cart.find(cartItem => cartItem.id === itemId);
+            
+            if (cartItem) {
+                cartItem.quantity += change;
+                if (cartItem.quantity <= 0) {
+                    cart = cart.filter(cartItem => cartItem.id !== itemId);
+                    showNotification(`"${item.name}" savatdan olib tashlandi`);
+                } else {
+                    showNotification(`"${item.name}" miqdori yangilandi: ${cartItem.quantity} ta`);
+                }
+            } else if (change > 0) {
+                cart.push({
+                    id: itemId,
+                    name: item.name,
+                    price: item.price,
+                    image: item.image,
+                    quantity: 1
+                });
+                showNotification(`"${item.name}" savatga qo'shildi`);
+            }
+            
+            saveCart();
+            renderMenuItems();
+            renderCart();
+            updateCartCounts();
+        }
+
+        // Add to Cart
+        function addToCart(itemId) {
+            updateQuantity(itemId, 1);
+        }
+
+        // Render Cart
+        function renderCart() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            const totalAmount = document.getElementById('totalAmount');
+            
+            let total = 0;
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-basket"></i>
+                        <h4>Savat bo'sh</h4>
+                        <p>Menyudan ovqat tanlang va savatga qo'shing!</p>
+                    </div>
+                `;
+            } else {
+                cartItemsContainer.innerHTML = '';
+                
+                cart.forEach(cartItem => {
+                    const itemTotal = cartItem.price * cartItem.quantity;
+                    total += itemTotal;
+                    
+                    const cartItemElement = document.createElement('div');
+                    cartItemElement.className = 'cart-item';
+                    cartItemElement.innerHTML = `
+                        <div class="cart-item-info">
+                            <div class="cart-item-image">
+                                <img src="${cartItem.image}" alt="${cartItem.name}">
+                            </div>
+                            <div class="cart-item-details">
+                                <h4>${cartItem.name}</h4>
+                                <p>${cartItem.price.toLocaleString()} so'm</p>
+                            </div>
+                        </div>
+                        <div class="cart-item-controls">
+                            <div class="cart-item-qty">
+                                <button class="qty-btn" onclick="updateQuantity(${cartItem.id}, -1)">-</button>
+                                <span class="qty-value">${cartItem.quantity}</span>
+                                <button class="qty-btn" onclick="updateQuantity(${cartItem.id}, 1)">+</button>
+                            </div>
+                            <div style="min-width: 80px; text-align: right;">
+                                <strong>${itemTotal.toLocaleString()} so'm</strong>
+                            </div>
+                            <button class="cart-remove" onclick="removeFromCart(${cartItem.id})" title="O'chirish">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    
+                    cartItemsContainer.appendChild(cartItemElement);
+                });
+            }
+            
+            totalAmount.textContent = `${total.toLocaleString()} so'm`;
+        }
+
+        // Remove from Cart
+        function removeFromCart(itemId) {
+            const cartItem = cart.find(item => item.id === itemId);
+            cart = cart.filter(cartItem => cartItem.id !== itemId);
+            saveCart();
+            renderMenuItems();
+            renderCart();
+            updateCartCounts();
+            
+            if (cartItem) {
+                showNotification(`"${cartItem.name}" savatdan olib tashlandi`);
+            }
+        }
+
+        // Clear Cart
+        function clearCart() {
+            if (cart.length > 0) {
+                if (confirm('Savatdagi barcha mahsulotlarni o\'chirishni istaysizmi?')) {
+                    cart = [];
+                    saveCart();
+                    renderMenuItems();
+                    renderCart();
+                    updateCartCounts();
+                    showNotification('Savat tozalandi');
+                    closeCart();
+                }
+            } else {
+                showNotification('Savat allaqachon bo\'sh');
+            }
+        }
+
+        // Save Cart to LocalStorage
+        function saveCart() {
+            localStorage.setItem('maktabCart', JSON.stringify(cart));
+        }
+
+        // Checkout
+        function checkout() {
+            if (cart.length === 0) {
+                showNotification('Savat bo\'sh. Avval ovqat tanlang!');
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const itemList = cart.map(item => `• ${item.name} (${item.quantity} x ${item.price.toLocaleString()} so'm)`).join('\n');
+            
+            alert(`✅ Buyurtma muvaffaqiyatli qabul qilindi!\n\n📋 Buyurtma ro'yxati:\n${itemList}\n\n💰 Umumiy summa: ${total.toLocaleString()} so'm\n\n⏰ Ovqat vaqtida oshxonadan olib ketishingiz mumkin.\n\n📞 Aloqa: +998 90 123 45 67`);
+            
+            // Clear cart after successful order
+            cart = [];
+            saveCart();
+            renderMenuItems();
+            renderCart();
+            updateCartCounts();
+            closeCart();
+            showNotification('Buyurtma muvaffaqiyatli qabul qilindi!');
+        }
+
+        // Update Cart Counts
+        function updateCartCounts() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            // Update in navigation
+            document.getElementById('cartCountNav').textContent = totalItems;
+            
+            // Update in floating button
+            document.getElementById('cartCountFloating').textContent = totalItems;
+            
+            // Show/hide cart count badge
+            document.getElementById('cartCountNav').style.display = totalItems > 0 ? 'flex' : 'none';
+            document.getElementById('cartCountFloating').style.display = totalItems > 0 ? 'flex' : 'none';
+        }
+
+        // Show Notification
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            
+            notificationText.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Cart Functions
+        function openCart() {
+            document.getElementById('cartSidebar').classList.add('open');
+            document.getElementById('cartOverlay').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCart() {
+            document.getElementById('cartSidebar').classList.remove('open');
+            document.getElementById('cartOverlay').classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Setup Event Listeners
+        function setupEventListeners() {
+            // Hamburger menu
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('nav-menu');
+            
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.classList.toggle('active');
+            });
+
+            // Close mobile menu on link click
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                    hamburger.classList.remove('active');
+                });
+            });
+
+            // Floating cart button click
+            document.getElementById('floatingCartBtn').addEventListener('click', openCart);
+
+            // Category buttons
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentCategory = this.dataset.category;
+                    renderMenuItems();
+                    
+                    // Scroll to menu
+                    document.getElementById('menu').scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                });
+            });
+
+            // Cart buttons
+            document.getElementById('cartIconNav').addEventListener('click', function(e) {
+                e.preventDefault();
+                openCart();
+            });
+            document.getElementById('cartLinkFooter').addEventListener('click', function(e) {
+                e.preventDefault();
+                openCart();
+            });
+            document.getElementById('closeCartBtn').addEventListener('click', closeCart);
+            document.getElementById('cartOverlay').addEventListener('click', closeCart);
+            document.getElementById('clearCartBtn').addEventListener('click', clearCart);
+            document.getElementById('checkoutBtn').addEventListener('click', checkout);
+
+            // Smooth scroll
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    if (this.getAttribute('href') === '#') return;
+                    
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Close cart on Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeCart();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
