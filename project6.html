@@ -1,0 +1,1742 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Maktab Tadbirlar Kalendar | SHOXJAXON</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        /* Login/Register Styles */
+        .auth-container {
+            max-width: 450px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        .auth-header {
+            background: linear-gradient(135deg, #5e72e4 0%, #825ee4 100%);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .auth-header h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .auth-header h1 i {
+            font-size: 30px;
+            animation: rotate 3s infinite linear;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .auth-header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .auth-tabs {
+            display: flex;
+            padding: 15px 15px 0;
+            gap: 10px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: #f1f3f5;
+            border-radius: 12px 12px 0 0;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: #666;
+        }
+
+        .auth-tab.active {
+            background: white;
+            color: #5e72e4;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+        }
+
+        .auth-forms {
+            padding: 20px;
+            background: white;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+            animation: fadeIn 0.4s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .form-group i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 16px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #5e72e4;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(94, 114, 228, 0.1);
+        }
+
+        .form-group .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            cursor: pointer;
+        }
+
+        .form-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .form-check input {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .form-check label {
+            color: #666;
+        }
+
+        .form-check a {
+            color: #5e72e4;
+            text-decoration: none;
+            margin-left: auto;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #5e72e4, #825ee4);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(94, 114, 228, 0.4);
+        }
+
+        .btn-google {
+            background: white;
+            color: #333;
+            border: 2px solid #e2e8f0;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .btn-google:hover {
+            background: #f8f9fa;
+        }
+
+        .btn-google img {
+            width: 18px;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 15px 0;
+            position: relative;
+            font-size: 12px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: calc(50% - 30px);
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+        .divider::before { left: 0; }
+        .divider::after { right: 0; }
+
+        .divider span {
+            background: white;
+            padding: 0 10px;
+            color: #999;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 15px;
+            color: #666;
+            font-size: 13px;
+        }
+
+        .auth-footer a {
+            color: #5e72e4;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Kalendar asosiy konteyner */
+        .calendar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            display: none;
+        }
+
+        /* User Profile */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            background: linear-gradient(135deg, #5e72e4 0%, #825ee4 100%);
+            color: white;
+            border-radius: 12px;
+            margin: 15px;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #5e72e4;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .user-info h3 {
+            font-size: 16px;
+            margin-bottom: 3px;
+        }
+
+        .user-info p {
+            font-size: 12px;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .logout-btn {
+            margin-left: auto;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(180deg);
+        }
+
+        /* Kalendar Header */
+        .calendar-header {
+            background: linear-gradient(135deg, #5e72e4 0%, #825ee4 100%);
+            padding: 20px;
+            color: white;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo-area h1 {
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-area h1 i {
+            font-size: 28px;
+            animation: rotate 3s infinite linear;
+        }
+
+        .logo-area p {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        .date-display {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 15px;
+            font-weight: 500;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .date-display i {
+            margin-right: 8px;
+        }
+
+        /* Navigatsiya */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .month-nav {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.15);
+            padding: 6px 15px;
+            border-radius: 40px;
+        }
+
+        .nav-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: none;
+            background: white;
+            color: #5e72e4;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .current-month {
+            font-size: 18px;
+            font-weight: 600;
+            min-width: 160px;
+            text-align: center;
+        }
+
+        .view-controls {
+            display: flex;
+            gap: 8px;
+            background: rgba(255,255,255,0.15);
+            padding: 4px;
+            border-radius: 40px;
+        }
+
+        .view-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            color: white;
+            font-weight: 500;
+            font-size: 13px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .view-btn.active {
+            background: white;
+            color: #5e72e4;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .view-btn i {
+            font-size: 14px;
+        }
+
+        .today-btn {
+            padding: 8px 20px;
+            border: 2px solid white;
+            background: transparent;
+            color: white;
+            font-weight: 500;
+            font-size: 13px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .today-btn:hover {
+            background: white;
+            color: #5e72e4;
+        }
+
+        /* Qidiruv va filtr */
+        .search-filter {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 2;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 15px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: none;
+            border-radius: 40px;
+            font-size: 14px;
+            outline: none;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .filter-box {
+            flex: 1;
+            min-width: 180px;
+            position: relative;
+        }
+
+        .filter-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            z-index: 1;
+            font-size: 15px;
+        }
+
+        .filter-box select {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: none;
+            border-radius: 40px;
+            font-size: 14px;
+            outline: none;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            appearance: none;
+            cursor: pointer;
+        }
+
+        /* Statistika */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(94, 114, 228, 0.2);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #5e72e4 0%, #825ee4 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: white;
+        }
+
+        .stat-info h3 {
+            font-size: 13px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .stat-info .stat-number {
+            font-size: 22px;
+            font-weight: 700;
+            color: #333;
+            line-height: 1.2;
+        }
+
+        .stat-info .stat-label {
+            font-size: 10px;
+            color: #999;
+        }
+
+        /* Kalendar asosiy qismi */
+        .calendar-main {
+            padding: 20px;
+            background: white;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Hafta kunlari */
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
+            min-width: 600px;
+        }
+
+        .weekday {
+            text-align: center;
+            font-weight: 600;
+            color: #5e72e4;
+            font-size: 14px;
+            padding: 12px 5px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        /* Kunlar gridi */
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            min-width: 600px;
+        }
+
+        .day-cell {
+            min-height: 100px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .day-cell:hover {
+            background: white;
+            border-color: #5e72e4;
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(94, 114, 228, 0.2);
+        }
+
+        .day-cell.other-month {
+            background: #f1f3f5;
+            opacity: 0.7;
+        }
+
+        .day-cell.today {
+            border-color: #5e72e4;
+            background: linear-gradient(135deg, rgba(94, 114, 228, 0.1), rgba(130, 94, 228, 0.1));
+        }
+
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .day-number {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: white;
+            color: #333;
+            font-size: 13px;
+        }
+
+        .day-cell.today .day-number {
+            background: #5e72e4;
+            color: white;
+        }
+
+        .add-event-icon {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #5e72e4;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+
+        .day-cell:hover .add-event-icon {
+            opacity: 1;
+        }
+
+        /* Tadbirlar */
+        .events-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .event-item {
+            padding: 4px 6px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 500;
+            color: white;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .event-item:hover {
+            transform: translateX(3px);
+            filter: brightness(1.1);
+        }
+
+        /* Tadbir ranglari */
+        .event-type-1 { background: #4299e1; } /* Dars */
+        .event-type-2 { background: #48bb78; } /* Tadbir */
+        .event-type-3 { background: #f56565; } /* Bayram */
+        .event-type-4 { background: #ecc94b; color: #333; } /* Imtihon */
+        .event-type-5 { background: #9f7aea; } /* Yig'ilish */
+
+        /* Modal oyna */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s;
+            padding: 15px;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 450px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.4s;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #5e72e4, #825ee4);
+            color: white;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 2px solid #e2e8f0;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn-sm {
+            padding: 10px 20px;
+            font-size: 13px;
+        }
+
+        .btn-danger {
+            background: #f56565;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c53030;
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+
+        /* Bildirishnoma */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateX(400px);
+            transition: all 0.3s;
+            z-index: 2000;
+            border-left: 4px solid #48bb78;
+            max-width: 300px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification i {
+            font-size: 20px;
+        }
+
+        .notification-content h4 {
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+
+        .notification-content p {
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* Hafta va kun ko'rinishlari */
+        .week-view, .day-view {
+            min-width: 600px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body { padding: 5px; }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+                padding: 12px;
+            }
+            
+            .stat-card { padding: 10px; }
+            .stat-icon { width: 35px; height: 35px; font-size: 16px; }
+            .stat-info .stat-number { font-size: 16px; }
+            
+            .calendar-header { padding: 15px; }
+            .logo-area h1 { font-size: 18px; }
+            .logo-area p { font-size: 11px; }
+            .date-display { font-size: 12px; padding: 6px 12px; }
+            
+            .navigation { flex-direction: column; }
+            .month-nav { width: 100%; justify-content: center; }
+            .view-controls { width: 100%; justify-content: center; }
+            .today-btn { width: 100%; justify-content: center; }
+            
+            .search-filter { flex-direction: column; }
+            .search-box, .filter-box { width: 100%; }
+            
+            .user-profile { margin: 10px; padding: 10px; }
+            .user-avatar { width: 35px; height: 35px; font-size: 18px; }
+            .user-info h3 { font-size: 14px; }
+            
+            .modal-content { margin: 10px; }
+        }
+
+        @media (max-width: 480px) {
+            .auth-container { margin: 10px; }
+            .auth-header { padding: 20px; }
+            .auth-header h1 { font-size: 20px; }
+            .auth-tabs { padding: 10px 10px 0; }
+            .auth-tab { padding: 8px; font-size: 12px; }
+            
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- LOGIN/REGISTER QISMI -->
+    <div class="auth-container" id="authContainer">
+        <div class="auth-header">
+            <h1>
+                <i class="fas fa-calendar-alt"></i>
+                Maktab Kalendar
+            </h1>
+            <p>Xush kelibsiz! Iltimos, tizimga kiring yoki ro'yxatdan o'ting</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="auth-tabs">
+            <button class="auth-tab active" id="loginTab" onclick="switchAuthTab('login')">
+                <i class="fas fa-sign-in-alt"></i> Kirish
+            </button>
+            <button class="auth-tab" id="registerTab" onclick="switchAuthTab('register')">
+                <i class="fas fa-user-plus"></i> Ro'yxatdan o'tish
+            </button>
+        </div>
+
+        <div class="auth-forms">
+            <!-- Login Form -->
+            <div class="auth-form active" id="loginForm">
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="loginEmail" placeholder="Email manzilingiz" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="loginPassword" placeholder="Parolingiz" required>
+                        <i class="fas fa-eye toggle-password" onclick="togglePassword('loginPassword')"></i>
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" id="rememberMe">
+                        <label for="rememberMe">Eslab qol</label>
+                        <a href="#" onclick="showNotification('Xabar', 'Parolni tiklash uchun administratorga murojaat qiling', 'info')">Parolni unutdingizmi?</a>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i> Kirish
+                    </button>
+
+                    <div class="divider">
+                        <span>yoki</span>
+                    </div>
+
+                    <button type="button" class="btn btn-google" onclick="handleGoogleLogin()">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' width='20' height='20'%3E%3Cpath fill='%23FFC107' d='M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z' /%3E%3Cpath fill='%23FF3D00' d='M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z' /%3E%3Cpath fill='%234CAF50' d='M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z' /%3E%3Cpath fill='%231976D2' d='M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z' /%3E%3C/svg%3E" alt="Google">
+                        Google orqali kirish
+                    </button>
+
+                    <div class="auth-footer">
+                        Hisobingiz yo'qmi? <a onclick="switchAuthTab('register')">Ro'yxatdan o'tish</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Register Form -->
+            <div class="auth-form" id="registerForm">
+                <form onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="registerName" placeholder="To'liq ismingiz" required>
+                    </div>
+
+                    <div class="form-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="registerEmail" placeholder="Email manzilingiz" required>
+                    </div>
+
+                    <div class="form-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="registerPassword" placeholder="Parol" required>
+                        <i class="fas fa-eye toggle-password" onclick="togglePassword('registerPassword')"></i>
+                    </div>
+
+                    <div class="form-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="confirmPassword" placeholder="Parolni tasdiqlang" required>
+                        <i class="fas fa-eye toggle-password" onclick="togglePassword('confirmPassword')"></i>
+                    </div>
+
+                    <div class="form-group">
+                        <i class="fas fa-graduation-cap"></i>
+                        <select id="registerRole" required>
+                            <option value="">Kim sifatida ro'yxatdan o'tasiz?</option>
+                            <option value="student">🎓 O'quvchi</option>
+                            <option value="teacher">👨‍🏫 O'qituvchi</option>
+                            <option value="parent">👪 Ota-ona</option>
+                            <option value="admin">⚙ Administrator</option>
+                        </select>
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">Men <a href="#" onclick="showTerms()">foydalanish shartlari</a> bilan tanishdim</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i> Ro'yxatdan o'tish
+                    </button>
+
+                    <div class="divider">
+                        <span>yoki</span>
+                    </div>
+
+                    <button type="button" class="btn btn-google" onclick="handleGoogleLogin()">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' width='20' height='20'%3E%3Cpath fill='%23FFC107' d='M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z' /%3E%3Cpath fill='%23FF3D00' d='M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z' /%3E%3Cpath fill='%234CAF50' d='M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z' /%3E%3Cpath fill='%231976D2' d='M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z' /%3E%3C/svg%3E" alt="Google">
+                        Google orqali ro'yxatdan o'tish
+                    </button>
+
+                    <div class="auth-footer">
+                        Hisobingiz bormi? <a onclick="switchAuthTab('login')">Kirish</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ASOSIY KALENDAR KONTEYNERI -->
+    <div class="calendar-container" id="calendarContainer">
+        <!-- Foydalanuvchi profili -->
+        <div class="user-profile" id="userProfile">
+            <div class="user-avatar" id="userAvatar">👤</div>
+            <div class="user-info">
+                <h3 id="userName">Foydalanuvchi</h3>
+                <p>
+                    <i class="fas fa-envelope"></i>
+                    <span id="userEmail">email@example.com</span>
+                    <span id="userRole">O'quvchi</span>
+                </p>
+            </div>
+            <button class="logout-btn" onclick="handleLogout()" title="Chiqish">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+
+        <!-- Header qismi -->
+        <div class="calendar-header">
+            <div class="header-top">
+                <div class="logo-area">
+                    <h1>
+                        <i class="fas fa-calendar-alt"></i>
+                        Maktab Tadbirlar Kalendar
+                    </h1>
+                    <p><i class="fas fa-school"></i> 13-umumiy o'rta ta'lim maktabi | Xorazm, Xiva</p>
+                </div>
+                <div class="date-display">
+                    <i class="fas fa-clock"></i>
+                    <span id="currentDateTime"></span>
+                </div>
+            </div>
+
+            <!-- Navigatsiya -->
+            <div class="navigation">
+                <div class="month-nav">
+                    <button class="nav-btn" id="prevMonthBtn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span class="current-month" id="currentMonthDisplay">Fevral 2026</span>
+                    <button class="nav-btn" id="nextMonthBtn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                
+                <div class="view-controls">
+                    <button class="view-btn active" id="monthViewBtn">
+                        <i class="fas fa-calendar-alt"></i> Oy
+                    </button>
+                    <button class="view-btn" id="weekViewBtn">
+                        <i class="fas fa-calendar-week"></i> Hafta
+                    </button>
+                    <button class="view-btn" id="dayViewBtn">
+                        <i class="fas fa-calendar-day"></i> Kun
+                    </button>
+                </div>
+
+                <button class="today-btn" id="todayBtn">
+                    <i class="fas fa-calendar-check"></i> Bugun
+                </button>
+            </div>
+
+            <!-- Qidiruv va filtr -->
+            <div class="search-filter">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Tadbirlarni qidirish...">
+                </div>
+                <div class="filter-box">
+                    <i class="fas fa-filter"></i>
+                    <select id="filterSelect">
+                        <option value="all">Barcha tadbirlar</option>
+                        <option value="1">📚 Darslar</option>
+                        <option value="2">🎉 Tadbirlar</option>
+                        <option value="3">🎊 Bayramlar</option>
+                        <option value="4">📝 Imtihonlar</option>
+                        <option value="5">👥 Yig'ilishlar</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistika -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>Jami tadbirlar</h3>
+                    <div class="stat-number" id="totalEvents">0</div>
+                    <div class="stat-label">barcha vaqt</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-hourglass-half"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>Kelgusi tadbirlar</h3>
+                    <div class="stat-number" id="upcomingEvents">0</div>
+                    <div class="stat-label">30 kun ichida</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>Bugungi tadbirlar</h3>
+                    <div class="stat-number" id="todayEvents">0</div>
+                    <div class="stat-label" id="todayDate"></div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-tags"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>Eng ko'p tadbir</h3>
+                    <div class="stat-number" id="mostEventType">-</div>
+                    <div class="stat-label">turi bo'yicha</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kalendar asosiy qismi -->
+        <div class="calendar-main">
+            <!-- Hafta kunlari (oy ko'rinishi uchun) -->
+            <div class="weekdays" id="weekdays">
+                <div class="weekday">Dushanba</div>
+                <div class="weekday">Seshanba</div>
+                <div class="weekday">Chorshanba</div>
+                <div class="weekday">Payshanba</div>
+                <div class="weekday">Juma</div>
+                <div class="weekday">Shanba</div>
+                <div class="weekday">Yakshanba</div>
+            </div>
+
+            <!-- Kunlar gridi (oy ko'rinishi) -->
+            <div class="days-grid" id="daysGrid"></div>
+
+            <!-- Hafta ko'rinishi (yashirin) -->
+            <div class="week-view" id="weekView" style="display: none;"></div>
+
+            <!-- Kun ko'rinishi (yashirin) -->
+            <div class="day-view" id="dayView" style="display: none;"></div>
+        </div>
+    </div>
+
+    <!-- Modal oyna (Tadbir qo'shish/tahrirlash) -->
+    <div class="modal" id="eventModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>
+                    <i class="fas fa-calendar-plus" id="modalIcon"></i>
+                    <span id="modalTitle">Yangi Tadbir Qo'shish</span>
+                </h2>
+            </div>
+            <div class="modal-body">
+                <form id="eventForm">
+                    <input type="hidden" id="eventId">
+                    <input type="hidden" id="eventDate">
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-heading"></i> Tadbir nomi</label>
+                        <input type="text" id="eventName" placeholder="Masalan: Matematika darsi" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-clock"></i> Vaqti</label>
+                        <input type="time" id="eventTime" value="09:00" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-tag"></i> Tadbir turi</label>
+                        <select id="eventType" required>
+                            <option value="1">📚 Dars</option>
+                            <option value="2">🎉 Tadbir</option>
+                            <option value="3">🎊 Bayram</option>
+                            <option value="4">📝 Imtihon</option>
+                            <option value="5">👥 Yig'ilish</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-align-left"></i> Tavsifi</label>
+                        <textarea id="eventDescription" placeholder="Tadbir haqida batafsil ma'lumot..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm" id="deleteEventBtn" style="display: none;">
+                    <i class="fas fa-trash"></i> O'chirish
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="closeModal()">
+                    <i class="fas fa-times"></i> Bekor qilish
+                </button>
+                <button type="button" class="btn btn-primary btn-sm" id="saveEventBtn">
+                    <i class="fas fa-save"></i> Saqlash
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bildirishnoma -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <div class="notification-content">
+            <h4 id="notificationTitle">Muvaffaqiyatli!</h4>
+            <p id="notificationMessage">Tadbir qo'shildi</p>
+        </div>
+    </div>
+
+    <script>
+        // ==================== AUTHENTICATION SYSTEM ====================
+        
+        let users = [];
+        let currentUser = null;
+        let events = [];
+        let currentDate = new Date();
+        let currentView = 'month';
+        let selectedDate = null;
+        let selectedEventId = null;
+
+        const eventTypes = {
+            1: { name: 'Dars', icon: '📚', color: '#4299e1' },
+            2: { name: 'Tadbir', icon: '🎉', color: '#48bb78' },
+            3: { name: 'Bayram', icon: '🎊', color: '#f56565' },
+            4: { name: 'Imtihon', icon: '📝', color: '#ecc94b' },
+            5: { name: 'Yig\'ilish', icon: '👥', color: '#9f7aea' }
+        };
+
+        const sampleEvents = [
+            { id: '1', name: 'Matematika darsi', date: '2026-02-22', time: '09:00', type: '1', description: 'Algebra va geometriya' },
+            { id: '2', name: 'Fizika darsi', date: '2026-02-22', time: '10:00', type: '1', description: 'Mexanika' },
+            { id: '3', name: 'Mustaqillik kuni', date: '2026-02-23', time: '10:00', type: '3', description: 'Bayram tadbiri' },
+            { id: '4', name: 'Ota-onalar yig\'ilishi', date: '2026-02-24', time: '15:00', type: '5', description: '1-chorak yakunlari' },
+            { id: '5', name: 'Choraklik imtihon', date: '2026-02-25', time: '09:00', type: '4', description: 'Matematika imtihoni' },
+            { id: '6', name: 'Navro\'z bayrami', date: '2026-03-21', time: '10:00', type: '3', description: 'Bayram tadbiri' }
+        ];
+
+        // Load users
+        function loadUsers() {
+            const savedUsers = localStorage.getItem('calendarUsers');
+            if (savedUsers) {
+                users = JSON.parse(savedUsers);
+            } else {
+                users = [{ id: '1', name: 'Admin User', email: 'admin@school.uz', password: 'admin123', role: 'admin', avatar: '👨‍💼' }];
+                saveUsers();
+            }
+        }
+
+        function saveUsers() {
+            localStorage.setItem('calendarUsers', JSON.stringify(users));
+        }
+
+        // Load events
+        function loadEvents() {
+            const savedEvents = localStorage.getItem('schoolEvents');
+            if (savedEvents) {
+                events = JSON.parse(savedEvents);
+            } else {
+                events = sampleEvents;
+                saveEvents();
+            }
+            updateStats();
+            renderCalendar();
+        }
+
+        function saveEvents() {
+            localStorage.setItem('schoolEvents', JSON.stringify(events));
+        }
+
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            document.getElementById('currentDateTime').textContent = now.toLocaleDateString('uz-UZ', options);
+        }
+
+        function updateStats() {
+            const now = new Date();
+            const today = formatDate(now);
+            const thirtyDaysLater = new Date(now.setDate(now.getDate() + 30));
+            
+            document.getElementById('totalEvents').textContent = events.length;
+            
+            const todayEvents = events.filter(e => e.date === today);
+            document.getElementById('todayEvents').textContent = todayEvents.length;
+            document.getElementById('todayDate').textContent = today;
+            
+            const upcoming = events.filter(e => {
+                const eventDate = new Date(e.date);
+                return eventDate >= new Date() && eventDate <= thirtyDaysLater;
+            });
+            document.getElementById('upcomingEvents').textContent = upcoming.length;
+            
+            const typeCount = {};
+            events.forEach(e => { typeCount[e.type] = (typeCount[e.type] || 0) + 1; });
+            
+            let maxType = null, maxCount = 0;
+            for (let type in typeCount) {
+                if (typeCount[type] > maxCount) { maxCount = typeCount[type]; maxType = type; }
+            }
+            
+            if (maxType) {
+                document.getElementById('mostEventType').textContent = `${eventTypes[maxType].icon} ${eventTypes[maxType].name}`;
+            }
+        }
+
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            const monthNames = ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun', 'Iyul', 'Avgust', 'Sentabr', 'Oktabr', 'Noyabr', 'Dekabr'];
+            document.getElementById('currentMonthDisplay').textContent = `${monthNames[month]} ${year}`;
+
+            if (currentView === 'month') renderMonthView(year, month);
+            else if (currentView === 'week') renderWeekView();
+            else renderDayView();
+        }
+
+        function renderMonthView(year, month) {
+            const daysGrid = document.getElementById('daysGrid');
+            daysGrid.style.display = 'grid';
+            document.getElementById('weekdays').style.display = 'grid';
+            document.getElementById('weekView').style.display = 'none';
+            document.getElementById('dayView').style.display = 'none';
+            
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            let startDay = firstDay.getDay() || 7;
+            startDay = startDay === 0 ? 7 : startDay;
+            
+            let html = '';
+            
+            const prevMonthLastDay = new Date(year, month, 0).getDate();
+            for (let i = startDay - 1; i > 0; i--) {
+                const day = prevMonthLastDay - i + 1;
+                const date = new Date(year, month - 1, day);
+                html += renderDayCell(date, 'other-month');
+            }
+            
+            for (let day = 1; day <= lastDay.getDate(); day++) {
+                const date = new Date(year, month, day);
+                html += renderDayCell(date, 'current-month');
+            }
+            
+            const totalCells = 42;
+            const remainingCells = totalCells - (startDay - 1) - lastDay.getDate();
+            for (let i = 1; i <= remainingCells; i++) {
+                const date = new Date(year, month + 1, i);
+                html += renderDayCell(date, 'other-month');
+            }
+            
+            daysGrid.innerHTML = html;
+            applyFilters();
+        }
+
+        function renderDayCell(date, className) {
+            const dateStr = formatDate(date);
+            const today = formatDate(new Date());
+            const isToday = dateStr === today;
+            
+            let dayEvents = events.filter(e => e.date === dateStr);
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filterType = document.getElementById('filterSelect').value;
+            
+            if (searchTerm) dayEvents = dayEvents.filter(e => e.name.toLowerCase().includes(searchTerm));
+            if (filterType !== 'all') dayEvents = dayEvents.filter(e => e.type === filterType);
+            
+            let eventsHtml = '';
+            dayEvents.slice(0, 3).forEach(event => {
+                eventsHtml += `<div class="event-item event-type-${event.type}" onclick="editEvent('${event.id}')">${eventTypes[event.type].icon} ${event.time} ${event.name}</div>`;
+            });
+            
+            if (dayEvents.length > 3) {
+                eventsHtml += `<div style="font-size: 9px; color: #666; text-align: center;">+${dayEvents.length - 3} ta</div>`;
+            }
+            
+            return `<div class="day-cell ${className} ${isToday ? 'today' : ''}" onclick="openAddEventModal('${dateStr}')">
+                <div class="day-header"><span class="day-number">${date.getDate()}</span>
+                <span class="add-event-icon" onclick="event.stopPropagation(); openAddEventModal('${dateStr}')"><i class="fas fa-plus"></i></span></div>
+                <div class="events-list">${eventsHtml}</div></div>`;
+        }
+
+        function renderWeekView() {
+            document.getElementById('daysGrid').style.display = 'none';
+            document.getElementById('weekdays').style.display = 'none';
+            document.getElementById('weekView').style.display = 'block';
+            document.getElementById('dayView').style.display = 'none';
+            document.getElementById('weekView').innerHTML = '<p style="padding: 20px; text-align: center;">Hafta ko\'rinishi (Ishlab chiqilmoqda)</p>';
+        }
+
+        function renderDayView() {
+            document.getElementById('daysGrid').style.display = 'none';
+            document.getElementById('weekdays').style.display = 'none';
+            document.getElementById('weekView').style.display = 'none';
+            document.getElementById('dayView').style.display = 'block';
+            document.getElementById('dayView').innerHTML = '<p style="padding: 20px; text-align: center;">Kun ko\'rinishi (Ishlab chiqilmoqda)</p>';
+        }
+
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filterType = document.getElementById('filterSelect').value;
+            
+            document.querySelectorAll('.day-cell').forEach(cell => {
+                const events = cell.querySelectorAll('.event-item');
+                let visibleCount = 0;
+                
+                events.forEach(event => {
+                    const eventText = event.textContent.toLowerCase();
+                    const eventType = event.className.match(/event-type-(\d)/);
+                    let matchesSearch = !searchTerm || eventText.includes(searchTerm);
+                    let matchesFilter = filterType === 'all' || (eventType && eventType[1] === filterType);
+                    
+                    if (matchesSearch && matchesFilter) { event.style.display = 'block'; visibleCount++; } 
+                    else { event.style.display = 'none'; }
+                });
+                
+                const moreDiv = cell.querySelector('div[style*="font-size: 9px"]');
+                if (moreDiv) {
+                    const totalEvents = cell.querySelectorAll('.event-item').length;
+                    const hiddenCount = totalEvents - visibleCount;
+                    moreDiv.style.display = hiddenCount > 0 ? 'block' : 'none';
+                    if (hiddenCount > 0) moreDiv.textContent = `+${hiddenCount} ta`;
+                }
+            });
+        }
+
+        // Auth functions
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const remember = document.getElementById('rememberMe').checked;
+
+            const user = users.find(u => u.email === email && u.password === password);
+            if (user) {
+                currentUser = user;
+                if (remember) localStorage.setItem('rememberedUser', JSON.stringify({ email: user.email, name: user.name }));
+                showNotification('Xush kelibsiz!', `${user.name}, tizimga kirdingiz`, 'success');
+                setTimeout(() => showCalendar(), 1000);
+            } else {
+                showNotification('Xatolik', 'Email yoki parol noto\'g\'ri', 'error');
+            }
+        }
+
+        function handleRegister(event) {
+            event.preventDefault();
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const role = document.getElementById('registerRole').value;
+
+            if (password !== confirmPassword) {
+                showNotification('Xatolik', 'Parollar mos kelmadi', 'error');
+                return;
+            }
+            if (password.length < 6) {
+                showNotification('Xatolik', 'Parol kamida 6 ta belgi', 'error');
+                return;
+            }
+            if (users.some(u => u.email === email)) {
+                showNotification('Xatolik', 'Bu email allaqachon ro\'yxatdan o\'tgan', 'error');
+                return;
+            }
+
+            const newUser = {
+                id: Date.now().toString(),
+                name: name,
+                email: email,
+                password: password,
+                role: role,
+                avatar: role === 'student' ? '🎓' : role === 'teacher' ? '👨‍🏫' : role === 'parent' ? '👪' : '👨‍💼',
+                createdAt: new Date().toISOString()
+            };
+
+            users.push(newUser);
+            saveUsers();
+            currentUser = newUser;
+            showNotification('Tabriklaymiz!', 'Ro\'yxatdan o\'tdingiz', 'success');
+            setTimeout(() => showCalendar(), 1000);
+        }
+
+        function handleGoogleLogin() {
+            const demoUser = { id: 'google_' + Date.now(), name: 'Google User', email: 'user@gmail.com', role: 'student', avatar: '👤' };
+            currentUser = demoUser;
+            showNotification('Muvaffaqiyatli!', 'Google orqali kirdingiz', 'success');
+            setTimeout(() => showCalendar(), 1000);
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            localStorage.removeItem('rememberedUser');
+            document.getElementById('authContainer').style.display = 'block';
+            document.getElementById('calendarContainer').style.display = 'none';
+            showNotification('Xayr!', 'Tizimdan chiqdingiz', 'info');
+        }
+
+        function showCalendar() {
+            document.getElementById('authContainer').style.display = 'none';
+            document.getElementById('calendarContainer').style.display = 'block';
+            
+            if (currentUser) {
+                document.getElementById('userName').textContent = currentUser.name;
+                document.getElementById('userEmail').textContent = currentUser.email;
+                let roleText = '';
+                switch(currentUser.role) {
+                    case 'student': roleText = '🎓 O\'quvchi'; break;
+                    case 'teacher': roleText = '👨‍🏫 O\'qituvchi'; break;
+                    case 'parent': roleText = '👪 Ota-ona'; break;
+                    case 'admin': roleText = '⚙ Administrator'; break;
+                    default: roleText = '👤 Foydalanuvchi';
+                }
+                document.getElementById('userRole').textContent = roleText;
+                document.getElementById('userAvatar').textContent = currentUser.avatar || '👤';
+            }
+            
+            loadEvents();
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+        }
+
+        function checkRememberedUser() {
+            const remembered = localStorage.getItem('rememberedUser');
+            if (remembered) {
+                const userData = JSON.parse(remembered);
+                const user = users.find(u => u.email === userData.email);
+                if (user) { currentUser = user; showCalendar(); }
+            }
+        }
+
+        function switchAuthTab(tab) {
+            if (tab === 'login') {
+                document.getElementById('loginTab').classList.add('active');
+                document.getElementById('registerTab').classList.remove('active');
+                document.getElementById('loginForm').classList.add('active');
+                document.getElementById('registerForm').classList.remove('active');
+            } else {
+                document.getElementById('registerTab').classList.add('active');
+                document.getElementById('loginTab').classList.remove('active');
+                document.getElementById('registerForm').classList.add('active');
+                document.getElementById('loginForm').classList.remove('active');
+            }
+        }
+
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            input.type = input.type === 'password' ? 'text' : 'password';
+        }
+
+        function showTerms() {
+            showNotification('Foydalanish shartlari', '1. Barcha ma\'lumotlar shaxsiy\n2. Tadbirlarni faqat o\'zingiz ko\'rasiz', 'info');
+        }
+
+        function openAddEventModal(dateStr) {
+            selectedDate = dateStr;
+            selectedEventId = null;
+            document.getElementById('modalTitle').textContent = 'Yangi Tadbir Qo\'shish';
+            document.getElementById('modalIcon').className = 'fas fa-calendar-plus';
+            document.getElementById('eventId').value = '';
+            document.getElementById('eventDate').value = dateStr;
+            document.getElementById('eventName').value = '';
+            document.getElementById('eventTime').value = '09:00';
+            document.getElementById('eventType').value = '1';
+            document.getElementById('eventDescription').value = '';
+            document.getElementById('deleteEventBtn').style.display = 'none';
+            document.getElementById('eventModal').style.display = 'flex';
+        }
+
+        function editEvent(eventId) {
+            const event = events.find(e => e.id === eventId);
+            if (!event) return;
+            selectedDate = event.date;
+            selectedEventId = eventId;
+            document.getElementById('modalTitle').textContent = 'Tadbirni Tahrirlash';
+            document.getElementById('modalIcon').className = 'fas fa-calendar-edit';
+            document.getElementById('eventId').value = event.id;
+            document.getElementById('eventDate').value = event.date;
+            document.getElementById('eventName').value = event.name;
+            document.getElementById('eventTime').value = event.time;
+            document.getElementById('eventType').value = event.type;
+            document.getElementById('eventDescription').value = event.description || '';
+            document.getElementById('deleteEventBtn').style.display = 'inline-flex';
+            document.getElementById('eventModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('eventModal').style.display = 'none';
+        }
+
+        function saveEvent() {
+            const eventId = document.getElementById('eventId').value;
+            const eventDate = document.getElementById('eventDate').value;
+            const eventName = document.getElementById('eventName').value;
+            const eventTime = document.getElementById('eventTime').value;
+            const eventType = document.getElementById('eventType').value;
+            const eventDescription = document.getElementById('eventDescription').value;
+            
+            if (!eventName || !eventDate || !eventTime) {
+                showNotification('Xatolik', 'Iltimos, barcha maydonlarni to\'ldiring', 'error');
+                return;
+            }
+            
+            if (eventId) {
+                const index = events.findIndex(e => e.id === eventId);
+                if (index !== -1) {
+                    events[index] = { ...events[index], name: eventName, time: eventTime, type: eventType, description: eventDescription };
+                    showNotification('Muvaffaqiyatli!', 'Tadbir tahrirlandi', 'success');
+                }
+            } else {
+                const newEvent = { id: Date.now().toString(), date: eventDate, name: eventName, time: eventTime, type: eventType, description: eventDescription };
+                events.push(newEvent);
+                showNotification('Muvaffaqiyatli!', 'Yangi tadbir qo\'shildi', 'success');
+            }
+            
+            saveEvents();
+            updateStats();
+            renderCalendar();
+            closeModal();
+        }
+
+        function deleteEvent() {
+            if (!selectedEventId) return;
+            if (confirm('Bu tadbirni o\'chirmoqchimisiz?')) {
+                events = events.filter(e => e.id !== selectedEventId);
+                saveEvents();
+                updateStats();
+                renderCalendar();
+                closeModal();
+                showNotification('Muvaffaqiyatli!', 'Tadbir o\'chirildi', 'success');
+            }
+        }
+
+        function showNotification(title, message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const icon = notification.querySelector('i');
+            const titleEl = document.getElementById('notificationTitle');
+            const messageEl = document.getElementById('notificationMessage');
+            
+            titleEl.textContent = title;
+            messageEl.textContent = message;
+            
+            if (type === 'success') { icon.style.color = '#48bb78'; icon.className = 'fas fa-check-circle'; }
+            else if (type === 'error') { icon.style.color = '#f56565'; icon.className = 'fas fa-exclamation-circle'; }
+            else { icon.style.color = '#4299e1'; icon.className = 'fas fa-info-circle'; }
+            
+            notification.classList.add('show');
+            setTimeout(() => notification.classList.remove('show'), 3000);
+        }
+
+        function changeMonth(delta) {
+            currentDate.setMonth(currentDate.getMonth() + delta);
+            renderCalendar();
+        }
+
+        function goToToday() {
+            currentDate = new Date();
+            renderCalendar();
+        }
+
+        function changeView(view) {
+            currentView = view;
+            document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
+            if (view === 'month') document.getElementById('monthViewBtn').classList.add('active');
+            else if (view === 'week') document.getElementById('weekViewBtn').classList.add('active');
+            else document.getElementById('dayViewBtn').classList.add('active');
+            renderCalendar();
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            loadUsers();
+            checkRememberedUser();
+            
+            document.getElementById('prevMonthBtn').addEventListener('click', () => changeMonth(-1));
+            document.getElementById('nextMonthBtn').addEventListener('click', () => changeMonth(1));
+            document.getElementById('todayBtn').addEventListener('click', goToToday);
+            
+            document.getElementById('monthViewBtn').addEventListener('click', () => changeView('month'));
+            document.getElementById('weekViewBtn').addEventListener('click', () => changeView('week'));
+            document.getElementById('dayViewBtn').addEventListener('click', () => changeView('day'));
+            
+            document.getElementById('searchInput').addEventListener('input', applyFilters);
+            document.getElementById('filterSelect').addEventListener('change', applyFilters);
+            
+            document.getElementById('saveEventBtn').addEventListener('click', saveEvent);
+            document.getElementById('deleteEventBtn').addEventListener('click', deleteEvent);
+            
+            window.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal')) closeModal();
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1902 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maktab Yangiliklari Portali</title>
+    <style>
+        /* Umumiy stillar */
+        :root {
+            --primary: #2563EB;
+            --primary-dark: #1D4ED8;
+            --primary-light: #3B82F6;
+            --secondary: #06B6D4;
+            --secondary-dark: #0891B2;
+            --dark: #0F172A;
+            --light: #F8FAFC;
+            --gray: #64748B;
+            --gray-light: #E2E8F0;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            
+            --gradient-primary: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
+            --gradient-secondary: linear-gradient(135deg, #06B6D4 0%, #0891B2 100%);
+            --gradient-accent: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+            
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.15);
+            --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Loading Screen */
+        #loadingScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loading-logo {
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+        
+        #loadingText {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .loading-progress {
+            width: 300px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+        
+        #loadingProgress {
+            height: 100%;
+            background: white;
+            width: 0%;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: white;
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 0;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1;
+        }
+        
+        .logo-title {
+            font-size: 0.85rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--radius-md);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+        }
+        
+        .nav-link i {
+            font-size: 1.1rem;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+            padding: 0.5rem;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: var(--radius-sm);
+        }
+        
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        /* Header Hero */
+        .hero {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(6, 182, 212, 0.05) 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .hero h1 span {
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .hero h1 span::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--gradient-secondary);
+            opacity: 0.3;
+            border-radius: 4px;
+            z-index: -1;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+        }
+        
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem auto;
+            max-width: 1000px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+        
+        .stat-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-text {
+            color: var(--gray);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 1rem 2.2rem;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(37, 99, 235, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            font-weight: 600;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        .btn-accent {
+            background: var(--gradient-accent);
+            color: white;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+        }
+        
+        .btn-accent:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.4);
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        /* News Section */
+        .news-section {
+            padding: 5rem 0;
+            background: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.8rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+        
+        .section-title span {
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title span::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--gradient-secondary);
+            opacity: 0.3;
+            border-radius: 4px;
+            z-index: -1;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: var(--gray);
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+        
+        .news-filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 0.8rem 2rem;
+            background: white;
+            border: 2px solid var(--gray-light);
+            border-radius: 50px;
+            color: var(--gray);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--gradient-primary);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .news-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-light);
+        }
+        
+        .news-card:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-light);
+        }
+        
+        .news-image {
+            height: 200px;
+            width: 100%;
+            background: var(--gradient-primary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .news-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .news-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--gradient-primary);
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+        
+        .news-content {
+            padding: 2rem;
+        }
+        
+        .news-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .news-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .news-title {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+        
+        .news-excerpt {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .news-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        
+        .news-tag {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .news-tag:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Login Modal */
+        .login-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .login-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .login-container {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-30px);
+            transition: transform 0.4s ease;
+            position: relative;
+        }
+        
+        .login-modal.active .login-container {
+            transform: translateY(0);
+        }
+        
+        .btn-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gray);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .btn-close:hover {
+            color: var(--dark);
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        
+        .login-header h2 {
+            color: var(--dark);
+            margin-bottom: 0.8rem;
+            font-size: 2.2rem;
+        }
+        
+        .login-header p {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.8rem;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1.2rem;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        .demo-login {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--gray);
+        }
+        
+        .demo-login a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .demo-login a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Dashboard */
+        .dashboard {
+            padding: 4rem 0;
+            display: none;
+        }
+        
+        .dashboard.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+        
+        .dashboard-title {
+            font-size: 2.5rem;
+            color: var(--dark);
+        }
+        
+        .dashboard-subtitle {
+            color: var(--gray);
+            margin-top: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .logout-btn {
+            background: transparent;
+            color: var(--danger);
+            border: 2px solid var(--danger);
+            padding: 0.9rem 2rem;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(239, 68, 68, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.03) 0%, rgba(6, 182, 212, 0.03) 100%);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--gray-light);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-light);
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient-primary);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.8rem;
+            font-size: 2.2rem;
+            color: var(--primary);
+        }
+        
+        .feature-card h3 {
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-size: 1.6rem;
+        }
+        
+        .feature-card p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .footer-logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .footer-about p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links h3,
+        .footer-social h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .footer-links a {
+            display: block;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            margin-bottom: 0.8rem;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .social-icon:hover {
+            background: var(--gradient-primary);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+        
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            padding: 1.2rem 1.8rem;
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1001;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            border-left: 4px solid var(--success);
+            max-width: 400px;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification i {
+            font-size: 1.3rem;
+            color: var(--success);
+        }
+        
+        .notification.error {
+            border-left-color: var(--danger);
+        }
+        
+        .notification.error i {
+            color: var(--danger);
+        }
+        
+        .notification.warning {
+            border-left-color: var(--warning);
+        }
+        
+        .notification.warning i {
+            color: var(--warning);
+        }
+        
+        .notification.info {
+            border-left-color: var(--info);
+        }
+        
+        .notification.info i {
+            color: var(--info);
+        }
+        
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .section-title {
+                font-size: 2.3rem;
+            }
+            
+            .news-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 0;
+                flex-direction: column;
+                background: white;
+                width: 100%;
+                height: 100vh;
+                text-align: center;
+                transition: all 0.3s ease;
+                padding: 100px 0 40px;
+                gap: 0;
+                z-index: 999;
+                box-shadow: var(--shadow-xl);
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-menu li {
+                margin: 0.8rem 0;
+                width: 100%;
+            }
+            
+            .nav-link {
+                justify-content: center;
+                font-size: 1.1rem;
+                padding: 1rem 2rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.3rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .features-grid,
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .news-filters {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .filter-btn {
+                width: 100%;
+                max-width: 250px;
+            }
+            
+            .login-container {
+                padding: 2rem;
+            }
+            
+            .notification {
+                left: 20px;
+                right: 20px;
+                max-width: none;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen">
+        <div class="loading-logo">
+            <i class="fas fa-school"></i>
+        </div>
+        <div class="loading-text" id="loadingText">Maktab Yangiliklari Portali ochilmoqda...</div>
+        <div class="loading-progress">
+            <div class="loading-progress-bar" id="loadingProgress"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-newspaper"></i>
+                </div>
+                <div class="logo-text">
+                    <div class="logo-name">Maktab Portali</div>
+                    <div class="logo-title">Yangiliklar Markazi</div>
+                </div>
+            </a>
+            
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link active">
+                    <i class="fas fa-home"></i> Bosh Sahifa
+                </a></li>
+                <li><a href="#news" class="nav-link">
+                    <i class="fas fa-newspaper"></i> Yangiliklar
+                </a></li>
+                <li><a href="#features" class="nav-link">
+                    <i class="fas fa-star"></i> Xususiyatlar
+                </a></li>
+                <li><a href="#" class="nav-link" id="navLoginBtn">
+                    <i class="fas fa-sign-in-alt"></i> Kirish
+                </a></li>
+                <li class="user-menu" id="userMenu" style="display: none;">
+                    <div class="user-avatar" id="userAvatar">👤</div>
+                    <span id="userName">Foydalanuvchi</span>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Header Hero -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1><span>Maktab Yangiliklari Portali</span>ga Xush Kelibsiz!</h1>
+            <p>Maktab hayotining barcha yangiliklari, e'lonlari, tadbirlari va muhim voqealarini bitta platformada kuzating. O'qituvchilar, o'quvchilar va ota-onalar uchun maxsus tizim.</p>
+            
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-newspaper"></i>
+                    </div>
+                    <div class="stat-number">150+</div>
+                    <div class="stat-text">Faol Yangiliklar</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-number">500+</div>
+                    <div class="stat-text">Foydalanuvchilar</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="stat-number">30+</div>
+                    <div class="stat-text">Yaqin Tadbirlar</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-number">98%</div>
+                    <div class="stat-text">Foydalanuvchi Mamnuniyati</div>
+                </div>
+            </div>
+            
+            <div class="hero-buttons">
+                <a href="#news" class="btn btn-primary">
+                    <i class="fas fa-newspaper"></i> Yangiliklarni Ko'rish
+                </a>
+                <a href="#" class="btn btn-secondary" id="headerLoginBtn">
+                    <i class="fas fa-sign-in-alt"></i> Tizimga Kirish
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Section -->
+    <section class="news-section" id="news">
+        <div class="container">
+            <h2 class="section-title">So'nggi <span>Yangiliklar</span></h2>
+            <p class="section-subtitle">Maktab hayotidagi eng so'nggi va muhim yangiliklarni kuzating</p>
+            
+            <div class="news-filters">
+                <button class="filter-btn active" data-filter="all">Hammasi</button>
+                <button class="filter-btn" data-filter="events">Tadbirlar</button>
+                <button class="filter-btn" data-filter="announcements">E'lonlar</button>
+                <button class="filter-btn" data-filter="achievements">Yutuqlar</button>
+                <button class="filter-btn" data-filter="sports">Sport</button>
+            </div>
+            
+            <div class="news-grid" id="newsGrid">
+                <!-- News cards will be loaded here dynamically -->
+            </div>
+            
+            <div style="text-align: center;">
+                <a href="#" class="btn btn-accent" id="loadMoreBtn">
+                    <i class="fas fa-plus"></i> Ko'proq Yangiliklar
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Nega <span>Bizni Tanlashadi?</span></h2>
+            <p class="section-subtitle">Maktab Yangiliklari Portalining asosiy afzalliklari va xususiyatlari</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Tez Yangilanishlar</h3>
+                    <p>Voqea sodir bo'lishi bilan darhol yangiliklar joylashtiriladi. Hech qanday kechikishlarsiz!</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Push-xabarnomalar</h3>
+                    <p>Muhim yangiliklardan darhol habardor bo'ling. SMS va push-xabarnomalar orqali bildirishnoma oling.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Hamjamiyat</h3>
+                    <p>O'qituvchilar, o'quvchilar va ota-onalar uchun alohida bo'limlar. Bir-biringiz bilan mulot qiling.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-calendar"></i>
+                    </div>
+                    <h3>Tadbirlar Kalendari</h3>
+                    <p>Barcha maktab tadbirlari bir joyda. Sanalarni belgilang va eslatmalar oling.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Statistika</h3>
+                    <p>Yangiliklarning o'qilish darajasi va foydalanuvchilarning faolligi haqida batafsil ma'lumotlar.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobil Ilova</h3>
+                    <p>Istalgan joyda, istalgan vaqtda yangiliklarni kuzating. iOS va Android ilovalari mavjud.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-container">
+            <button class="btn-close" id="closeLoginModal">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="login-header">
+                <h2>Maktab Portali</h2>
+                <p>Hisobingizga kiring yoki ro'yxatdan o'ting</p>
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="userType">Foydalanuvchi turi:</label>
+                    <select id="userType" required>
+                        <option value="">Tanlang</option>
+                        <option value="student">O'quvchi</option>
+                        <option value="teacher">O'qituvchi</option>
+                        <option value="parent">Ota-Ona</option>
+                        <option value="admin">Administrator</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="username">Foydalanuvchi nomi:</label>
+                    <input type="text" id="username" placeholder="Foydalanuvchi nomini kiriting" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Parol:</label>
+                    <input type="password" id="password" placeholder="Parolni kiriting" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i> Kirish
+                </button>
+            </form>
+            
+            <div class="demo-login">
+                <p>Demo hisob: <a href="#" id="demoLogin">Demo kirish (O'quvchi)</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <div class="footer-logo-icon">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                        <div class="footer-logo-text">Maktab Portali</div>
+                    </div>
+                    <p>Maktab hayotining barcha yangiliklari, e'lonlari va tadbirlarini bitta platformada boshqarish tizimi. O'qituvchilar, o'quvchilar va ota-onalar uchun qulay interfeys.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Tez O'tish</h3>
+                    <a href="#home">Bosh Sahifa</a>
+                    <a href="#news">Yangiliklar</a>
+                    <a href="#features">Xususiyatlar</a>
+                    <a href="#" id="footerLoginBtn">Kirish</a>
+                </div>
+                
+                <div class="footer-social">
+                    <h3>Ijtimoiy Tarmoqlar</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Maktab Yangiliklari Portali. Barcha huquqlar himoyalangan.</p>
+                <p>Dasturchi: <strong>ATOBOYEV SHOXJAXON</strong> | Xorazm, Xiva</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Xabar matni</span>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // ====== LOADING SCREEN ======
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            const loadingText = document.getElementById('loadingText');
+            const loadingProgress = document.getElementById('loadingProgress');
+            
+            let progress = 0;
+            const textMessages = [
+                "Maktab Yangiliklari Portali ochilmoqda...",
+                "Yangiliklar yuklanmoqda...",
+                "Tizimni sozlash...",
+                "Tayyor!",
+            ];
+            let textIndex = 0;
+            
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 100) progress = 100;
+                loadingProgress.style.width = `${progress}%`;
+                
+                if (progress >= 25 && textIndex === 0) {
+                    loadingText.textContent = textMessages[1];
+                    textIndex = 1;
+                } else if (progress >= 50 && textIndex === 1) {
+                    loadingText.textContent = textMessages[2];
+                    textIndex = 2;
+                } else if (progress >= 75 && textIndex === 2) {
+                    loadingText.textContent = textMessages[3];
+                    textIndex = 3;
+                }
+                
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                    setTimeout(() => {
+                        loadingScreen.style.opacity = '0';
+                        loadingScreen.style.visibility = 'hidden';
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                            initApp();
+                        }, 500);
+                    }, 500);
+                }
+            }, 100);
+        });
+
+        // ====== INITIALIZE APP ======
+        function initApp() {
+            console.log('%c🚀 Maktab Yangiliklari Portali Yüklendi!', 'color: #2563EB; font-size: 18px; font-weight: bold;');
+            
+            // Initialize components
+            initNavbar();
+            initLoginModal();
+            initNews();
+            initFilters();
+            updateLoginButton();
+            
+            // Show welcome message
+            setTimeout(() => {
+                showNotification("Maktab Yangiliklari Portali'ga xush kelibsiz! 📰", "info");
+            }, 1000);
+        }
+
+        // ====== NAVBAR FUNCTIONALITY ======
+        function initNavbar() {
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('navMenu');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            // Hamburger menu toggle
+            if (hamburger && navMenu) {
+                hamburger.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    hamburger.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                    
+                    if (hamburger.classList.contains('active')) {
+                        hamburger.innerHTML = '<i class="fas fa-times"></i>';
+                    } else {
+                        hamburger.innerHTML = `
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        `;
+                    }
+                });
+                
+                // Close menu when clicking links
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        hamburger.classList.remove('active');
+                        navMenu.classList.remove('active');
+                        hamburger.innerHTML = `
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        `;
+                    });
+                });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+                        hamburger.classList.remove('active');
+                        navMenu.classList.remove('active');
+                        hamburger.innerHTML = `
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        `;
+                    }
+                });
+            }
+            
+            // Active nav link on scroll
+            function setActiveNavLink() {
+                const sections = document.querySelectorAll('section[id]');
+                const navLinks = document.querySelectorAll('.nav-link');
+                
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (window.scrollY >= sectionTop - 150) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', setActiveNavLink);
+            setActiveNavLink();
+        }
+
+        // ====== LOGIN MODAL ======
+        function initLoginModal() {
+            const loginModal = document.getElementById('loginModal');
+            const closeLoginModal = document.getElementById('closeLoginModal');
+            const loginBtns = document.querySelectorAll('#navLoginBtn, #headerLoginBtn, #footerLoginBtn');
+            const demoLogin = document.getElementById('demoLogin');
+            const loginForm = document.getElementById('loginForm');
+            
+            // Open login modal
+            loginBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    loginModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            
+            // Close login modal
+            closeLoginModal.addEventListener('click', () => {
+                loginModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+            
+            // Close modal when clicking outside
+            loginModal.addEventListener('click', (e) => {
+                if (e.target === loginModal) {
+                    loginModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // Demo login
+            demoLogin.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Fill demo credentials
+                document.getElementById('userType').value = 'student';
+                document.getElementById('username').value = 'demo_oquvchi';
+                document.getElementById('password').value = 'demo123';
+                
+                // Show success message
+                showNotification("Demo hisob ma'lumotlari to'ldirildi! Tizimga kirishingiz mumkin.", "info");
+            });
+            
+            // Login form submission
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const userType = document.getElementById('userType').value;
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value;
+                
+                if (!userType || !username || !password) {
+                    showNotification("Iltimos, barcha maydonlarni to'ldiring!", "error");
+                    return;
+                }
+                
+                // Simulate login process
+                const submitBtn = loginForm.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Kirilmoqda...';
+                submitBtn.disabled = true;
+                
+                setTimeout(() => {
+                    // Successfully logged in
+                    loginModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                    
+                    // Save user info to localStorage
+                    const user = {
+                        type: userType,
+                        name: getDisplayName(userType, username),
+                        username: username
+                    };
+                    
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    
+                    // Update UI
+                    updateLoginButton();
+                    
+                    // Show success message
+                    showNotification(`Xush kelibsiz, ${user.name}! Tizimga muvaffaqiyatli kirdingiz. 🎉`, "success");
+                    
+                    // Reset form
+                    loginForm.reset();
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    
+                }, 1500);
+            });
+        }
+
+        // ====== UPDATE LOGIN BUTTON ======
+        function updateLoginButton() {
+            const userMenu = document.getElementById('userMenu');
+            const navLoginBtn = document.getElementById('navLoginBtn');
+            const userAvatar = document.getElementById('userAvatar');
+            const userName = document.getElementById('userName');
+            
+            // Check if user is logged in
+            const userData = localStorage.getItem('currentUser');
+            
+            if (userData) {
+                try {
+                    const user = JSON.parse(userData);
+                    
+                    // Update user menu
+                    userMenu.style.display = 'flex';
+                    navLoginBtn.style.display = 'none';
+                    
+                    // Set user info
+                    const displayName = user.name || user.username;
+                    userName.textContent = displayName;
+                    
+                    // Set avatar based on user type
+                    const avatars = {
+                        student: '👨‍🎓',
+                        teacher: '👨‍🏫',
+                        parent: '👨‍👦',
+                        admin: '👨‍💼'
+                    };
+                    
+                    userAvatar.textContent = avatars[user.type] || '👤';
+                    
+                    // Add logout functionality
+                    userMenu.onclick = function() {
+                        if (confirm("Tizimdan chiqishni istaysizmi?")) {
+                            localStorage.removeItem('currentUser');
+                            userMenu.style.display = 'none';
+                            navLoginBtn.style.display = 'block';
+                            showNotification("Tizimdan chiqdingiz. Yana kiring!", "info");
+                        }
+                    };
+                    
+                } catch (e) {
+                    console.error("Foydalanuvchi ma'lumotlarini o'qishda xatolik:", e);
+                }
+            } else {
+                userMenu.style.display = 'none';
+                navLoginBtn.style.display = 'block';
+            }
+        }
+
+        // ====== NEWS SYSTEM ======
+        function initNews() {
+            const newsGrid = document.getElementById('newsGrid');
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            
+            // Sample news data
+            const newsData = [
+                {
+                    id: 1,
+                    title: "Yangi O'quv Yili Boshlanishi",
+                    excerpt: "1-sentabr kuni maktabimizda yangi o'quv yili tantanali marosimi bo'lib o'tadi. Barcha o'quvchilar va ota-onalar taklif etiladi.",
+                    category: "events",
+                    date: "28-Avg, 2023",
+                    views: "245",
+                    comments: "18",
+                    tags: ["Tadbirlar", "Boshlanish", "Maktab"],
+                    color: "#2563EB"
+                },
+                {
+                    id: 2,
+                    title: "Xalqaro Matematika Olimpiadasidagi Muvaffaqiyat",
+                    excerpt: "Maktabimiz o'quvchisi Xalqaro Matematika Olimpiadasida oltin medalni qo'lga kiritdi. Bizni bilan g'ururlaning!",
+                    category: "achievements",
+                    date: "25-Avg, 2023",
+                    views: "356",
+                    comments: "42",
+                    tags: ["Yutuqlar", "Olimpiada", "Matematika"],
+                    color: "#06B6D4"
+                },
+                {
+                    id: 3,
+                    title: "Futbol Turniri G'oliblari",
+                    excerpt: "Maktablararo futbol turniri yakunlandi. Maktabimiz jamoasi finalda g'alaba qozonib, chempionlik unvonini qo'lga kiritdi.",
+                    category: "sports",
+                    date: "22-Avg, 2023",
+                    views: "189",
+                    comments: "25",
+                    tags: ["Sport", "Futbol", "G'alaba"],
+                    color: "#10B981"
+                },
+                {
+                    id: 4,
+                    title: "Kitoblar Haftaligi E'lon Qilindi",
+                    excerpt: "5-11 sentabr kunlari maktabimizda an'anaviy Kitoblar Haftaligi o'tkaziladi. Barcha o'quvchilar ishtirok etishlari mumkin.",
+                    category: "announcements",
+                    date: "20-Avg, 2023",
+                    views: "178",
+                    comments: "12",
+                    tags: ["E'lonlar", "Kitoblar", "Haftalik"],
+                    color: "#8B5CF6"
+                },
+                {
+                    id: 5,
+                    title: "Yangi Kompyuter Sinfi Ochildi",
+                    excerpt: "Maktabimizda zamonaviy uskunalar bilan jihozlangan yangi kompyuter sinfi o'quvchilar xizmatiga ochildi.",
+                    category: "announcements",
+                    date: "18-Avg, 2023",
+                    views: "221",
+                    comments: "31",
+                    tags: ["Yangi", "Texnologiya", "Ta'lim"],
+                    color: "#EC4899"
+                },
+                {
+                    id: 6,
+                    title: "O'qituvchilar Kuni Nishonlash",
+                    excerpt: "1-oktabr kuni maktabimizda O'qituvchilar Kuni nishonlanadi. Barcha bitiruvchilar va ota-onalar taklif etiladi.",
+                    category: "events",
+                    date: "15-Avg, 2023",
+                    views: "198",
+                    comments: "19",
+                    tags: ["Tadbirlar", "O'qituvchilar", "Bayram"],
+                    color: "#F59E0B"
+                }
+            ];
+            
+            // Render news cards
+            function renderNews(filter = 'all') {
+                newsGrid.innerHTML = '';
+                
+                const filteredNews = filter === 'all' 
+                    ? newsData 
+                    : newsData.filter(news => news.category === filter);
+                
+                filteredNews.forEach(news => {
+                    const newsCard = document.createElement('div');
+                    newsCard.className = 'news-card';
+                    newsCard.setAttribute('data-category', news.category);
+                    
+                    newsCard.innerHTML = `
+                        <div class="news-image" style="background: ${news.color}">
+                            <div class="news-badge">${getCategoryName(news.category)}</div>
+                        </div>
+                        <div class="news-content">
+                            <div class="news-meta">
+                                <span><i class="far fa-calendar"></i> ${news.date}</span>
+                                <span><i class="far fa-eye"></i> ${news.views}</span>
+                                <span><i class="far fa-comment"></i> ${news.comments}</span>
+                            </div>
+                            <h3 class="news-title">${news.title}</h3>
+                            <p class="news-excerpt">${news.excerpt}</p>
+                            <div class="news-tags">
+                                ${news.tags.map(tag => `<span class="news-tag">${tag}</span>`).join('')}
+                            </div>
+                            <button class="btn btn-secondary" onclick="readNews(${news.id})" style="width: 100%; margin-top: 1rem;">
+                                <i class="fas fa-book-reader"></i> O'qishni Davom Ettirish
+                            </button>
+                        </div>
+                    `;
+                    
+                    newsGrid.appendChild(newsCard);
+                });
+                
+                // Add animation to cards
+                const cards = document.querySelectorAll('.news-card');
+                cards.forEach((card, index) => {
+                    card.style.animationDelay = `${index * 0.1}s`;
+                    card.style.animation = 'slideInUp 0.5s ease forwards';
+                });
+            }
+            
+            // Initial render
+            renderNews();
+            
+            // Load more button
+            loadMoreBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                const originalText = loadMoreBtn.innerHTML;
+                loadMoreBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Yuklanmoqda...';
+                loadMoreBtn.disabled = true;
+                
+                setTimeout(() => {
+                    // Simulate loading more news
+                    showNotification("Yana yangiliklar yuklandi! 📰", "info");
+                    
+                    loadMoreBtn.innerHTML = originalText;
+                    loadMoreBtn.disabled = false;
+                    
+                    // Add bounce animation
+                    loadMoreBtn.style.animation = 'bounce 0.5s ease';
+                    setTimeout(() => {
+                        loadMoreBtn.style.animation = '';
+                    }, 500);
+                    
+                }, 1500);
+            });
+            
+            // Read news function
+            window.readNews = function(newsId) {
+                const news = newsData.find(n => n.id === newsId);
+                if (news) {
+                    showNotification(`"${news.title}" yangiligi ochilmoqda...`, "info");
+                    // Here you would typically redirect to a news detail page
+                }
+            };
+        }
+
+        // ====== NEWS FILTERS ======
+        function initFilters() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Get filter value
+                    const filter = this.getAttribute('data-filter');
+                    
+                    // Filter news
+                    const newsGrid = document.getElementById('newsGrid');
+                    const newsCards = document.querySelectorAll('.news-card');
+                    
+                    newsCards.forEach(card => {
+                        const category = card.getAttribute('data-category');
+                        
+                        if (filter === 'all' || category === filter) {
+                            card.style.display = 'block';
+                            card.style.animation = 'slideInUp 0.5s ease forwards';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                    
+                    // Show notification
+                    const categoryName = getCategoryName(filter);
+                    showNotification(`${categoryName} yangiliklari filtirlandi`, "info");
+                });
+            });
+        }
+
+        // ====== UTILITY FUNCTIONS ======
+        function getCategoryName(category) {
+            const names = {
+                all: "Barchasi",
+                events: "Tadbirlar",
+                announcements: "E'lonlar",
+                achievements: "Yutuqlar",
+                sports: "Sport"
+            };
+            return names[category] || "Boshqa";
+        }
+        
+        function getDisplayName(userType, username) {
+            const names = {
+                student: `O'quvchi ${username}`,
+                teacher: `O'qituvchi ${username}`,
+                parent: `Ota-Ona ${username}`,
+                admin: `Administrator ${username}`
+            };
+            return names[userType] || username;
+        }
+        
+        function showNotification(message, type = "info") {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            
+            notificationText.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            // Remove any existing notification after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
+
+        // ====== SCROLL ANIMATIONS ======
+        function initScrollAnimations() {
+            const animatedElements = document.querySelectorAll('.feature-card, .stat-card');
+            
+            function checkScroll() {
+                animatedElements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const elementVisible = 150;
+                    
+                    if (elementTop < window.innerHeight - elementVisible) {
+                        element.classList.add('animated');
+                    }
+                });
+            }
+            
+            checkScroll();
+            window.addEventListener('scroll', checkScroll);
+        }
+        
+        // Initialize scroll animations
+        initScrollAnimations();
+    </script>
+</body>
+</html>

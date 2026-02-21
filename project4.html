@@ -3,1312 +3,3132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>O'quvchilar Reyting Tizimi | Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Barcha Sinflar uchun O'quvchilarni Baholash va Test Tizimi</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        /* Project Specific Styles */
-        .project-header {
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-            color: white;
-            padding: 5rem 0 3rem;
-            text-align: center;
-            margin-top: 70px;
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
         }
         
-        .project-container {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 20px;
         }
         
-        .back-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: white;
-            color: #43e97b;
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 0 0 10px 10px;
+            margin-bottom: 30px;
         }
         
-        .back-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-        }
-        
-        .controls-panel {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-        }
-        
-        .controls-row {
+        .header-content {
             display: flex;
-            gap: 2rem;
-            margin-bottom: 1.5rem;
+            justify-content: space-between;
+            align-items: center;
             flex-wrap: wrap;
         }
         
-        .control-group {
-            flex: 1;
-            min-width: 250px;
-        }
-        
-        .control-group label {
-            display: block;
-            margin-bottom: 0.8rem;
-            font-weight: 600;
-            color: #2D2B55;
-            font-size: 1.1rem;
-        }
-        
-        .grade-selector {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-            gap: 0.8rem;
-            margin-bottom: 1rem;
-        }
-        
-        .grade-btn {
-            padding: 0.8rem;
-            border: 2px solid #43e97b;
-            background: white;
-            color: #43e97b;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-        
-        .grade-btn.active {
-            background: #43e97b;
-            color: white;
-            transform: scale(1.05);
-        }
-        
-        .grade-btn:hover:not(.active) {
-            background: rgba(67, 233, 123, 0.1);
-            transform: translateY(-2px);
-        }
-        
-        .section-selector {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .section-btn {
-            padding: 0.8rem 1.5rem;
-            border: 2px solid #43e97b;
-            background: white;
-            color: #43e97b;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        
-        .section-btn.active {
-            background: #43e97b;
-            color: white;
-        }
-        
-        .section-btn:hover:not(.active) {
-            background: rgba(67, 233, 123, 0.1);
-        }
-        
-        .export-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-        
-        .export-btn {
-            padding: 0.8rem 1.5rem;
-            background: #43e97b;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
+        .logo {
             display: flex;
             align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
+            gap: 15px;
         }
         
-        .export-btn:hover {
-            background: #2ed573;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(67, 233, 123, 0.3);
+        .logo i {
+            font-size: 2.5rem;
         }
         
-        .export-btn.pdf {
-            background: #f44336;
-        }
-        
-        .export-btn.pdf:hover {
-            background: #d32f2f;
-        }
-        
-        .rating-container {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-            overflow-x: auto;
-        }
-        
-        .rating-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-            min-width: 1000px;
-        }
-        
-        .rating-table th {
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-            color: white;
-            padding: 1.2rem;
-            text-align: center;
-            font-weight: 600;
-            font-size: 1.1rem;
-            position: sticky;
-            top: 0;
-        }
-        
-        .rating-table td {
-            padding: 1rem;
-            border-bottom: 1px solid #e0e0e0;
-            text-align: center;
-        }
-        
-        .rating-table tr:nth-child(even) {
-            background: #f8f9fa;
-        }
-        
-        .rating-table tr:hover {
-            background: rgba(67, 233, 123, 0.05);
-        }
-        
-        .rank-cell {
-            width: 80px;
-        }
-        
-        .rank-number {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-weight: bold;
-            font-size: 1.1rem;
-            color: white;
-        }
-        
-        .rank-1 .rank-number {
-            background: linear-gradient(135deg, #FFD700, #FFA500);
-            box-shadow: 0 3px 10px rgba(255, 165, 0, 0.3);
-        }
-        
-        .rank-2 .rank-number {
-            background: linear-gradient(135deg, #C0C0C0, #A0A0A0);
-            box-shadow: 0 3px 10px rgba(160, 160, 160, 0.3);
-        }
-        
-        .rank-3 .rank-number {
-            background: linear-gradient(135deg, #CD7F32, #A0522D);
-            box-shadow: 0 3px 10px rgba(165, 42, 42, 0.3);
-        }
-        
-        .rank-other .rank-number {
-            background: #43e97b;
-        }
-        
-        .student-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .student-avatar {
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-        
-        .subject-grades {
-            display: flex;
-            justify-content: center;
-            gap: 5px;
-        }
-        
-        .grade-dot {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: white;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            cursor: help;
-        }
-        
-        .grade-dot:hover {
-            transform: scale(1.1);
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-        }
-        
-        .grade-5 { background: #4CAF50; }
-        .grade-4 { background: #8BC34A; }
-        .grade-3 { background: #FFC107; }
-        .grade-2 { background: #FF9800; }
-        .grade-1 { background: #f44336; }
-        
-        .activity-badge {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-            color: white;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        
-        .total-score {
+        .logo h1 {
+            font-size: 1.8rem;
             font-weight: 700;
-            font-size: 1.3rem;
-            color: #43e97b;
         }
         
-        .charts-container {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
+        .nav-tabs {
+            display: flex;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 5px;
+            margin-top: 20px;
+            width: 100%;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         
-        .charts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 2rem;
-            margin-top: 1.5rem;
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            min-width: 110px;
+            font-size: 14px;
         }
         
-        .chart-wrapper {
-            height: 300px;
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 1.5rem;
+        .tab.active {
+            background-color: white;
+            color: var(--primary-color);
         }
         
-        .add-student-container {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        .tab:hover:not(.active) {
+            background-color: rgba(255, 255, 255, 0.2);
         }
         
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin: 1.5rem 0;
+        .main-content {
+            display: none;
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+        
+        .main-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-color);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+        }
+        
+        .btn-danger {
+            background-color: var(--danger-color);
+        }
+        
+        .btn-warning {
+            background-color: var(--warning-color);
+        }
+        
+        .btn-info {
+            background-color: #17a2b8;
         }
         
         .form-group {
-            position: relative;
+            margin-bottom: 20px;
         }
         
-        .form-group label {
+        label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 8px;
             font-weight: 600;
-            color: #2D2B55;
+            color: var(--dark-color);
         }
         
-        .form-group input,
-        .form-group select {
+        input, select, textarea {
             width: 100%;
-            padding: 0.8rem 1rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border 0.3s;
         }
         
-        .form-group input:focus,
-        .form-group select:focus {
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--secondary-color);
             outline: none;
-            border-color: #43e97b;
-            box-shadow: 0 0 0 3px rgba(67, 233, 123, 0.1);
         }
         
-        .add-student-btn {
-            width: 100%;
-            padding: 1.2rem;
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-top: 1rem;
+        .row {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.3s ease;
+            flex-wrap: wrap;
+            margin: 0 -10px;
         }
         
-        .add-student-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(67, 233, 123, 0.3);
+        .col {
+            flex: 1;
+            padding: 0 10px;
+            min-width: 250px;
         }
         
-        .add-student-btn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
         }
         
-        /* Stats Overview */
-        .stats-overview {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .grade {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+        
+        .grade-excellent {
+            background-color: rgba(39, 174, 96, 0.1);
+            color: var(--success-color);
+        }
+        
+        .grade-good {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--secondary-color);
+        }
+        
+        .grade-average {
+            background-color: rgba(243, 156, 18, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .grade-poor {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--danger-color);
         }
         
         .stat-card {
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-            color: white;
-            padding: 1.5rem;
-            border-radius: 15px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
             text-align: center;
         }
         
+        .stat-card i {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+        
         .stat-card h3 {
-            font-size: 2.5rem;
-            margin: 0 0 0.5rem;
-            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
         }
         
         .stat-card p {
-            margin: 0;
-            opacity: 0.9;
-            font-size: 0.9rem;
+            color: #7f8c8d;
+            font-weight: 600;
+            font-size: 14px;
         }
         
-        .progress-dot {
-            display: inline-block;
-            width: 10px;
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+            margin-top: 40px;
+            border-top: 1px solid #eee;
+            font-size: 14px;
+        }
+        
+        /* Test sahifasi uchun uslublar */
+        .test-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .test-info {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-left: 5px solid var(--secondary-color);
+        }
+        
+        .test-progress {
+            margin-bottom: 20px;
+        }
+        
+        .progress-bar {
             height: 10px;
+            background-color: #eee;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--success-color);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .question-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+            border: 2px solid transparent;
+            transition: border 0.3s;
+        }
+        
+        .question-card.active {
+            border-color: var(--secondary-color);
+        }
+        
+        .question-number {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            margin-right: 5px;
+            text-align: center;
+            line-height: 32px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-size: 14px;
         }
         
-        .progress-up {
-            background: #4CAF50;
+        .question-text {
+            font-size: 16px;
+            margin-bottom: 20px;
+            font-weight: 600;
         }
         
-        .progress-down {
-            background: #f44336;
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .option:hover {
+            background-color: #f5f9ff;
+            border-color: var(--secondary-color);
+        }
+        
+        .option.selected {
+            background-color: rgba(52, 152, 219, 0.1);
+            border-color: var(--secondary-color);
+        }
+        
+        .option.correct {
+            background-color: rgba(39, 174, 96, 0.1);
+            border-color: var(--success-color);
+        }
+        
+        .option.incorrect {
+            background-color: rgba(231, 76, 60, 0.1);
+            border-color: var(--danger-color);
+        }
+        
+        .option input {
+            width: auto;
+            margin-right: 12px;
+        }
+        
+        .test-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .result-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .result-score {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 20px 0;
+        }
+        
+        .result-grade {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: inline-block;
+        }
+        
+        .result-details {
+            text-align: left;
+            margin-top: 25px;
+        }
+        
+        .result-details h4 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .test-subject-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .subject-card {
+            flex: 1;
+            min-width: 180px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 18px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .subject-card.selected {
+            border: 3px solid var(--secondary-color);
+        }
+        
+        .subject-card i {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 12px;
+        }
+        
+        .subject-card h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        
+        .subject-card p {
+            font-size: 13px;
+            color: #7f8c8d;
+        }
+        
+        .class-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        
+        .class-btn {
+            padding: 8px 16px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .class-btn.active {
+            background-color: var(--secondary-color);
+            color: white;
+            border-color: var(--secondary-color);
+        }
+        
+        .class-btn:hover:not(.active) {
+            background-color: #e9ecef;
+        }
+        
+        .subject-card .class-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            background-color: #f1f8ff;
+            color: var(--secondary-color);
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 5px;
         }
         
         @media (max-width: 768px) {
-            .controls-row {
+            .header-content {
                 flex-direction: column;
-                gap: 1rem;
+                text-align: center;
             }
             
-            .grade-selector {
-                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            .nav-tabs {
+                margin-top: 15px;
             }
             
-            .charts-grid {
-                grid-template-columns: 1fr;
+            .tab {
+                padding: 10px 12px;
+                font-size: 12px;
+                min-width: 90px;
             }
             
-            .rating-table {
-                font-size: 0.9rem;
-                min-width: 700px;
+            .test-controls {
+                flex-direction: column;
             }
             
-            .rating-table th,
-            .rating-table td {
-                padding: 0.8rem 0.5rem;
+            .test-controls .btn {
+                width: 100%;
             }
             
-            .subject-grades {
-                flex-wrap: wrap;
-            }
-            
-            .form-grid {
-                grid-template-columns: 1fr;
+            .subject-card {
+                min-width: 150px;
             }
         }
         
-        @media (max-width: 576px) {
-            .export-buttons {
-                flex-direction: column;
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
             }
             
-            .section-selector {
-                flex-direction: column;
+            .tab {
+                padding: 8px 10px;
+                min-width: 80px;
+                font-size: 11px;
+            }
+            
+            .main-content {
+                padding: 15px;
+            }
+            
+            .subject-card {
+                min-width: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <i class="fas fa-chart-line"></i>
-                <h1>SmartRating</h1>
-            </div>
-            
-            <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            
-            <ul class="nav-menu" id="nav-menu">
-                <li><a href="index.html#home" class="nav-link"><i class="fas fa-home"></i> Bosh</a></li>
-                <li><a href="index.html#projects" class="nav-link"><i class="fas fa-project-diagram"></i> Loyihalar</a></li>
-                <li><a href="#rating" class="nav-link active"><i class="fas fa-chart-bar"></i> Reyting</a></li>
-                <li><a href="#add" class="nav-link"><i class="fas fa-user-plus"></i> O'quvchi Qo'shish</a></li>
-                <li class="nav-user" id="navUser">
-                    <a href="login.html" class="nav-link login-btn" id="loginBtn">
-                        <i class="fas fa-sign-in-alt"></i> Kirish
-                    </a>
-                    <div class="user-menu" id="userMenu" style="display: none;">
-                        <a href="#" class="user-menu-item" id="userName"></a>
-                        <a href="#" class="user-menu-item" id="logoutBtn">
-                            <i class="fas fa-sign-out-alt"></i> Chiqish
-                        </a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- Project Header -->
-    <section class="project-header">
+    <header>
         <div class="container">
-            <a href="index.html" class="back-button">
-                <i class="fas fa-arrow-left"></i> Ortga
-            </a>
-            <h1>SmartRating - O'quvchilar Reyting Tizimi</h1>
-            <p>1-11 sinf o'quvchilarini baholash va reytinglashtirish tizimi</p>
-        </div>
-    </section>
-
-    <!-- Main Content -->
-    <div class="project-container">
-        <!-- Stats Overview -->
-        <div class="stats-overview">
-            <div class="stat-card">
-                <h3 id="totalStudents">0</h3>
-                <p>Jami O'quvchilar</p>
-            </div>
-            <div class="stat-card">
-                <h3 id="averageGrade">0.0</h3>
-                <p>O'rtacha Baho</p>
-            </div>
-            <div class="stat-card">
-                <h3 id="topScore">0</h3>
-                <p>Eng Yuqori Ball</p>
-            </div>
-            <div class="stat-card">
-                <h3 id="activeStudents">0</h3>
-                <p>Faol O'quvchilar</p>
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h1>Barcha Sinflar uchun Baholash va Test Tizimi</h1>
+                </div>
+                
+                <div class="nav-tabs">
+                    <div class="tab active" data-target="dashboard">Bosh sahifa</div>
+                    <div class="tab" data-target="students">O'quvchilar</div>
+                    <div class="tab" data-target="subjects">Fanlar</div>
+                    <div class="tab" data-target="grading">Baholash</div>
+                    <div class="tab" data-target="tests">Testlar</div>
+                    <div class="tab" data-target="results">Natijalar</div>
+                </div>
             </div>
         </div>
-
-        <!-- Controls Panel -->
-        <div class="controls-panel">
-            <div class="controls-row">
-                <div class="control-group">
-                    <label><i class="fas fa-graduation-cap"></i> Sinfni Tanlang:</label>
-                    <div class="grade-selector" id="gradeSelector">
-                        <!-- Grades 1-11 will be generated by JavaScript -->
+    </header>
+    
+    <div class="container">
+        <!-- Bosh sahifa -->
+        <section id="dashboard" class="main-content active">
+            <h2><i class="fas fa-tachometer-alt"></i> Bosh sahifa</h2>
+            
+            <div class="row">
+                <div class="col">
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <h3 id="total-students">0</h3>
+                        <p>Jami o'quvchilar</p>
                     </div>
-                    
-                    <div class="section-selector">
-                        <button class="section-btn active" data-section="all">Barchasi</button>
-                        <button class="section-btn" data-section="a">A Sinf</button>
-                        <button class="section-btn" data-section="b">B Sinf</button>
+                </div>
+                <div class="col">
+                    <div class="stat-card">
+                        <i class="fas fa-book"></i>
+                        <h3 id="total-subjects">0</h3>
+                        <p>Jami fanlar</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="stat-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h3 id="average-grade">0</h3>
+                        <p>O'rtacha baho</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="stat-card">
+                        <i class="fas fa-star"></i>
+                        <h3 id="excellent-count">0</h3>
+                        <p>A'lo baholar</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>So'nggi test natijalari</h3>
+            <div id="recent-tests">
+                <p>Hali test natijalari mavjud emas.</p>
+            </div>
+        </section>
+        
+        <!-- O'quvchilar -->
+        <section id="students" class="main-content">
+            <h2><i class="fas fa-users"></i> O'quvchilar ro'yxati</h2>
+            <button class="btn" id="addStudentBtn"><i class="fas fa-plus"></i> Yangi o'quvchi qo'shish</button>
+            
+            <div class="row">
+                <div class="col">
+                    <table id="studentsTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Ism Familiya</th>
+                                <th>Sinf</th>
+                                <th>Guruhi</th>
+                                <th>Test natijasi</th>
+                                <th>Amallar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentsTableBody">
+                            <!-- O'quvchilar jadvali JavaScript orqali to'ldiriladi -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Fanlar -->
+        <section id="subjects" class="main-content">
+            <h2><i class="fas fa-book"></i> Barcha sinflar fanlari ro'yxati</h2>
+            <button class="btn" id="addSubjectBtn"><i class="fas fa-plus"></i> Yangi fan qo'shish</button>
+            
+            <div class="row">
+                <div class="col">
+                    <table id="subjectsTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Fan nomi</th>
+                                <th>Sinf</th>
+                                <th>O'qituvchi</th>
+                                <th>Kredit</th>
+                                <th>Testlar</th>
+                                <th>Amallar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subjectsTableBody">
+                            <!-- Fanlar jadvali JavaScript orqali to'ldiriladi -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Baholash -->
+        <section id="grading" class="main-content">
+            <h2><i class="fas fa-edit"></i> Baholash</h2>
+            
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="studentSelect">O'quvchi tanlang</label>
+                        <select id="studentSelect">
+                            <option value="">O'quvchi tanlang</option>
+                        </select>
                     </div>
                 </div>
                 
-                <div class="control-group">
-                    <label><i class="fas fa-cog"></i> Sozlashlar:</label>
-                    <div class="export-buttons">
-                        <button class="export-btn" id="exportCSV">
-                            <i class="fas fa-file-csv"></i> CSV Yuklash
-                        </button>
-                        <button class="export-btn pdf" id="exportPDF">
-                            <i class="fas fa-file-pdf"></i> PDF Yuklash
-                        </button>
-                        <button class="export-btn" id="printBtn">
-                            <i class="fas fa-print"></i> Chop etish
-                        </button>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="subjectSelect">Fan tanlang</label>
+                        <select id="subjectSelect">
+                            <option value="">Fan tanlang</option>
+                        </select>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Rating Table -->
-        <div class="rating-container" id="rating">
-            <h2 style="margin-bottom: 1.5rem; color: #2D2B55;">
-                <i class="fas fa-list-ol"></i> O'quvchilar Reytingi
-            </h2>
-            <table class="rating-table">
+            
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="gradeValue">Baho (0-100)</label>
+                        <input type="number" id="gradeValue" min="0" max="100" placeholder="Masalan: 85">
+                    </div>
+                </div>
+                
+                <div class="col">
+                    <div class="form-group">
+                        <label for="gradeDate">Sana</label>
+                        <input type="date" id="gradeDate">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="gradeComment">Izoh (ixtiyoriy)</label>
+                <textarea id="gradeComment" rows="3" placeholder="O'quvchi haqida qo'shimcha izoh..."></textarea>
+            </div>
+            
+            <button class="btn btn-success" id="saveGradeBtn"><i class="fas fa-save"></i> Bahoni saqlash</button>
+            
+            <h3 style="margin-top: 30px;">Baholash tarixi</h3>
+            <table id="gradingHistoryTable">
                 <thead>
                     <tr>
-                        <th>O'rin</th>
                         <th>O'quvchi</th>
-                        <th>O'rtacha Baho</th>
-                        <th>Fanlar Bo'yicha</th>
-                        <th>Faollik</th>
-                        <th>Umumiy Ball</th>
-                        <th>Harakat</th>
+                        <th>Fan</th>
+                        <th>Sinf</th>
+                        <th>Baho</th>
+                        <th>Sana</th>
+                        <th>Holat</th>
                     </tr>
                 </thead>
-                <tbody id="ratingTableBody">
-                    <!-- Will be populated by JavaScript -->
+                <tbody id="gradingHistoryBody">
+                    <!-- Baholash tarixi JavaScript orqali to'ldiriladi -->
                 </tbody>
             </table>
-        </div>
-
-        <!-- Charts -->
-        <div class="charts-container">
-            <h2 style="margin-bottom: 1.5rem; color: #2D2B55;">
-                <i class="fas fa-chart-bar"></i> Statistik Tahlillar
-            </h2>
-            <div class="charts-grid">
-                <div class="chart-wrapper">
-                    <canvas id="averageChart"></canvas>
+        </section>
+        
+        <!-- Testlar -->
+        <section id="tests" class="main-content">
+            <h2><i class="fas fa-file-alt"></i> 1-11 Sinflar Testlari</h2>
+            
+            <div id="testSelection" class="test-container">
+                <div class="test-info">
+                    <h3>Barcha sinflar testlari</h3>
+                    <p>Quyidagi sinfni tanlang va fanlardan birini tanlab, testni boshlashingiz mumkin. Har bir test 10 ta savoldan iborat.</p>
                 </div>
-                <div class="chart-wrapper">
-                    <canvas id="distributionChart"></canvas>
+                
+                <div class="class-filter" id="classFilter">
+                    <!-- Sinf tanlash tugmalari JavaScript orqali to'ldiriladi -->
                 </div>
-            </div>
-        </div>
-
-        <!-- Add Student -->
-        <div class="add-student-container" id="add">
-            <h2 style="margin-bottom: 1.5rem; color: #2D2B55;">
-                <i class="fas fa-user-plus"></i> Yangi O'quvchi Qo'shish
-            </h2>
-            <form id="addStudentForm">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Ism Familiya:</label>
-                        <input type="text" id="studentName" placeholder="Ali Valiyev" required>
+                
+                <div id="subjectSelectorContainer">
+                    <div class="test-subject-selector" id="subjectSelector">
+                        <!-- Fanlar kartalari JavaScript orqali to'ldiriladi -->
+                    </div>
+                </div>
+                
+                <div id="testStartSection" style="display: none;">
+                    <div class="test-info">
+                        <h3 id="selectedSubjectName"></h3>
+                        <p><strong>Test qoidalari:</strong></p>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>Testda 10 ta savol mavjud</li>
+                            <li>Har bir to'g'ri javob uchun 1 ball</li>
+                            <li>Testni istalgan vaqtda to'xtatishingiz mumkin</li>
+                            <li>Natijangiz avtomatik hisoblanadi va saqlanadi</li>
+                        </ul>
                     </div>
                     
                     <div class="form-group">
-                        <label>Sinf:</label>
-                        <select id="studentGrade" required>
-                            <option value="">Tanlang</option>
-                            <!-- Grades 1-11 will be populated by JavaScript -->
+                        <label for="testStudentSelect">O'quvchi tanlang (test natijasini saqlash uchun)</label>
+                        <select id="testStudentSelect">
+                            <option value="">O'quvchi tanlang (ixtiyoriy)</option>
                         </select>
                     </div>
                     
-                    <div class="form-group">
-                        <label>Guruh:</label>
-                        <select id="studentSection" required>
-                            <option value="a">A</option>
-                            <option value="b">B</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Matematika:</label>
-                        <input type="number" id="mathGrade" min="1" max="5" value="4" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Ona tili:</label>
-                        <input type="number" id="languageGrade" min="1" max="5" value="4" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Tabiiy fan:</label>
-                        <input type="number" id="scienceGrade" min="1" max="5" value="4" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Tarix:</label>
-                        <input type="number" id="historyGrade" min="1" max="5" value="4" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Ingliz tili:</label>
-                        <input type="number" id="englishGrade" min="1" max="5" value="4" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Faollik (1-25):</label>
-                        <input type="number" id="activityScore" min="1" max="25" value="10" required>
-                    </div>
-                </div>
-                
-                <button type="submit" class="add-student-btn" id="addStudentBtn">
-                    <i class="fas fa-user-plus"></i> O'quvchi Qo'shish
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <i class="fas fa-chart-line"></i>
-                    <h2>SmartRating</h2>
-                    <p>O'quvchilarni baholash va reytinglashtirish</p>
-                    <p class="location"><i class="fas fa-map-marker-alt"></i> Xorazm, Xiva</p>
-                </div>
-                
-                <div class="footer-links">
-                    <h3>Tez O'tish</h3>
-                    <a href="index.html"><i class="fas fa-chevron-right"></i> Asosiy sahifa</a>
-                    <a href="#rating"><i class="fas fa-chevron-right"></i> Reyting</a>
-                    <a href="#add"><i class="fas fa-chevron-right"></i> O'quvchi qo'shish</a>
-                    <a href="index.html#projects"><i class="fas fa-chevron-right"></i> Boshqa loyihalar</a>
+                    <button class="btn btn-success" id="startTestBtn" style="width: 100%; padding: 15px; font-size: 18px;">
+                        <i class="fas fa-play-circle"></i> Testni Boshlash
+                    </button>
                 </div>
             </div>
             
-            <div class="footer-bottom">
-                <p>&copy; 2023 SmartRating. Barcha huquqlar himoyalangan.</p>
+            <div id="testContainer" class="test-container" style="display: none;">
+                <div class="test-info">
+                    <h3 id="testSubjectTitle">Test</h3>
+                    <div class="test-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <div id="progressText">Savol 0/10</div>
+                    </div>
+                </div>
+                
+                <div id="questionsContainer">
+                    <!-- Test savollari JavaScript orqali to'ldiriladi -->
+                </div>
+                
+                <div class="test-controls">
+                    <button class="btn" id="prevQuestionBtn">
+                        <i class="fas fa-arrow-left"></i> Oldingi savol
+                    </button>
+                    <button class="btn" id="nextQuestionBtn">
+                        Keyingi savol <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="btn btn-warning" id="finishTestBtn">
+                        <i class="fas fa-flag-checkered"></i> Testni yakunlash
+                    </button>
+                </div>
             </div>
+            
+            <div id="testResultContainer" class="test-container" style="display: none;">
+                <!-- Test natijasi JavaScript orqali to'ldiriladi -->
+            </div>
+        </section>
+        
+        <!-- Natijalar -->
+        <section id="results" class="main-content">
+            <h2><i class="fas fa-chart-bar"></i> Natijalar tahlili</h2>
+            
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="filterStudent">O'quvchi bo'yicha filtr</label>
+                        <select id="filterStudent">
+                            <option value="">Barcha o'quvchilar</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="col">
+                    <div class="form-group">
+                        <label for="filterSubject">Fan bo'yicha filtr</label>
+                        <select id="filterSubject">
+                            <option value="">Barcha fanlar</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="col">
+                    <div class="form-group">
+                        <label for="filterClass">Sinf bo'yicha filtr</label>
+                        <select id="filterClass">
+                            <option value="">Barcha sinflar</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="resultsContainer">
+                <p>Filtr qo'llang yoki baholash/test kiritishni boshlang.</p>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>Barcha Sinflar uchun O'quvchilarni Baholash va Test Tizimi &copy; 2023. Barcha huquqlar himoyalangan.</p>
+            <p>1-11 sinflarning barcha asosiy fanlari va testlari mavjud. Ma'lumotlar brauzeringizda saqlanadi.</p>
         </div>
     </footer>
 
-    <script>
-        // ====== STUDENTS DATABASE ======
-        let students = JSON.parse(localStorage.getItem('smartRatingStudents')) || generateInitialStudents();
+    <!-- Modal oynalar -->
+    <div id="studentModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);">
+        <div style="background-color: white; margin: 5% auto; padding: 25px; border-radius: 10px; width: 90%; max-width: 600px; box-shadow: 0 5px 20px rgba(0,0,0,0.2);">
+            <h3 style="margin-bottom: 20px;">Yangi o'quvchi qo'shish</h3>
+            <div class="form-group">
+                <label for="newStudentName">Ism Familiya</label>
+                <input type="text" id="newStudentName" placeholder="Masalan: Ali Valiyev">
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="newStudentClass">Sinf</label>
+                        <select id="newStudentClass">
+                            <option value="1">1-sinf</option>
+                            <option value="2">2-sinf</option>
+                            <option value="3">3-sinf</option>
+                            <option value="4">4-sinf</option>
+                            <option value="5">5-sinf</option>
+                            <option value="6">6-sinf</option>
+                            <option value="7">7-sinf</option>
+                            <option value="8">8-sinf</option>
+                            <option value="9">9-sinf</option>
+                            <option value="10">10-sinf</option>
+                            <option value="11" selected>11-sinf</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="newStudentGroup">Guruhi</label>
+                        <input type="text" id="newStudentGroup" placeholder="Masalan: A">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="newStudentPhone">Telefon raqami (ota-ona)</label>
+                <input type="text" id="newStudentPhone" placeholder="Masalan: +998901234567">
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn btn-success" id="saveStudentBtn">Saqlash</button>
+                <button class="btn btn-danger" id="cancelStudentBtn">Bekor qilish</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="subjectModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);">
+        <div style="background-color: white; margin: 5% auto; padding: 25px; border-radius: 10px; width: 90%; max-width: 600px; box-shadow: 0 5px 20px rgba(0,0,0,0.2);">
+            <h3 style="margin-bottom: 20px;">Yangi fan qo'shish</h3>
+            <div class="form-group">
+                <label for="newSubjectName">Fan nomi</label>
+                <input type="text" id="newSubjectName" placeholder="Masalan: Matematika">
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="newSubjectClass">Sinf</label>
+                        <select id="newSubjectClass">
+                            <option value="1">1-sinf</option>
+                            <option value="2">2-sinf</option>
+                            <option value="3">3-sinf</option>
+                            <option value="4">4-sinf</option>
+                            <option value="5">5-sinf</option>
+                            <option value="6">6-sinf</option>
+                            <option value="7">7-sinf</option>
+                            <option value="8">8-sinf</option>
+                            <option value="9">9-sinf</option>
+                            <option value="10">10-sinf</option>
+                            <option value="11" selected>11-sinf</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="newSubjectCredits">Kredit soni</label>
+                        <input type="number" id="newSubjectCredits" min="1" max="10" value="3">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="newSubjectTeacher">O'qituvchi</label>
+                <input type="text" id="newSubjectTeacher" placeholder="Masalan: Gulnora Rasulova">
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn btn-success" id="saveSubjectBtn">Saqlash</button>
+                <button class="btn btn-danger" id="cancelSubjectBtn">Bekor qilish</button>
+            </div>
+        </div>
+    </div>
 
-        // ====== GENERATE INITIAL STUDENTS (1-11 GRADES) ======
-        function generateInitialStudents() {
-            const initialStudents = [];
-            const firstNames = ["Ali", "Vali", "Hasan", "Husan", "Olim", "Jamol", "Bekzod", "Sherzod", "Javlon", "Sanjar"];
-            const lastNames = ["Valiyev", "Olimov", "Karimov", "Xolmatov", "Jo'rayev", "Toshmatov", "Hamidov", "Qodirov", "Yusupov", "Sobirov"];
+    <script>
+        // Dastlabki ma'lumotlar - o'quvchilar sonini ko'paytiramiz
+        let students = [
+            // 1-sinf o'quvchilari
+            { id: 1, name: "Aziza Alimova", class: "1", group: "A", phone: "+998901111111" },
+            { id: 2, name: "Bekzod Boymurodov", class: "1", group: "A", phone: "+998901111112" },
+            { id: 3, name: "Dilnoza Davronova", class: "1", group: "B", phone: "+998901111113" },
             
-            let id = 1;
+            // 2-sinf o'quvchilari
+            { id: 4, name: "Elyor Ergashev", class: "2", group: "A", phone: "+998901111114" },
+            { id: 5, name: "Fotima Fayzullayeva", class: "2", group: "A", phone: "+998901111115" },
+            { id: 6, name: "G'olib G'aniyev", class: "2", group: "B", phone: "+998901111116" },
             
-            // Generate students for grades 1-11
-            for (let grade = 1; grade <= 11; grade++) {
-                // For grades 1-9, generate both A and B sections
-                const sections = grade <= 9 ? ['a', 'b'] : [''];
+            // 3-sinf o'quvchilari
+            { id: 7, name: "Hilola Hamidova", class: "3", group: "A", phone: "+998901111117" },
+            { id: 8, name: "Ibrohim Ismoilov", class: "3", group: "A", phone: "+998901111118" },
+            { id: 9, name: "Jasur Jo'rayev", class: "3", group: "B", phone: "+998901111119" },
+            
+            // 4-sinf o'quvchilari
+            { id: 10, name: "Kamola Karimova", class: "4", group: "A", phone: "+998901111120" },
+            { id: 11, name: "Laziz Lutfiyev", class: "4", group: "A", phone: "+998901111121" },
+            { id: 12, name: "Madina Muxtorova", class: "4", group: "B", phone: "+998901111122" },
+            
+            // 5-sinf o'quvchilari
+            { id: 13, name: "Nozim Nosirov", class: "5", group: "A", phone: "+998901111123" },
+            { id: 14, name: "Oygul Olimova", class: "5", group: "A", phone: "+998901111124" },
+            { id: 15, name: "Parviz Po'latov", class: "5", group: "B", phone: "+998901111125" },
+            
+            // 6-sinf o'quvchilari
+            { id: 16, name: "Qodir Qurbonov", class: "6", group: "A", phone: "+998901111126" },
+            { id: 17, name: "Ravshan Rasulov", class: "6", group: "A", phone: "+998901111127" },
+            { id: 18, name: "Sabina Sobirova", class: "6", group: "B", phone: "+998901111128" },
+            
+            // 7-sinf o'quvchilari
+            { id: 19, name: "Timur To'xtayev", class: "7", group: "A", phone: "+998901111129" },
+            { id: 20, name: "Umida Usmonova", class: "7", group: "A", phone: "+998901111130" },
+            { id: 21, name: "Vohid Vohidov", class: "7", group: "B", phone: "+998901111131" },
+            
+            // 8-sinf o'quvchilari
+            { id: 22, name: "Xurshid Xudoyberdiyev", class: "8", group: "A", phone: "+998901111132" },
+            { id: 23, name: "Yulduz Yuldasheva", class: "8", group: "A", phone: "+998901111133" },
+            { id: 24, name: "Zafar Zokirov", class: "8", group: "B", phone: "+998901111134" },
+            
+            // 9-sinf o'quvchilari
+            { id: 25, name: "Olimjon Sobirov", class: "9", group: "A", phone: "+998903456789" },
+            { id: 26, name: "Nigina Nuriddinova", class: "9", group: "A", phone: "+998901111135" },
+            { id: 27, name: "Sherzod Shodiyev", class: "9", group: "B", phone: "+998901111136" },
+            
+            // 10-sinf o'quvchilari
+            { id: 28, name: "Sevara Karimova", class: "10", group: "B", phone: "+998902345678" },
+            { id: 29, name: "Dilshod Xamidov", class: "10", group: "A", phone: "+998901111137" },
+            { id: 30, name: "Firuz Farxodov", class: "10", group: "B", phone: "+998901111138" },
+            
+            // 11-sinf o'quvchilari
+            { id: 31, name: "Ali Valiyev", class: "11", group: "A", phone: "+998901234567" },
+            { id: 32, name: "Madina Yusupova", class: "11", group: "B", phone: "+998905678901" },
+            { id: 33, name: "Behruz Bekmurodov", class: "11", group: "A", phone: "+998901111139" }
+        ];
+        
+        // Barcha sinflar uchun fanlar
+        let subjects = [
+            // 1-4 sinflar (boshlang'ich sinflar)
+            { id: 1, name: "Ona tili", class: "1", teacher: "Zebo Qodirova", credits: 5 },
+            { id: 2, name: "Matematika", class: "1", teacher: "Dilobar Ismoilova", credits: 5 },
+            { id: 3, name: "Tabiiy fan", class: "1", teacher: "Nigora Xolmatova", credits: 3 },
+            { id: 4, name: "Tarbiya", class: "1", teacher: "Malika Karimova", credits: 2 },
+            
+            { id: 5, name: "Ona tili", class: "2", teacher: "Zebo Qodirova", credits: 5 },
+            { id: 6, name: "Matematika", class: "2", teacher: "Dilobar Ismoilova", credits: 5 },
+            { id: 7, name: "Tabiiy fan", class: "2", teacher: "Nigora Xolmatova", credits: 3 },
+            { id: 8, name: "Tarbiya", class: "2", teacher: "Malika Karimova", credits: 2 },
+            
+            { id: 9, name: "Ona tili", class: "3", teacher: "Muhayyo Rasulova", credits: 5 },
+            { id: 10, name: "Matematika", class: "3", teacher: "Dilrabo Xolmirzayeva", credits: 5 },
+            { id: 11, name: "Tabiiy fan", class: "3", teacher: "Saodat Qurbonova", credits: 3 },
+            { id: 12, name: "Tarbiya", class: "3", teacher: "Gulnoza Murodova", credits: 2 },
+            
+            { id: 13, name: "Ona tili", class: "4", teacher: "Muhayyo Rasulova", credits: 5 },
+            { id: 14, name: "Matematika", class: "4", teacher: "Dilrabo Xolmirzayeva", credits: 5 },
+            { id: 15, name: "Tabiiy fan", class: "4", teacher: "Saodat Qurbonova", credits: 3 },
+            { id: 16, name: "Tarbiya", class: "4", teacher: "Gulnoza Murodova", credits: 2 },
+            
+            // 5-9 sinflar (o'rta sinflar)
+            { id: 17, name: "Ona tili va adabiyot", class: "5", teacher: "Gulnora Rasulova", credits: 5 },
+            { id: 18, name: "Matematika", class: "5", teacher: "Jamshid Qodirov", credits: 5 },
+            { id: 19, name: "Tabiiy fanlar", class: "5", teacher: "Nigora Xolmatova", credits: 4 },
+            { id: 20, name: "Tarix", class: "5", teacher: "Azamat Ismoilov", credits: 3 },
+            { id: 21, name: "Jismoniy tarbiya", class: "5", teacher: "Rustam Karimov", credits: 2 },
+            
+            { id: 22, name: "Ona tili va adabiyot", class: "6", teacher: "Gulnora Rasulova", credits: 5 },
+            { id: 23, name: "Matematika", class: "6", teacher: "Jamshid Qodirov", credits: 5 },
+            { id: 24, name: "Biologiya", class: "6", teacher: "Nigora Xolmatova", credits: 3 },
+            { id: 25, name: "Geografiya", class: "6", teacher: "Malika Qosimova", credits: 3 },
+            { id: 26, name: "Tarix", class: "6", teacher: "Azamat Ismoilov", credits: 3 },
+            
+            { id: 27, name: "Ona tili va adabiyot", class: "7", teacher: "Dilnoza Xolmatova", credits: 5 },
+            { id: 28, name: "Matematika", class: "7", teacher: "Akbar Ismoilov", credits: 5 },
+            { id: 29, name: "Fizika", class: "7", teacher: "Rustam Karimov", credits: 3 },
+            { id: 30, name: "Kimyo", class: "7", teacher: "Saodat Qurbonova", credits: 3 },
+            { id: 31, name: "Biologiya", class: "7", teacher: "Nigora Xolmatova", credits: 3 },
+            
+            { id: 32, name: "Ona tili va adabiyot", class: "8", teacher: "Dilnoza Xolmatova", credits: 5 },
+            { id: 33, name: "Matematika", class: "8", teacher: "Akbar Ismoilov", credits: 5 },
+            { id: 34, name: "Fizika", class: "8", teacher: "Rustam Karimov", credits: 4 },
+            { id: 35, name: "Kimyo", class: "8", teacher: "Saodat Qurbonova", credits: 4 },
+            { id: 36, name: "Biologiya", class: "8", teacher: "Nigora Xolmatova", credits: 3 },
+            { id: 37, name: "Informatika", class: "8", teacher: "Javlon Xamidov", credits: 3 },
+            
+            { id: 38, name: "Ona tili va adabiyot", class: "9", teacher: "Malika Qosimova", credits: 5 },
+            { id: 39, name: "Matematika", class: "9", teacher: "Jamshid Qodirov", credits: 5 },
+            { id: 40, name: "Fizika", class: "9", teacher: "Rustam Karimov", credits: 4 },
+            { id: 41, name: "Kimyo", class: "9", teacher: "Saodat Qurbonova", credits: 4 },
+            { id: 42, name: "Biologiya", class: "9", teacher: "Nigora Xolmatova", credits: 3 },
+            { id: 43, name: "Informatika", class: "9", teacher: "Javlon Xamidov", credits: 3 },
+            
+            // 10-11 sinflar (yuqori sinflar)
+            { id: 44, name: "O'zbek tili va adabiyot", class: "10", teacher: "Malika Qosimova", credits: 5 },
+            { id: 45, name: "Matematika", class: "10", teacher: "Jamshid Qodirov", credits: 5 },
+            { id: 46, name: "Fizika", class: "10", teacher: "Rustam Karimov", credits: 4 },
+            { id: 47, name: "Kimyo", class: "10", teacher: "Saodat Qurbonova", credits: 4 },
+            { id: 48, name: "Biologiya", class: "10", teacher: "Nigora Xolmatova", credits: 3 },
+            { id: 49, name: "Informatika", class: "10", teacher: "Javlon Xamidov", credits: 3 },
+            { id: 50, name: "Ingliz tili", class: "10", teacher: "Dilnoza Xolmatova", credits: 3 },
+            { id: 51, name: "Tarix", class: "10", teacher: "Azamat Ismoilov", credits: 3 },
+            
+            { id: 52, name: "O'zbek tili va adabiyot", class: "11", teacher: "Malika Qosimova", credits: 5 },
+            { id: 53, name: "Matematika", class: "11", teacher: "Jamshid Qodirov", credits: 5 },
+            { id: 54, name: "Fizika", class: "11", teacher: "Rustam Karimov", credits: 4 },
+            { id: 55, name: "Kimyo", class: "11", teacher: "Saodat Qurbonova", credits: 4 },
+            { id: 56, name: "Biologiya", class: "11", teacher: "Nigora Xolmatova", credits: 3 },
+            { id: 57, name: "Informatika", class: "11", teacher: "Javlon Xamidov", credits: 3 },
+            { id: 58, name: "Ingliz tili", class: "11", teacher: "Dilnoza Xolmatova", credits: 3 },
+            { id: 59, name: "Jahon tarixi", class: "11", teacher: "Azamat Ismoilov", credits: 3 }
+        ];
+        
+        let grades = [
+            { id: 1, studentId: 31, subjectId: 53, grade: 85, date: "2023-10-15", comment: "Yaxshi tayyorlangan" },
+            { id: 2, studentId: 28, subjectId: 46, grade: 92, date: "2023-10-16", comment: "A'lo natija" },
+            { id: 3, studentId: 25, subjectId: 41, grade: 78, date: "2023-10-17", comment: "Qoniqarli" },
+            { id: 4, studentId: 1, subjectId: 1, grade: 95, date: "2023-10-18", comment: "A'lo o'quvchi" },
+            { id: 5, studentId: 4, subjectId: 6, grade: 88, date: "2023-10-19", comment: "Yaxshi natija" }
+        ];
+        
+        // Test natijalari
+        let testResults = [];
+        
+        // 2-10 sinflar uchun to'liq test savollari
+        const testQuestions = {
+            // 2-sinf testlari
+            5: [ // 2-sinf Ona tili
+                {
+                    id: 1,
+                    question: "Quyidagi so'zlardan qaysi biri 'kitob' so'zining ko'plik shakli?",
+                    options: [
+                        { id: 'a', text: "kitoblar", correct: true },
+                        { id: 'b', text: "kitobim", correct: false },
+                        { id: 'c', text: "kitobda", correct: false },
+                        { id: 'd', text: "kitobga", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "'Uyda' so'zi qanday so'z turkumiga kiradi?",
+                    options: [
+                        { id: 'a', text: "Ot", correct: false },
+                        { id: 'b', text: "Fe'l", correct: false },
+                        { id: 'c', text: "Ravish", correct: true },
+                        { id: 'd', text: "Sifat", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "Qaysi juft sinonim so'zlar?",
+                    options: [
+                        { id: 'a', text: "ota - ona", correct: false },
+                        { id: 'b', text: "yaxshi - ezgu", correct: true },
+                        { id: 'c', text: "katta - kichik", correct: false },
+                        { id: 'd', text: "qizil - sariq", correct: false }
+                    ]
+                }
+            ],
+            
+            6: [ // 2-sinf Matematika
+                {
+                    id: 1,
+                    question: "15 + 7 = ?",
+                    options: [
+                        { id: 'a', text: "21", correct: false },
+                        { id: 'b', text: "22", correct: true },
+                        { id: 'c', text: "23", correct: false },
+                        { id: 'd', text: "24", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "30 - 12 = ?",
+                    options: [
+                        { id: 'a', text: "16", correct: false },
+                        { id: 'b', text: "18", correct: true },
+                        { id: 'c', text: "20", correct: false },
+                        { id: 'd', text: "22", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "4 × 6 = ?",
+                    options: [
+                        { id: 'a', text: "20", correct: false },
+                        { id: 'b', text: "24", correct: true },
+                        { id: 'c', text: "28", correct: false },
+                        { id: 'd', text: "30", correct: false }
+                    ]
+                }
+            ],
+            
+            // 3-sinf testlari
+            9: [ // 3-sinf Ona tili
+                {
+                    id: 1,
+                    question: "Qaysi gapda fe'l bor?",
+                    options: [
+                        { id: 'a', text: "Yomg'ir yog'yapti.", correct: true },
+                        { id: 'b', text: "Ko'k osmon.", correct: false },
+                        { id: 'c', text: "Chiroyli gul.", correct: false },
+                        { id: 'd', text: "Katta uy.", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "'O'qituvchi' so'zi qaysi so'z turkumiga kiradi?",
+                    options: [
+                        { id: 'a', text: "Ot", correct: true },
+                        { id: 'b', text: "Sifat", correct: false },
+                        { id: 'c', text: "Fe'l", correct: false },
+                        { id: 'd', text: "Ravish", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "Qaysi so'z antonim juftlikka kiradi?",
+                    options: [
+                        { id: 'a', text: "ota - ona", correct: false },
+                        { id: 'b', text: "kecha - bugun", correct: false },
+                        { id: 'c', text: "issiq - sovuq", correct: true },
+                        { id: 'd', text: "kitob - daftar", correct: false }
+                    ]
+                }
+            ],
+            
+            10: [ // 3-sinf Matematika
+                {
+                    id: 1,
+                    question: "24 + 18 = ?",
+                    options: [
+                        { id: 'a', text: "40", correct: false },
+                        { id: 'b', text: "42", correct: true },
+                        { id: 'c', text: "44", correct: false },
+                        { id: 'd', text: "46", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "50 - 27 = ?",
+                    options: [
+                        { id: 'a', text: "21", correct: false },
+                        { id: 'b', text: "23", correct: true },
+                        { id: 'c', text: "25", correct: false },
+                        { id: 'd', text: "27", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "7 × 8 = ?",
+                    options: [
+                        { id: 'a', text: "54", correct: false },
+                        { id: 'b', text: "56", correct: true },
+                        { id: 'c', text: "58", correct: false },
+                        { id: 'd', text: "60", correct: false }
+                    ]
+                }
+            ],
+            
+            // 4-sinf testlari
+            13: [ // 4-sinf Ona tili
+                {
+                    id: 1,
+                    question: "Qaysi gap murakkab gap?",
+                    options: [
+                        { id: 'a', text: "Men uydaman.", correct: false },
+                        { id: 'b', text: "U maktabda o'qiydi.", correct: false },
+                        { id: 'c', text: "Men uydaman, lekin u maktabda.", correct: true },
+                        { id: 'd', text: "Bola o'ynaydi.", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "'O'qiyapman' so'zi qanday fe'l shakli?",
+                    options: [
+                        { id: 'a', text: "Hozirgi zamon", correct: true },
+                        { id: 'b', text: "O'tgan zamon", correct: false },
+                        { id: 'c', text: "Kelasi zamon", correct: false },
+                        { id: 'd', text: "Buyruq mayli", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "Qaysi so'z otning birlik shakli?",
+                    options: [
+                        { id: 'a', text: "kitoblar", correct: false },
+                        { id: 'b', text: "kitob", correct: true },
+                        { id: 'c', text: "kitobim", correct: false },
+                        { id: 'd', text: "kitobda", correct: false }
+                    ]
+                }
+            ],
+            
+            14: [ // 4-sinf Matematika
+                {
+                    id: 1,
+                    question: "125 + 75 = ?",
+                    options: [
+                        { id: 'a', text: "190", correct: false },
+                        { id: 'b', text: "200", correct: true },
+                        { id: 'c', text: "210", correct: false },
+                        { id: 'd', text: "220", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "144 ÷ 12 = ?",
+                    options: [
+                        { id: 'a', text: "10", correct: false },
+                        { id: 'b', text: "12", correct: true },
+                        { id: 'c', text: "14", correct: false },
+                        { id: 'd', text: "16", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "9² = ?",
+                    options: [
+                        { id: 'a', text: "18", correct: false },
+                        { id: 'b', text: "81", correct: true },
+                        { id: 'c', text: "72", correct: false },
+                        { id: 'd', text: "90", correct: false }
+                    ]
+                }
+            ],
+            
+            // 5-sinf testlari (mavjud)
+            17: [ // 5-sinf Ona tili va adabiyot
+                {
+                    id: 1,
+                    question: "Qaysi gapda fe'l ishlatilgan?",
+                    options: [
+                        { id: 'a', text: "Gul juda chiroyli.", correct: false },
+                        { id: 'b', text: "Men kitob o'qiyapman.", correct: true },
+                        { id: 'c', text: "Uning ko'zlari ko'k.", correct: false },
+                        { id: 'd', text: "Bu qalam yangi.", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "Otning qaysi turi quyida keltirilgan? 'Kitob'",
+                    options: [
+                        { id: 'a', text: "Jonli ot", correct: false },
+                        { id: 'b', text: "Jonsiz ot", correct: true },
+                        { id: 'c', text: "Xususiy ot", correct: false },
+                        { id: 'd', text: "Umumiy ot", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "Qaysi gap sodda gap?",
+                    options: [
+                        { id: 'a', text: "Men uydaman, lekin u maktabda.", correct: false },
+                        { id: 'b', text: "Bola o'ynaydi.", correct: true },
+                        { id: 'c', text: "Agar yomg'ir yog'sa, uyda qolamiz.", correct: false },
+                        { id: 'd', text: "Kitob o'qiganimda, uyquim keladi.", correct: false }
+                    ]
+                }
+            ],
+            
+            18: [ // 5-sinf Matematika
+                {
+                    id: 1,
+                    question: "24 × 3 = ?",
+                    options: [
+                        { id: 'a', text: "72", correct: true },
+                        { id: 'b', text: "68", correct: false },
+                        { id: 'c', text: "76", correct: false },
+                        { id: 'd', text: "84", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "120 ÷ 6 = ?",
+                    options: [
+                        { id: 'a', text: "18", correct: false },
+                        { id: 'b', text: "20", correct: true },
+                        { id: 'c', text: "24", correct: false },
+                        { id: 'd', text: "15", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "7² = ?",
+                    options: [
+                        { id: 'a', text: "14", correct: false },
+                        { id: 'b', text: "49", correct: true },
+                        { id: 'c', text: "21", correct: false },
+                        { id: 'd', text: "28", correct: false }
+                    ]
+                }
+            ],
+            
+            // 6-sinf testlari
+            22: [ // 6-sinf Ona tili va adabiyot
+                {
+                    id: 1,
+                    question: "Qaysi gapda bog'lovchi ishlatilgan?",
+                    options: [
+                        { id: 'a', text: "Men va u maktabga kettik.", correct: false },
+                        { id: 'b', text: "Uyda yoki maktabda.", correct: true },
+                        { id: 'c', text: "Men kitob o'qidim.", correct: false },
+                        { id: 'd', text: "U chiroyli qiz.", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "'Alisher Navoiy' qanday ot turiga kiradi?",
+                    options: [
+                        { id: 'a', text: "Jonsiz ot", correct: false },
+                        { id: 'b', text: "Xususiy ot", correct: true },
+                        { id: 'c', text: "Umumiy ot", correct: false },
+                        { id: 'd', text: "Yig'ma ot", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "Qaysi gapda olmosh ishlatilgan?",
+                    options: [
+                        { id: 'a', text: "Bu kitob menga kerak.", correct: true },
+                        { id: 'b', text: "Uy juda katta.", correct: false },
+                        { id: 'c', text: "Men tez yuguraman.", correct: false },
+                        { id: 'd', text: "Gullar chiroyli.", correct: false }
+                    ]
+                }
+            ],
+            
+            23: [ // 6-sinf Matematika
+                {
+                    id: 1,
+                    question: "3.5 + 2.7 = ?",
+                    options: [
+                        { id: 'a', text: "5.2", correct: false },
+                        { id: 'b', text: "6.2", correct: true },
+                        { id: 'c', text: "5.7", correct: false },
+                        { id: 'd', text: "6.0", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "3/4 + 1/2 = ?",
+                    options: [
+                        { id: 'a', text: "1", correct: false },
+                        { id: 'b', text: "1 1/4", correct: true },
+                        { id: 'c', text: "1 1/2", correct: false },
+                        { id: 'd', text: "5/4", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "Aylananing radiusi 7 cm bo'lsa, diametri necha cm?",
+                    options: [
+                        { id: 'a', text: "7 cm", correct: false },
+                        { id: 'b', text: "14 cm", correct: true },
+                        { id: 'c', text: "21 cm", correct: false },
+                        { id: 'd', text: "28 cm", correct: false }
+                    ]
+                }
+            ],
+            
+            // 7-sinf testlari
+            27: [ // 7-sinf Ona tili va adabiyot
+                {
+                    id: 1,
+                    question: "Qaysi gapda ergash gap ishlatilgan?",
+                    options: [
+                        { id: 'a', text: "Men bilaman, u keladi.", correct: true },
+                        { id: 'b', text: "U keladi va biz ketamiz.", correct: false },
+                        { id: 'c', text: "Men uydaman.", correct: false },
+                        { id: 'd', text: "U kelganda, men uyda edim.", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "'Xamsa' asarining muallifi kim?",
+                    options: [
+                        { id: 'a', text: "Abdulla Qodiriy", correct: false },
+                        { id: 'b', text: "Alisher Navoiy", correct: true },
+                        { id: 'c', text: "Cho'lpon", correct: false },
+                        { id: 'd', text: "Hamid Olimjon", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "Qaysi so'z sifatning darajasi?",
+                    options: [
+                        { id: 'a', text: "chiroyli", correct: false },
+                        { id: 'b', text: "juda chiroyli", correct: true },
+                        { id: 'c', text: "chiroyliroq", correct: false },
+                        { id: 'd', text: "eng chiroyli", correct: false }
+                    ]
+                }
+            ],
+            
+            28: [ // 7-sinf Matematika
+                {
+                    id: 1,
+                    question: "-5 + 8 = ?",
+                    options: [
+                        { id: 'a', text: "-13", correct: false },
+                        { id: 'b', text: "-3", correct: false },
+                        { id: 'c', text: "3", correct: true },
+                        { id: 'd', text: "13", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "2x + 5 = 15 bo'lsa, x = ?",
+                    options: [
+                        { id: 'a', text: "5", correct: true },
+                        { id: 'b', text: "10", correct: false },
+                        { id: 'c', text: "7.5", correct: false },
+                        { id: 'd', text: "8", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "To'g'ri to'rtburchakning bo'yi 8 cm, eni 5 cm bo'lsa, yuzi necha cm²?",
+                    options: [
+                        { id: 'a', text: "13 cm²", correct: false },
+                        { id: 'b', text: "26 cm²", correct: false },
+                        { id: 'c', text: "40 cm²", correct: true },
+                        { id: 'd', text: "48 cm²", correct: false }
+                    ]
+                }
+            ],
+            
+            29: [ // 7-sinf Fizika
+                {
+                    id: 1,
+                    question: "Jismning tezligi formulasi qanday?",
+                    options: [
+                        { id: 'a', text: "v = s/t", correct: true },
+                        { id: 'b', text: "v = m·a", correct: false },
+                        { id: 'c', text: "v = F/m", correct: false },
+                        { id: 'd', text: "v = a·t", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "Massaning asosiy o'lchov birligi qaysi?",
+                    options: [
+                        { id: 'a', text: "Nyuton", correct: false },
+                        { id: 'b', text: "Kilogramm", correct: true },
+                        { id: 'c', text: "Metr", correct: false },
+                        { id: 'd', text: "Sekund", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "Suvning qaynash temperaturasi qancha?",
+                    options: [
+                        { id: 'a', text: "50°C", correct: false },
+                        { id: 'b', text: "75°C", correct: false },
+                        { id: 'c', text: "100°C", correct: true },
+                        { id: 'd', text: "120°C", correct: false }
+                    ]
+                }
+            ],
+            
+            // 8-sinf testlari
+            32: [ // 8-sinf Ona tili va adabiyot
+                {
+                    id: 1,
+                    question: "'O'tkan kunlar' romanining muallifi kim?",
+                    options: [
+                        { id: 'a', text: "Abdulla Qodiriy", correct: true },
+                        { id: 'b', text: "Cho'lpon", correct: false },
+                        { id: 'c', text: "Oybek", correct: false },
+                        { id: 'd', text: "Abdulla Qahhor", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "Qaysi she'riy janr qofiyasi bir xil bo'ladi?",
+                    options: [
+                        { id: 'a', text: "G'azal", correct: true },
+                        { id: 'b', text: "Qasida", correct: false },
+                        { id: 'c', text: "Ruboiy", correct: false },
+                        { id: 'd', text: "Masnaviy", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "Qaysi gapda to'ldiruvchi ishlatilgan?",
+                    options: [
+                        { id: 'a', text: "Men kitob o'qidim.", correct: true },
+                        { id: 'b', text: "U tez yuguradi.", correct: false },
+                        { id: 'c', text: "Havo issiq.", correct: false },
+                        { id: 'd', text: "Uy katta.", correct: false }
+                    ]
+                }
+            ],
+            
+            33: [ // 8-sinf Matematika
+                {
+                    id: 1,
+                    question: "(x+3)(x-2) = ?",
+                    options: [
+                        { id: 'a', text: "x² + x - 6", correct: true },
+                        { id: 'b', text: "x² - x - 6", correct: false },
+                        { id: 'c', text: "x² + 5x - 6", correct: false },
+                        { id: 'd', text: "x² - 5x - 6", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "√81 = ?",
+                    options: [
+                        { id: 'a', text: "8", correct: false },
+                        { id: 'b', text: "9", correct: true },
+                        { id: 'c', text: "10", correct: false },
+                        { id: 'd', text: "11", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "Agar a=3, b=4 bo'lsa, a² + b² = ?",
+                    options: [
+                        { id: 'a', text: "7", correct: false },
+                        { id: 'b', text: "12", correct: false },
+                        { id: 'c', text: "25", correct: true },
+                        { id: 'd', text: "49", correct: false }
+                    ]
+                }
+            ],
+            
+            34: [ // 8-sinf Fizika
+                {
+                    id: 1,
+                    question: "Nyutonning birinchi qonuni qanday ataladi?",
+                    options: [
+                        { id: 'a', text: "Inersiya qonuni", correct: true },
+                        { id: 'b', text: "Dinamika asosiy qonuni", correct: false },
+                        { id: 'c', text: "Harakatning nisbiyligi", correct: false },
+                        { id: 'd', text: "Kuchlarning mustaqilligi", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "Bosimning o'lchov birligi qaysi?",
+                    options: [
+                        { id: 'a', text: "Nyuton", correct: false },
+                        { id: 'b', text: "Paskal", correct: true },
+                        { id: 'c', text: "Joul", correct: false },
+                        { id: 'd', text: "Vatt", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "Arximed qonuni qanday jismlarga taalluqli?",
+                    options: [
+                        { id: 'a', text: "Faqat qattiq jismlarga", correct: false },
+                        { id: 'b', text: "Faqat suyuqlikdagi jismlarga", correct: true },
+                        { id: 'c', text: "Faqat gazdagi jismlarga", correct: false },
+                        { id: 'd', text: "Barcha jismlarga", correct: false }
+                    ]
+                }
+            ],
+            
+            // 9-sinf testlari (mavjud)
+            38: [ // 9-sinf Ona tili va adabiyot
+                {
+                    id: 1,
+                    question: "Qaysi davlat adabiyoti haqida gap ketmoqda: Alisher Navoiy, Zahiriddin Muhammad Bobur?",
+                    options: [
+                        { id: 'a', text: "Fors adabiyoti", correct: false },
+                        { id: 'b', text: "O'zbek adabiyoti", correct: true },
+                        { id: 'c', text: "Arab adabiyoti", correct: false },
+                        { id: 'd', text: "Turk adabiyoti", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "G'azal she'riy shaklining qancha baytdan iborat?",
+                    options: [
+                        { id: 'a', text: "5-15 bayt", correct: true },
+                        { id: 'b', text: "2-4 bayt", correct: false },
+                        { id: 'c', text: "20-30 bayt", correct: false },
+                        { id: 'd', text: "40-50 bayt", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "'Xamsa' asarining muallifi kim?",
+                    options: [
+                        { id: 'a', text: "Abdulla Qodiriy", correct: false },
+                        { id: 'b', text: "Alisher Navoiy", correct: true },
+                        { id: 'c', text: "Cho'lpon", correct: false },
+                        { id: 'd', text: "Hamid Olimjon", correct: false }
+                    ]
+                }
+            ],
+            
+            39: [ // 9-sinf Matematika
+                {
+                    id: 1,
+                    question: "x² - 5x + 6 = 0 tenglamaning ildizlari yig'indisi necha?",
+                    options: [
+                        { id: 'a', text: "5", correct: true },
+                        { id: 'b', text: "6", correct: false },
+                        { id: 'c', text: "-5", correct: false },
+                        { id: 'd', text: "-6", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "log₂8 = ?",
+                    options: [
+                        { id: 'a', text: "2", correct: false },
+                        { id: 'b', text: "3", correct: true },
+                        { id: 'c', text: "4", correct: false },
+                        { id: 'd', text: "8", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "30° burchakning radiandagi qiymati?",
+                    options: [
+                        { id: 'a', text: "π/6", correct: true },
+                        { id: 'b', text: "π/3", correct: false },
+                        { id: 'c', text: "π/4", correct: false },
+                        { id: 'd', text: "π/2", correct: false }
+                    ]
+                }
+            ],
+            
+            // 10-sinf testlari
+            44: [ // 10-sinf O'zbek tili va adabiyot
+                {
+                    id: 1,
+                    question: "XX asr o'zbek adabiyotining dastlabki namoyondasi kim hisoblanadi?",
+                    options: [
+                        { id: 'a', text: "Abdulla Qodiriy", correct: true },
+                        { id: 'b', text: "Cho'lpon", correct: false },
+                        { id: 'c', text: "Hamid Olimjon", correct: false },
+                        { id: 'd', text: "G'afur G'ulom", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "'O'tkan kunlar' romanining muallifi kim?",
+                    options: [
+                        { id: 'a', text: "Abdulla Qodiriy", correct: true },
+                        { id: 'b', text: "Cho'lpon", correct: false },
+                        { id: 'c', text: "Oybek", correct: false },
+                        { id: 'd', text: "Abdulla Qahhor", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "She'riy janrlardan qaysi biri eng qadimgi?",
+                    options: [
+                        { id: 'a', text: "G'azal", correct: false },
+                        { id: 'b', text: "Ruboiy", correct: false },
+                        { id: 'c', text: "Qasida", correct: false },
+                        { id: 'd', text: "Epik she'r", correct: true }
+                    ]
+                }
+            ],
+            
+            45: [ // 10-sinf Matematika
+                {
+                    id: 1,
+                    question: "sin²α + cos²α = ?",
+                    options: [
+                        { id: 'a', text: "0", correct: false },
+                        { id: 'b', text: "1", correct: true },
+                        { id: 'c', text: "sin2α", correct: false },
+                        { id: 'd', text: "cos2α", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "Agar a = (2,3) va b = (4,1) bo'lsa, a·b = ?",
+                    options: [
+                        { id: 'a', text: "8", correct: false },
+                        { id: 'b', text: "11", correct: true },
+                        { id: 'c', text: "10", correct: false },
+                        { id: 'd', text: "12", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "f(x) = 3x² - 2x + 1 funksiyaning hosilasi f'(x) = ?",
+                    options: [
+                        { id: 'a', text: "6x - 2", correct: true },
+                        { id: 'b', text: "3x - 2", correct: false },
+                        { id: 'c', text: "6x + 2", correct: false },
+                        { id: 'd', text: "3x + 1", correct: false }
+                    ]
+                }
+            ],
+            
+            46: [ // 10-sinf Fizika
+                {
+                    id: 1,
+                    question: "Nyutonning ikkinchi qonuni qanday formula bilan ifodalanadi?",
+                    options: [
+                        { id: 'a', text: "F = ma", correct: true },
+                        { id: 'b', text: "F = mv", correct: false },
+                        { id: 'c', text: "F = mg", correct: false },
+                        { id: 'd', text: "F = mgh", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "Harorati 27°C bo'lgan gazning Kelvindagi harorati qancha?",
+                    options: [
+                        { id: 'a', text: "300 K", correct: true },
+                        { id: 'b', text: "273 K", correct: false },
+                        { id: 'c', text: "250 K", correct: false },
+                        { id: 'd', text: "327 K", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "Yorug'likning vakuumdagi tezligi qancha?",
+                    options: [
+                        { id: 'a', text: "300 000 km/s", correct: true },
+                        { id: 'b', text: "150 000 km/s", correct: false },
+                        { id: 'c', text: "30 000 km/s", correct: false },
+                        { id: 'd', text: "3 000 km/s", correct: false }
+                    ]
+                }
+            ],
+            
+            50: [ // 10-sinf Ingliz tili
+                {
+                    id: 1,
+                    question: "Choose the correct sentence in Present Perfect tense:",
+                    options: [
+                        { id: 'a', text: "I have finished my homework yesterday.", correct: false },
+                        { id: 'b', text: "I have just finished my homework.", correct: true },
+                        { id: 'c', text: "I finished my homework just now.", correct: false },
+                        { id: 'd', text: "I finish my homework every day.", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "Which sentence is in the Passive Voice?",
+                    options: [
+                        { id: 'a', text: "The teacher explains the lesson.", correct: false },
+                        { id: 'b', text: "The lesson is explained by the teacher.", correct: true },
+                        { id: 'c', text: "The teacher is explaining the lesson.", correct: false },
+                        { id: 'd', text: "The teacher explained the lesson.", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "What is the plural form of 'child'?",
+                    options: [
+                        { id: 'a', text: "childs", correct: false },
+                        { id: 'b', text: "children", correct: true },
+                        { id: 'c', text: "childes", correct: false },
+                        { id: 'd', text: "childies", correct: false }
+                    ]
+                }
+            ],
+            
+            // 11-sinf testlari (mavjud)
+            52: [ // 11-sinf O'zbek tili va adabiyot
+                {
+                    id: 1,
+                    question: "'Kecha va kunduz' asari qaysi janrga mansub?",
+                    options: [
+                        { id: 'a', text: "Roman", correct: true },
+                        { id: 'b', text: "Povest", correct: false },
+                        { id: 'c', text: "Hikoya", correct: false },
+                        { id: 'd', text: "Drama", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "O'zbek adabiyotida yangi uslubning asoschisi kim hisoblanadi?",
+                    options: [
+                        { id: 'a', text: "Abdulla Qodiriy", correct: false },
+                        { id: 'b', text: "Cho'lpon", correct: true },
+                        { id: 'c', text: "Hamid Olimjon", correct: false },
+                        { id: 'd', text: "G'afur G'ulom", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "'Sariq devni minib' qaysi yozuvchining asari?",
+                    options: [
+                        { id: 'a', text: "Xudoyberdi To'xtaboyev", correct: false },
+                        { id: 'b', text: "Oybek", correct: false },
+                        { id: 'c', text: "Abdulla Qahhor", correct: true },
+                        { id: 'd', text: "Asqad Muxtor", correct: false }
+                    ]
+                }
+            ],
+            
+            53: [ // 11-sinf Matematika
+                {
+                    id: 1,
+                    question: "∫(3x² + 2x - 1)dx = ?",
+                    options: [
+                        { id: 'a', text: "x³ + x² - x + C", correct: true },
+                        { id: 'b', text: "3x³ + 2x² - x + C", correct: false },
+                        { id: 'c', text: "x³ + 2x² - x + C", correct: false },
+                        { id: 'd', text: "3x³ + x² - x + C", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "Agar z₁ = 3 + 4i va z₂ = 1 - 2i bo'lsa, z₁ + z₂ = ?",
+                    options: [
+                        { id: 'a', text: "4 + 2i", correct: true },
+                        { id: 'b', text: "4 - 2i", correct: false },
+                        { id: 'c', text: "2 + 6i", correct: false },
+                        { id: 'd', text: "2 - 6i", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "eˡⁿ⁽²⁾ = ?",
+                    options: [
+                        { id: 'a', text: "1", correct: false },
+                        { id: 'b', text: "2", correct: true },
+                        { id: 'c', text: "e", correct: false },
+                        { id: 'd', text: "0", correct: false }
+                    ]
+                }
+            ],
+            
+            // 1-sinf testlari (qo'shimcha)
+            1: [ // 1-sinf Ona tili
+                {
+                    id: 1,
+                    question: "Quyidagi so'zlardan qaysi biri unli harf bilan boshlanadi?",
+                    options: [
+                        { id: 'a', text: "kitob", correct: false },
+                        { id: 'b', text: "oltin", correct: true },
+                        { id: 'c', text: "stol", correct: false },
+                        { id: 'd', text: "qalam", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "So'z qaysi tovushlardan tashkil topgan?",
+                    options: [
+                        { id: 'a', text: "Harflardan", correct: false },
+                        { id: 'b', text: "Tovushlardan", correct: true },
+                        { id: 'c', text: "Raqamlardan", correct: false },
+                        { id: 'd', text: "Rasmlardan", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "Undosh harflar sonini toping: A, B, D, E, I, K",
+                    options: [
+                        { id: 'a', text: "2 ta", correct: false },
+                        { id: 'b', text: "3 ta", correct: true },
+                        { id: 'c', text: "4 ta", correct: false },
+                        { id: 'd', text: "5 ta", correct: false }
+                    ]
+                }
+            ],
+            
+            2: [ // 1-sinf Matematika
+                {
+                    id: 1,
+                    question: "5 + 3 = ?",
+                    options: [
+                        { id: 'a', text: "7", correct: false },
+                        { id: 'b', text: "8", correct: true },
+                        { id: 'c', text: "9", correct: false },
+                        { id: 'd', text: "6", correct: false }
+                    ]
+                },
+                {
+                    id: 2,
+                    question: "10 - 4 = ?",
+                    options: [
+                        { id: 'a', text: "5", correct: false },
+                        { id: 'b', text: "6", correct: true },
+                        { id: 'c', text: "7", correct: false },
+                        { id: 'd', text: "8", correct: false }
+                    ]
+                },
+                {
+                    id: 3,
+                    question: "9 dan keyin keladigan son?",
+                    options: [
+                        { id: 'a', text: "8", correct: false },
+                        { id: 'b', text: "10", correct: true },
+                        { id: 'c', text: "11", correct: false },
+                        { id: 'd', text: "9", correct: false }
+                    ]
+                }
+            ]
+        };
+        
+        // O'zgaruvchilar
+        let currentStudentId = 33;
+        let currentSubjectId = 59;
+        let currentGradeId = 5;
+        let currentTestResultId = 0;
+        
+        // Test o'zgaruvchilari
+        let currentTest = null;
+        let currentTestSubjectId = null;
+        let currentTestStudentId = null;
+        let currentQuestionIndex = 0;
+        let userAnswers = {};
+        let selectedClass = "11"; // Boshlang'ich tanlangan sinf
+        
+        // DOM elementlari
+        const tabs = document.querySelectorAll('.tab');
+        const mainContents = document.querySelectorAll('.main-content');
+        
+        // Tab'larni almashtirish
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetId = tab.getAttribute('data-target');
                 
-                sections.forEach(section => {
-                    // Generate 5-8 students per class
-                    const studentsInClass = Math.floor(Math.random() * 4) + 5;
-                    
-                    for (let i = 0; i < studentsInClass; i++) {
-                        const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
-                        const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
-                        const name = `${firstName} ${lastName}`;
-                        
-                        // Generate grades based on grade level
-                        const baseGrade = Math.min(5, Math.max(1, Math.floor(grade / 2) + 2));
-                        const mathGrade = baseGrade + (Math.random() > 0.7 ? 1 : 0);
-                        const languageGrade = baseGrade + (Math.random() > 0.5 ? 0 : -1);
-                        const scienceGrade = baseGrade;
-                        const historyGrade = baseGrade + (Math.random() > 0.8 ? 1 : 0);
-                        const englishGrade = baseGrade + (Math.random() > 0.6 ? 0 : -1);
-                        
-                        // Activity score (1-25)
-                        const activityScore = Math.floor(Math.random() * 15) + 10;
-                        
-                        initialStudents.push({
-                            id: id++,
-                            name,
-                            grade: grade,
-                            section: section || null,
-                            grades: {
-                                math: Math.max(1, Math.min(5, mathGrade)),
-                                language: Math.max(1, Math.min(5, languageGrade)),
-                                science: Math.max(1, Math.min(5, scienceGrade)),
-                                history: Math.max(1, Math.min(5, historyGrade)),
-                                english: Math.max(1, Math.min(5, englishGrade))
-                            },
-                            activity: activityScore,
-                            attendance: Math.floor(Math.random() * 20) + 80, // 80-100%
-                            lastUpdated: new Date().toISOString()
-                        });
+                // Aktiv tabni o'zgartirish
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Aktiv kontentni o'zgartirish
+                mainContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === targetId) {
+                        content.classList.add('active');
                     }
                 });
-            }
-            
-            localStorage.setItem('smartRatingStudents', JSON.stringify(initialStudents));
-            return initialStudents;
-        }
-
-        // ====== CALCULATION FUNCTIONS ======
-        function calculateAverage(grades) {
-            const subjects = Object.values(grades);
-            const sum = subjects.reduce((total, grade) => total + grade, 0);
-            return (sum / subjects.length).toFixed(2);
-        }
-
-        function calculateTotalScore(student) {
-            const average = parseFloat(calculateAverage(student.grades));
-            const activityScore = student.activity * 0.5; // 0.5 point per activity
-            const attendanceBonus = student.attendance >= 95 ? 5 : student.attendance >= 90 ? 3 : 0;
-            return (average * 4 + activityScore + attendanceBonus).toFixed(1);
-        }
-
-        function getGradeColor(grade) {
-            if (grade >= 4.5) return '#4CAF50';
-            if (grade >= 3.5) return '#8BC34A';
-            if (grade >= 2.5) return '#FFC107';
-            if (grade >= 1.5) return '#FF9800';
-            return '#f44336';
-        }
-
-        // ====== GENERATE GRADE BUTTONS (1-11) ======
-        function generateGradeButtons() {
-            const gradeSelector = document.getElementById('gradeSelector');
-            const gradeSelect = document.getElementById('studentGrade');
-            
-            // Generate buttons for grades 1-11
-            gradeSelector.innerHTML = '';
-            gradeSelect.innerHTML = '<option value="">Tanlang</option>';
-            
-            for (let grade = 1; grade <= 11; grade++) {
-                // Add to grade selector buttons
-                const button = document.createElement('button');
-                button.className = `grade-btn ${grade === 6 ? 'active' : ''}`;
-                button.dataset.grade = grade;
-                button.textContent = `${grade}-sinf`;
-                gradeSelector.appendChild(button);
                 
-                // Add to select dropdown
-                const option = document.createElement('option');
-                option.value = grade;
-                option.textContent = `${grade}-sinf`;
-                gradeSelect.appendChild(option);
-            }
-            
-            // Add event listeners
-            document.querySelectorAll('.grade-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.grade-btn').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    const selectedGrade = parseInt(this.dataset.grade);
-                    const selectedSection = document.querySelector('.section-btn.active').dataset.section;
-                    updateRatingTable(selectedGrade, selectedSection);
-                    updateStats(selectedGrade, selectedSection);
-                    updateCharts(selectedGrade, selectedSection);
-                });
-            });
-        }
-
-        // ====== SECTION SELECTION ======
-        document.querySelectorAll('.section-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.section-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                
-                const selectedGrade = parseInt(document.querySelector('.grade-btn.active').dataset.grade);
-                const selectedSection = this.dataset.section;
-                updateRatingTable(selectedGrade, selectedSection);
-                updateStats(selectedGrade, selectedSection);
-                updateCharts(selectedGrade, selectedSection);
+                // Har bir tabga o'tganda ma'lumotlarni yangilash
+                if (targetId === 'students') {
+                    renderStudentsTable();
+                } else if (targetId === 'subjects') {
+                    renderSubjectsTable();
+                } else if (targetId === 'grading') {
+                    renderGradingForm();
+                } else if (targetId === 'tests') {
+                    renderTestSelection();
+                } else if (targetId === 'results') {
+                    renderResults();
+                } else if (targetId === 'dashboard') {
+                    updateDashboard();
+                }
             });
         });
-
-        // ====== UPDATE RATING TABLE ======
-        function updateRatingTable(grade, section) {
-            // Filter students by grade and section
-            let filteredStudents = students.filter(s => s.grade === grade);
-            
-            if (section !== 'all' && section !== '') {
-                filteredStudents = filteredStudents.filter(s => s.section === section);
-            }
-            
-            // Sort by total score
-            filteredStudents.sort((a, b) => {
-                return calculateTotalScore(b) - calculateTotalScore(a);
-            });
-            
-            // Update table
-            const tbody = document.getElementById('ratingTableBody');
+        
+        // O'quvchilar jadvalini ko'rsatish
+        function renderStudentsTable() {
+            const tbody = document.getElementById('studentsTableBody');
             tbody.innerHTML = '';
             
-            filteredStudents.forEach((student, index) => {
-                const average = calculateAverage(student.grades);
-                const totalScore = calculateTotalScore(student);
-                const grades = student.grades;
+            students.forEach(student => {
+                // O'quvchining test natijasini olish
+                const studentTests = testResults.filter(t => t.studentId === student.id);
+                const avgTestScore = studentTests.length > 0 
+                    ? (studentTests.reduce((sum, t) => sum + t.score, 0) / studentTests.length).toFixed(1)
+                    : "Test topshirmagan";
                 
-                const tr = document.createElement('tr');
-                tr.className = `rank-${index < 3 ? index + 1 : 'other'}`;
-                
-                // Student info with avatar
-                const initials = student.name.split(' ').map(n => n[0]).join('');
-                
-                tr.innerHTML = `
-                    <td class="rank-cell">
-                        <div class="rank-number">${index + 1}</div>
-                    </td>
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${student.id}</td>
+                    <td>${student.name}</td>
+                    <td>${student.class}-sinf</td>
+                    <td>${student.group} guruh</td>
+                    <td>${avgTestScore} ${avgTestScore !== "Test topshirmagan" ? "ball" : ""}</td>
                     <td>
-                        <div class="student-info">
-                            <div class="student-avatar">${initials}</div>
-                            <div>
-                                <strong>${student.name}</strong><br>
-                                <small>${student.grade}${student.section ? student.section.toUpperCase() : ''}-sinf</small>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div style="font-weight: 600; font-size: 1.2rem; color: ${getGradeColor(parseFloat(average))}">
-                            ${average}
-                        </div>
-                    </td>
-                    <td>
-                        <div class="subject-grades">
-                            <div class="grade-dot grade-${grades.math}" title="Matematika: ${grades.math}">${grades.math}</div>
-                            <div class="grade-dot grade-${grades.language}" title="Ona tili: ${grades.language}">${grades.language}</div>
-                            <div class="grade-dot grade-${grades.science}" title="Tabiiy fan: ${grades.science}">${grades.science}</div>
-                            <div class="grade-dot grade-${grades.history}" title="Tarix: ${grades.history}">${grades.history}</div>
-                            <div class="grade-dot grade-${grades.english}" title="Ingliz tili: ${grades.english}">${grades.english}</div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="activity-badge">${student.activity}</div>
-                    </td>
-                    <td class="total-score">${totalScore}</td>
-                    <td>
-                        <button class="export-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;" onclick="viewStudentDetails(${student.id})">
-                            <i class="fas fa-eye"></i> Ko'rish
+                        <button class="btn" onclick="editStudent(${student.id})" style="padding: 5px 10px; margin-right: 5px;">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteStudent(${student.id})" style="padding: 5px 10px;">
+                            <i class="fas fa-trash"></i>
                         </button>
                     </td>
                 `;
-                
-                tbody.appendChild(tr);
+                tbody.appendChild(row);
             });
         }
-
-        // ====== UPDATE STATS ======
-        function updateStats(grade, section) {
-            let filteredStudents = students.filter(s => s.grade === grade);
+        
+        // Fanlar jadvalini ko'rsatish
+        function renderSubjectsTable() {
+            const tbody = document.getElementById('subjectsTableBody');
+            tbody.innerHTML = '';
             
-            if (section !== 'all' && section !== '') {
-                filteredStudents = filteredStudents.filter(s => s.section === section);
-            }
+            subjects.forEach(subject => {
+                // Fan uchun test savollari soni
+                const testCount = testQuestions[subject.id] ? testQuestions[subject.id].length : 0;
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${subject.id}</td>
+                    <td>${subject.name}</td>
+                    <td>${subject.class}-sinf</td>
+                    <td>${subject.teacher}</td>
+                    <td>${subject.credits}</td>
+                    <td>${testCount}</td>
+                    <td>
+                        <button class="btn" onclick="editSubject(${subject.id})" style="padding: 5px 10px; margin-right: 5px;">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteSubject(${subject.id})" style="padding: 5px 10px;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        // Baholash formasi
+        function renderGradingForm() {
+            const studentSelect = document.getElementById('studentSelect');
+            const subjectSelect = document.getElementById('subjectSelect');
             
-            if (filteredStudents.length === 0) {
-                document.getElementById('totalStudents').textContent = '0';
-                document.getElementById('averageGrade').textContent = '0.0';
-                document.getElementById('topScore').textContent = '0';
-                document.getElementById('activeStudents').textContent = '0';
+            // O'quvchilar ro'yxatini to'ldirish
+            studentSelect.innerHTML = '<option value="">O\'quvchi tanlang</option>';
+            students.forEach(student => {
+                const option = document.createElement('option');
+                option.value = student.id;
+                option.textContent = `${student.name} (${student.class}-sinf, ${student.group} guruh)`;
+                studentSelect.appendChild(option);
+            });
+            
+            // Fanlar ro'yxatini to'ldirish
+            subjectSelect.innerHTML = '<option value="">Fan tanlang</option>';
+            subjects.forEach(subject => {
+                const option = document.createElement('option');
+                option.value = subject.id;
+                option.textContent = `${subject.name} (${subject.class}-sinf, ${subject.teacher})`;
+                subjectSelect.appendChild(option);
+            });
+            
+            // Sana uchun bugungi sana
+            document.getElementById('gradeDate').valueAsDate = new Date();
+            
+            // Baholash tarixi
+            renderGradingHistory();
+        }
+        
+        // Baholash tarixini ko'rsatish
+        function renderGradingHistory() {
+            const tbody = document.getElementById('gradingHistoryBody');
+            tbody.innerHTML = '';
+            
+            if (grades.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td colspan="6" style="text-align: center;">Hali baholash kiritilmagan</td>`;
+                tbody.appendChild(row);
                 return;
             }
             
-            // Calculate stats
-            const totalStudents = filteredStudents.length;
-            const averageGrade = filteredStudents.reduce((sum, student) => {
-                return sum + parseFloat(calculateAverage(student.grades));
-            }, 0) / totalStudents;
+            // Eng so'nggi 10 ta baholash
+            const recentGrades = [...grades].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 10);
             
-            const topScore = Math.max(...filteredStudents.map(student => parseFloat(calculateTotalScore(student))));
-            const activeStudents = filteredStudents.filter(s => s.activity >= 15).length;
-            
-            // Update display
-            document.getElementById('totalStudents').textContent = totalStudents;
-            document.getElementById('averageGrade').textContent = averageGrade.toFixed(1);
-            document.getElementById('topScore').textContent = topScore.toFixed(1);
-            document.getElementById('activeStudents').textContent = activeStudents;
+            recentGrades.forEach(grade => {
+                const student = students.find(s => s.id === grade.studentId);
+                const subject = subjects.find(s => s.id === grade.subjectId);
+                const gradeClass = getGradeClass(grade.grade);
+                const gradeStatus = getGradeStatus(grade.grade);
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${student ? student.name : 'Noma\'lum'}</td>
+                    <td>${subject ? subject.name : 'Noma\'lum'}</td>
+                    <td>${subject ? subject.class + '-sinf' : ''}</td>
+                    <td><span class="grade ${gradeClass}">${grade.grade}</span></td>
+                    <td>${grade.date}</td>
+                    <td>${gradeStatus}</td>
+                `;
+                tbody.appendChild(row);
+            });
         }
-
-        // ====== CHARTS ======
-        let averageChart = null;
-        let distributionChart = null;
-
-        function updateCharts(grade, section) {
-            let filteredStudents = students.filter(s => s.grade === grade);
+        
+        // Baho uchun CSS klassini aniqlash
+        function getGradeClass(grade) {
+            if (grade >= 90) return 'grade-excellent';
+            if (grade >= 75) return 'grade-good';
+            if (grade >= 60) return 'grade-average';
+            return 'grade-poor';
+        }
+        
+        // Baho holatini aniqlash
+        function getGradeStatus(grade) {
+            if (grade >= 90) return 'A\'lo';
+            if (grade >= 75) return 'Yaxshi';
+            if (grade >= 60) return 'Qoniqarli';
+            return 'Qoniqarsiz';
+        }
+        
+        // Test tanlash sahifasini ko'rsatish
+        function renderTestSelection() {
+            const classFilter = document.getElementById('classFilter');
+            classFilter.innerHTML = '';
             
-            if (section !== 'all' && section !== '') {
-                filteredStudents = filteredStudents.filter(s => s.section === section);
+            // Sinf tanlash tugmalarini yaratish (1-11 sinflar)
+            for (let i = 1; i <= 11; i++) {
+                const classBtn = document.createElement('button');
+                classBtn.className = `class-btn ${i === parseInt(selectedClass) ? 'active' : ''}`;
+                classBtn.textContent = `${i}-sinf`;
+                classBtn.dataset.class = i;
+                
+                classBtn.addEventListener('click', function() {
+                    // Barcha tugmalardan aktiv klassini olib tashlash
+                    document.querySelectorAll('.class-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    
+                    // Tanlangan tugmaga klass qo'shish
+                    this.classList.add('active');
+                    selectedClass = this.dataset.class;
+                    
+                    // Tanlangan sinf fanlarini ko'rsatish
+                    renderSubjectsForClass();
+                });
+                
+                classFilter.appendChild(classBtn);
             }
             
-            if (filteredStudents.length === 0) return;
-            
-            // Prepare data for average chart
-            const subjects = ['Matematika', 'Ona tili', 'Tabiiy fan', 'Tarix', 'Ingliz tili'];
-            const averages = subjects.map((subject, index) => {
-                const key = subject.toLowerCase().includes('matematika') ? 'math' :
-                          subject.toLowerCase().includes('ona') ? 'language' :
-                          subject.toLowerCase().includes('tabiiy') ? 'science' :
-                          subject.toLowerCase().includes('tarix') ? 'history' : 'english';
-                
-                const sum = filteredStudents.reduce((total, student) => total + student.grades[key], 0);
-                return (sum / filteredStudents.length).toFixed(2);
-            });
-            
-            // Prepare data for distribution chart
-            const gradeDistribution = {
-                '5': 0,
-                '4': 0,
-                '3': 0,
-                '2': 0,
-                '1': 0
-            };
-            
-            filteredStudents.forEach(student => {
-                const avg = parseFloat(calculateAverage(student.grades));
-                if (avg >= 4.5) gradeDistribution['5']++;
-                else if (avg >= 3.5) gradeDistribution['4']++;
-                else if (avg >= 2.5) gradeDistribution['3']++;
-                else if (avg >= 1.5) gradeDistribution['2']++;
-                else gradeDistribution['1']++;
-            });
-            
-            // Update or create average chart
-            const avgCtx = document.getElementById('averageChart').getContext('2d');
-            if (averageChart) averageChart.destroy();
-            
-            averageChart = new Chart(avgCtx, {
-                type: 'bar',
-                data: {
-                    labels: subjects,
-                    datasets: [{
-                        label: 'O\'rtacha Baholar',
-                        data: averages,
-                        backgroundColor: '#43e97b',
-                        borderColor: '#38f9d7',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 5,
-                            title: {
-                                display: true,
-                                text: 'Baho'
-                            }
-                        }
-                    },
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Fanlar Bo\'yicha O\'rtacha Baholar'
-                        }
-                    }
-                }
-            });
-            
-            // Update or create distribution chart
-            const distCtx = document.getElementById('distributionChart').getContext('2d');
-            if (distributionChart) distributionChart.destroy();
-            
-            distributionChart = new Chart(distCtx, {
-                type: 'pie',
-                data: {
-                    labels: ['5 (A\'lo)', '4 (Yaxshi)', '3 (Qoniqarli)', '2 (Qoniqarsiz)', '1 (Yomon)'],
-                    datasets: [{
-                        data: Object.values(gradeDistribution),
-                        backgroundColor: [
-                            '#4CAF50',
-                            '#8BC34A',
-                            '#FFC107',
-                            '#FF9800',
-                            '#f44336'
-                        ]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Baho Distributsiyasi'
-                        },
-                        legend: {
-                            position: 'bottom'
-                        }
-                    }
-                }
-            });
+            // Boshlang'ich sinf fanlarini ko'rsatish
+            renderSubjectsForClass();
         }
-
-        // ====== ADD STUDENT FORM ======
-        document.getElementById('addStudentForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        
+        // Tanlangan sinf fanlarini ko'rsatish
+        function renderSubjectsForClass() {
+            const subjectSelector = document.getElementById('subjectSelector');
+            subjectSelector.innerHTML = '';
             
-            const name = document.getElementById('studentName').value.trim();
-            const grade = parseInt(document.getElementById('studentGrade').value);
-            const section = document.getElementById('studentSection').value;
-            const mathGrade = parseInt(document.getElementById('mathGrade').value);
-            const languageGrade = parseInt(document.getElementById('languageGrade').value);
-            const scienceGrade = parseInt(document.getElementById('scienceGrade').value);
-            const historyGrade = parseInt(document.getElementById('historyGrade').value);
-            const englishGrade = parseInt(document.getElementById('englishGrade').value);
-            const activityScore = parseInt(document.getElementById('activityScore').value);
+            // Tanlangan sinfning fanlarini filtrlash
+            const classSubjects = subjects.filter(subject => subject.class === selectedClass);
             
-            // Validate all grades are between 1-5
-            if ([mathGrade, languageGrade, scienceGrade, historyGrade, englishGrade].some(g => g < 1 || g > 5)) {
-                alert('Barcha baholar 1 dan 5 gacha bo\'lishi kerak!');
+            // Agar test savollari mavjud fanlar bo'lmasa
+            if (classSubjects.length === 0) {
+                subjectSelector.innerHTML = `<p>${selectedClass}-sinf uchun fanlar ro'yxati mavjud emas.</p>`;
                 return;
             }
             
-            if (activityScore < 1 || activityScore > 25) {
-                alert('Faollik ballari 1 dan 25 gacha bo\'lishi kerak!');
-                return;
-            }
-            
-            // Create new student
-            const newStudent = {
-                id: students.length > 0 ? Math.max(...students.map(s => s.id)) + 1 : 1,
-                name,
-                grade,
-                section,
-                grades: {
-                    math: mathGrade,
-                    language: languageGrade,
-                    science: scienceGrade,
-                    history: historyGrade,
-                    english: englishGrade
-                },
-                activity: activityScore,
-                attendance: Math.floor(Math.random() * 20) + 80, // Random 80-100%
-                lastUpdated: new Date().toISOString()
-            };
-            
-            // Add to database
-            students.push(newStudent);
-            localStorage.setItem('smartRatingStudents', JSON.stringify(students));
-            
-            // Reset form
-            this.reset();
-            document.getElementById('mathGrade').value = 4;
-            document.getElementById('languageGrade').value = 4;
-            document.getElementById('scienceGrade').value = 4;
-            document.getElementById('historyGrade').value = 4;
-            document.getElementById('englishGrade').value = 4;
-            document.getElementById('activityScore').value = 10;
-            
-            // Update display
-            const selectedGrade = parseInt(document.querySelector('.grade-btn.active').dataset.grade);
-            const selectedSection = document.querySelector('.section-btn.active').dataset.section;
-            
-            updateRatingTable(selectedGrade, selectedSection);
-            updateStats(selectedGrade, selectedSection);
-            updateCharts(selectedGrade, selectedSection);
-            
-            // Show success message
-            alert(`✅ ${name} muvaffaqiyatli qo'shildi!\nSinf: ${grade}${section ? section.toUpperCase() : ''}\nO'rtacha baho: ${calculateAverage(newStudent.grades)}`);
-        });
-
-        // ====== EXPORT FUNCTIONS ======
-        document.getElementById('exportCSV').addEventListener('click', function() {
-            const selectedGrade = parseInt(document.querySelector('.grade-btn.active').dataset.grade);
-            const selectedSection = document.querySelector('.section-btn.active').dataset.section;
-            
-            let filteredStudents = students.filter(s => s.grade === grade);
-            if (selectedSection !== 'all' && selectedSection !== '') {
-                filteredStudents = filteredStudents.filter(s => s.section === selectedSection);
-            }
-            
-            // Sort by rank
-            filteredStudents.sort((a, b) => {
-                return calculateTotalScore(b) - calculateTotalScore(a);
-            });
-            
-            // Create CSV content
-            let csv = 'O\'rin,Ism,Sinf,O\'rtacha Baho,Matematika,Ona Tili,Tabiiy Fan,Tarix,Ingliz Tili,Faollik Ballari,Umumiy Ball\n';
-            
-            filteredStudents.forEach((student, index) => {
-                const average = calculateAverage(student.grades);
-                const totalScore = calculateTotalScore(student);
-                const grades = student.grades;
+            // Har bir fan uchun kartochka yaratish
+            classSubjects.forEach(subject => {
+                // Fan uchun test savollari mavjudligini tekshirish
+                const hasTests = testQuestions[subject.id] && testQuestions[subject.id].length > 0;
                 
-                csv += `${index + 1},`;
-                csv += `${student.name},`;
-                csv += `${student.grade}${student.section ? student.section.toUpperCase() : ''},`;
-                csv += `${average},`;
-                csv += `${grades.math},`;
-                csv += `${grades.language},`;
-                csv += `${grades.science},`;
-                csv += `${grades.history},`;
-                csv += `${grades.english},`;
-                csv += `${student.activity},`;
-                csv += `${totalScore}\n`;
-            });
-            
-            // Create download link
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `${selectedGrade}-sinf-reyting.csv`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            alert(`✅ ${selectedGrade}-sinf reytingi CSV fayli sifatida yuklandi!`);
-        });
-
-        document.getElementById('exportPDF').addEventListener('click', async function() {
-            try {
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF();
+                const subjectCard = document.createElement('div');
+                subjectCard.className = 'subject-card';
+                subjectCard.dataset.subjectId = subject.id;
                 
-                const selectedGrade = parseInt(document.querySelector('.grade-btn.active').dataset.grade);
-                const selectedSection = document.querySelector('.section-btn.active').dataset.section;
-                
-                // Add title
-                doc.setFontSize(16);
-                doc.text(`${selectedGrade}-sinf O'quvchilar Reytingi`, 105, 15, { align: 'center' });
-                
-                doc.setFontSize(12);
-                doc.text(`Sana: ${new Date().toLocaleDateString('uz-UZ')}`, 105, 25, { align: 'center' });
-                
-                // Add table headers
-                const headers = [['O\'rin', 'O\'quvchi', 'O\'rtacha', 'Umumiy Ball']];
-                const startY = 40;
-                
-                doc.autoTable({
-                    head: headers,
-                    startY: startY,
-                    theme: 'grid',
-                    styles: { fontSize: 10, cellPadding: 3 },
-                    headStyles: { fillColor: [67, 233, 123] }
-                });
-                
-                // Get filtered and sorted students
-                let filteredStudents = students.filter(s => s.grade === selectedGrade);
-                if (selectedSection !== 'all' && selectedSection !== '') {
-                    filteredStudents = filteredStudents.filter(s => s.section === selectedSection);
+                if (!hasTests) {
+                    subjectCard.style.opacity = '0.7';
+                    subjectCard.style.cursor = 'not-allowed';
                 }
                 
-                filteredStudents.sort((a, b) => {
-                    return calculateTotalScore(b) - calculateTotalScore(a);
-                });
+                // Har bir fan uchun ikonka tanlash
+                let icon = 'fa-book';
+                if (subject.name.includes('Matematika')) icon = 'fa-calculator';
+                if (subject.name.includes('Fizika')) icon = 'fa-atom';
+                if (subject.name.includes('Kimyo')) icon = 'fa-flask';
+                if (subject.name.includes('Biologiya')) icon = 'fa-dna';
+                if (subject.name.includes('Informatika')) icon = 'fa-laptop-code';
+                if (subject.name.includes('Ingliz')) icon = 'fa-language';
+                if (subject.name.includes('Tarix')) icon = 'fa-landmark';
+                if (subject.name.includes('Geografiya')) icon = 'fa-globe-asia';
+                if (subject.name.includes('Tarbiya') || subject.name.includes('Jismoniy')) icon = 'fa-running';
+                if (subject.name.includes('Tabiiy')) icon = 'fa-leaf';
                 
-                // Add student data
-                const studentData = filteredStudents.map((student, index) => [
-                    index + 1,
-                    student.name,
-                    calculateAverage(student.grades),
-                    calculateTotalScore(student)
-                ]);
+                subjectCard.innerHTML = `
+                    <i class="fas ${icon}"></i>
+                    <h3>${subject.name}</h3>
+                    <p>${subject.teacher}</p>
+                    <div class="class-badge">${subject.class}-sinf</div>
+                    ${hasTests ? `<p><small>${testQuestions[subject.id].length} ta test savoli</small></p>` : '<p><small>Testlar tayyorlanmoqda</small></p>'}
+                `;
                 
-                doc.autoTable({
-                    body: studentData,
-                    startY: doc.autoTable.previous.finalY + 10,
-                    theme: 'grid',
-                    styles: { fontSize: 9, cellPadding: 2 }
-                });
+                if (hasTests) {
+                    subjectCard.addEventListener('click', function() {
+                        // Barcha kartalardan tanlangan klassini olib tashlash
+                        document.querySelectorAll('.subject-card').forEach(card => {
+                            card.classList.remove('selected');
+                        });
+                        
+                        // Tanlangan kartaga klass qo'shish
+                        this.classList.add('selected');
+                        
+                        // Test boshlash bo'limini ko'rsatish
+                        currentTestSubjectId = parseInt(this.dataset.subjectId);
+                        const selectedSubject = subjects.find(s => s.id === currentTestSubjectId);
+                        
+                        document.getElementById('selectedSubjectName').textContent = `${selectedSubject.class}-sinf, ${selectedSubject.name} testi`;
+                        document.getElementById('testStartSection').style.display = 'block';
+                        
+                        // Test uchun o'quvchilar ro'yxatini to'ldirish
+                        const testStudentSelect = document.getElementById('testStudentSelect');
+                        testStudentSelect.innerHTML = '<option value="">O\'quvchi tanlang (ixtiyoriy)</option>';
+                        
+                        // Faqat tanlangan sinf o'quvchilarini ko'rsatish
+                        const classStudents = students.filter(s => s.class === selectedSubject.class);
+                        classStudents.forEach(student => {
+                            const option = document.createElement('option');
+                            option.value = student.id;
+                            option.textContent = `${student.name} (${student.group} guruh)`;
+                            testStudentSelect.appendChild(option);
+                        });
+                    });
+                } else {
+                    subjectCard.addEventListener('click', function() {
+                        alert('Ushbu fan uchun test savollari hali tayyorlanmagan. Iltimos, keyinroq urinib ko\'ring.');
+                    });
+                }
                 
-                // Add stats
-                const statsY = doc.autoTable.previous.finalY + 20;
-                doc.setFontSize(11);
-                doc.text(`Jami o'quvchilar: ${filteredStudents.length}`, 20, statsY);
-                doc.text(`O'rtacha baho: ${(filteredStudents.reduce((sum, s) => sum + parseFloat(calculateAverage(s.grades)), 0) / filteredStudents.length).toFixed(2)}`, 100, statsY);
-                doc.text(`Eng yuqori ball: ${Math.max(...filteredStudents.map(s => parseFloat(calculateTotalScore(s)))).toFixed(1)}`, 20, statsY + 7);
-                
-                // Save PDF
-                doc.save(`${selectedGrade}-sinf-reyting.pdf`);
-                
-                alert(`✅ ${selectedGrade}-sinf reytingi PDF fayli sifatida yuklandi!`);
-            } catch (error) {
-                console.error('PDF yaratishda xato:', error);
-                alert('PDF yaratishda xato yuz berdi. Iltimos, qayta urinib ko\'ring.');
-            }
-        });
-
-        document.getElementById('printBtn').addEventListener('click', function() {
-            window.print();
-        });
-
-        // ====== VIEW STUDENT DETAILS ======
-        function viewStudentDetails(studentId) {
-            const student = students.find(s => s.id === studentId);
-            if (!student) return;
+                subjectSelector.appendChild(subjectCard);
+            });
+        }
+        
+        // Testni boshlash
+        function startTest() {
+            const testStudentSelect = document.getElementById('testStudentSelect');
+            currentTestStudentId = testStudentSelect.value ? parseInt(testStudentSelect.value) : null;
             
-            const average = calculateAverage(student.grades);
-            const totalScore = calculateTotalScore(student);
+            // Testni boshlash bo'limini yashirish
+            document.getElementById('testSelection').style.display = 'none';
             
-            const details = `
-                👤 <strong>${student.name}</strong>
-                📚 Sinf: ${student.grade}${student.section ? student.section.toUpperCase() : ''}
-                
-                📊 Baholar:
-                • Matematika: ${student.grades.math}
-                • Ona tili: ${student.grades.language}
-                • Tabiiy fan: ${student.grades.science}
-                • Tarix: ${student.grades.history}
-                • Ingliz tili: ${student.grades.english}
-                
-                ⭐ O'rtacha baho: ${average}
-                🏆 Faollik ballari: ${student.activity}
-                📈 Umumiy ball: ${totalScore}
-                📅 Davomat: ${student.attendance}%
-                🕐 Oxirgi yangilangan: ${new Date(student.lastUpdated).toLocaleDateString('uz-UZ')}
+            // Test savollarini ko'rsatish
+            document.getElementById('testContainer').style.display = 'block';
+            
+            // Test mavzusini o'rnatish
+            const subject = subjects.find(s => s.id === currentTestSubjectId);
+            document.getElementById('testSubjectTitle').textContent = `${subject.class}-sinf, ${subject.name} testi`;
+            
+            // Test savollarini yuklash
+            currentTest = testQuestions[currentTestSubjectId];
+            currentQuestionIndex = 0;
+            userAnswers = {};
+            
+            // Test savollarini ko'rsatish
+            renderQuestion();
+            
+            // Test bosqichini yangilash
+            updateTestProgress();
+        }
+        
+        // Test savolini ko'rsatish
+        function renderQuestion() {
+            const questionsContainer = document.getElementById('questionsContainer');
+            questionsContainer.innerHTML = '';
+            
+            const question = currentTest[currentQuestionIndex];
+            
+            const questionCard = document.createElement('div');
+            questionCard.className = 'question-card active';
+            questionCard.id = `question-${question.id}`;
+            
+            let optionsHTML = '';
+            question.options.forEach(option => {
+                const isSelected = userAnswers[question.id] === option.id;
+                optionsHTML += `
+                    <div class="option ${isSelected ? 'selected' : ''}" data-option-id="${option.id}">
+                        <input type="radio" name="question-${question.id}" id="option-${question.id}-${option.id}" 
+                               ${isSelected ? 'checked' : ''} value="${option.id}">
+                        <label for="option-${question.id}-${option.id}">
+                            <strong>${option.id})</strong> ${option.text}
+                        </label>
+                    </div>
+                `;
+            });
+            
+            questionCard.innerHTML = `
+                <div class="question-number">${currentQuestionIndex + 1}</div>
+                <div class="question-text">${question.question}</div>
+                <div class="options-container">
+                    ${optionsHTML}
+                </div>
             `;
             
-            alert(details);
+            questionsContainer.appendChild(questionCard);
+            
+            // Variantlarni tanlash uchun event listener qo'shish
+            document.querySelectorAll(`#question-${question.id} .option`).forEach(option => {
+                option.addEventListener('click', function() {
+                    // Barcha variantlardan tanlangan klassini olib tashlash
+                    document.querySelectorAll(`#question-${question.id} .option`).forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Tanlangan variantga klass qo'shish
+                    this.classList.add('selected');
+                    
+                    // Radiobuttonni belgilash
+                    const radioBtn = this.querySelector('input[type="radio"]');
+                    radioBtn.checked = true;
+                    
+                    // Javobni saqlash
+                    userAnswers[question.id] = radioBtn.value;
+                });
+            });
+            
+            // Oldingi va keyingi tugmalarini yangilash
+            updateTestControls();
         }
-
-        // ====== INITIALIZE ======
-        document.addEventListener('DOMContentLoaded', function() {
-            // Generate grade buttons
-            generateGradeButtons();
+        
+        // Test bosqichini yangilash
+        function updateTestProgress() {
+            const progressPercent = ((currentQuestionIndex + 1) / currentTest.length) * 100;
+            document.getElementById('progressFill').style.width = `${progressPercent}%`;
+            document.getElementById('progressText').textContent = `Savol ${currentQuestionIndex + 1}/${currentTest.length}`;
+        }
+        
+        // Test boshqaruv tugmalarini yangilash
+        function updateTestControls() {
+            document.getElementById('prevQuestionBtn').disabled = currentQuestionIndex === 0;
+            document.getElementById('nextQuestionBtn').style.display = currentQuestionIndex < currentTest.length - 1 ? 'inline-block' : 'none';
+            document.getElementById('finishTestBtn').style.display = currentQuestionIndex === currentTest.length - 1 ? 'inline-block' : 'none';
+        }
+        
+        // Testni yakunlash
+        function finishTest() {
+            // Javoblarni tekshirish va ballarni hisoblash
+            let correctAnswers = 0;
             
-            // Initialize with grade 6, all sections
-            updateRatingTable(6, 'all');
-            updateStats(6, 'all');
-            updateCharts(6, 'all');
+            currentTest.forEach(question => {
+                const userAnswer = userAnswers[question.id];
+                if (userAnswer) {
+                    const selectedOption = question.options.find(opt => opt.id === userAnswer);
+                    if (selectedOption && selectedOption.correct) {
+                        correctAnswers++;
+                    }
+                }
+            });
             
-            // Include common scripts
-            const script = document.createElement('script');
-            script.src = 'script.js';
-            document.body.appendChild(script);
+            const score = (correctAnswers / currentTest.length) * 100;
+            const grade = getTestGrade(score);
+            
+            // Test natijasini saqlash
+            currentTestResultId++;
+            const testResult = {
+                id: currentTestResultId,
+                studentId: currentTestStudentId,
+                subjectId: currentTestSubjectId,
+                score: score,
+                correctAnswers: correctAnswers,
+                totalQuestions: currentTest.length,
+                date: new Date().toISOString().split('T')[0],
+                answers: {...userAnswers}
+            };
+            
+            testResults.push(testResult);
+            
+            // Agar o'quvchi tanlangan bo'lsa, baholash sifatida ham saqlash
+            if (currentTestStudentId) {
+                currentGradeId++;
+                grades.push({
+                    id: currentGradeId,
+                    studentId: currentTestStudentId,
+                    subjectId: currentTestSubjectId,
+                    grade: score,
+                    date: testResult.date,
+                    comment: `Test natijasi: ${correctAnswers}/${currentTest.length}`
+                });
+            }
+            
+            // Natijalarni ko'rsatish
+            showTestResult(score, correctAnswers, currentTest.length, grade);
+        }
+        
+        // Test natijasini ko'rsatish
+        function showTestResult(score, correct, total, grade) {
+            // Test savollarini yashirish
+            document.getElementById('testContainer').style.display = 'none';
+            
+            // Natija ko'rsatish
+            const resultContainer = document.getElementById('testResultContainer');
+            resultContainer.style.display = 'block';
+            
+            const subject = subjects.find(s => s.id === currentTestSubjectId);
+            const student = currentTestStudentId ? students.find(s => s.id === currentTestStudentId) : null;
+            
+            // Test natijasiga mos rang
+            let resultColor = getGradeColor(score);
+            let resultEmoji = getResultEmoji(score);
+            
+            resultContainer.innerHTML = `
+                <div class="result-card">
+                    <h2>Test natijangiz</h2>
+                    <div class="result-score" style="color: ${resultColor}">${score.toFixed(1)}</div>
+                    <div class="result-grade" style="background-color: ${resultColor + '20'}; color: ${resultColor}">
+                        ${grade} ${resultEmoji}
+                    </div>
+                    
+                    <p><strong>Fan:</strong> ${subject.name} (${subject.class}-sinf)</p>
+                    ${student ? `<p><strong>O'quvchi:</strong> ${student.name} (${student.class}-sinf, ${student.group} guruh)</p>` : ''}
+                    <p><strong>To'g'ri javoblar:</strong> ${correct}/${total}</p>
+                    <p><strong>Sana:</strong> ${new Date().toLocaleDateString('uz-UZ')}</p>
+                    
+                    <div class="result-details">
+                        <h4>Javoblaringiz tahlili:</h4>
+                        <div id="answersAnalysis"></div>
+                    </div>
+                    
+                    <div style="margin-top: 30px;">
+                        <button class="btn" id="retakeTestBtn" style="margin-right: 10px;">
+                            <i class="fas fa-redo"></i> Qayta topshirish
+                        </button>
+                        <button class="btn btn-success" id="backToTestsBtn">
+                            <i class="fas fa-arrow-left"></i> Boshqa testlar
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Javoblarni tahlil qilish
+            const answersAnalysis = document.getElementById('answersAnalysis');
+            currentTest.forEach((question, index) => {
+                const userAnswer = userAnswers[question.id];
+                const isCorrect = userAnswer ? question.options.find(opt => opt.id === userAnswer).correct : false;
+                
+                const questionDiv = document.createElement('div');
+                questionDiv.style.padding = '10px';
+                questionDiv.style.marginBottom = '10px';
+                questionDiv.style.borderRadius = '5px';
+                questionDiv.style.backgroundColor = isCorrect ? 'rgba(39, 174, 96, 0.1)' : 'rgba(231, 76, 60, 0.1)';
+                questionDiv.style.borderLeft = `4px solid ${isCorrect ? '#27ae60' : '#e74c3c'}`;
+                
+                questionDiv.innerHTML = `
+                    <p><strong>${index + 1}. ${question.question}</strong></p>
+                    <p>${userAnswer ? `Sizning javobingiz: ${userAnswer}) ${question.options.find(opt => opt.id === userAnswer).text}` : 'Javob bermagansiz'}</p>
+                    <p>To'g'ri javob: ${question.options.find(opt => opt.correct).id}) ${question.options.find(opt => opt.correct).text}</p>
+                `;
+                
+                answersAnalysis.appendChild(questionDiv);
+            });
+            
+            // Tugmalarga event listener qo'shish
+            document.getElementById('retakeTestBtn').addEventListener('click', () => {
+                // Testni qayta boshlash
+                document.getElementById('testResultContainer').style.display = 'none';
+                startTest();
+            });
+            
+            document.getElementById('backToTestsBtn').addEventListener('click', () => {
+                // Test tanlash sahifasiga qaytish
+                document.getElementById('testResultContainer').style.display = 'none';
+                document.getElementById('testSelection').style.display = 'block';
+                renderTestSelection();
+            });
+        }
+        
+        // Test bahosini aniqlash
+        function getTestGrade(score) {
+            if (score >= 90) return "A'lo";
+            if (score >= 75) return "Yaxshi";
+            if (score >= 60) return "Qoniqarli";
+            return "Qoniqarsiz";
+        }
+        
+        // Test natijasi rangini aniqlash
+        function getGradeColor(score) {
+            if (score >= 90) return '#27ae60';
+            if (score >= 75) return '#3498db';
+            if (score >= 60) return '#f39c12';
+            return '#e74c3c';
+        }
+        
+        // Test natijasi emojisini aniqlash
+        function getResultEmoji(score) {
+            if (score >= 90) return '🎉';
+            if (score >= 75) return '👍';
+            if (score >= 60) return '😊';
+            return '😔';
+        }
+        
+        // Natijalarni ko'rsatish
+        function renderResults() {
+            const filterStudent = document.getElementById('filterStudent');
+            const filterSubject = document.getElementById('filterSubject');
+            const filterClass = document.getElementById('filterClass');
+            const resultsContainer = document.getElementById('resultsContainer');
+            
+            // Filtrlar uchun o'quvchilar ro'yxati
+            filterStudent.innerHTML = '<option value="">Barcha o\'quvchilar</option>';
+            students.forEach(student => {
+                const option = document.createElement('option');
+                option.value = student.id;
+                option.textContent = `${student.name} (${student.class}-sinf, ${student.group} guruh)`;
+                filterStudent.appendChild(option);
+            });
+            
+            // Filtrlar uchun fanlar ro'yxati
+            filterSubject.innerHTML = '<option value="">Barcha fanlar</option>';
+            subjects.forEach(subject => {
+                const option = document.createElement('option');
+                option.value = subject.id;
+                option.textContent = `${subject.name} (${subject.class}-sinf)`;
+                filterSubject.appendChild(option);
+            });
+            
+            // Filtrlar uchun sinflar ro'yxati
+            filterClass.innerHTML = '<option value="">Barcha sinflar</option>';
+            const uniqueClasses = [...new Set(students.map(s => s.class))].sort((a, b) => a - b);
+            uniqueClasses.forEach(classNum => {
+                const option = document.createElement('option');
+                option.value = classNum;
+                option.textContent = `${classNum}-sinf`;
+                filterClass.appendChild(option);
+            });
+            
+            // Natijalarni ko'rsatish
+            updateResults();
+            
+            // Filtr o'zgarishlarini kuzatish
+            filterStudent.addEventListener('change', updateResults);
+            filterSubject.addEventListener('change', updateResults);
+            filterClass.addEventListener('change', updateResults);
+        }
+        
+        // Natijalarni yangilash
+        function updateResults() {
+            const studentId = document.getElementById('filterStudent').value;
+            const subjectId = document.getElementById('filterSubject').value;
+            const classId = document.getElementById('filterClass').value;
+            const resultsContainer = document.getElementById('resultsContainer');
+            
+            // Filtrlangan baholarni olish
+            let filteredGrades = [...grades];
+            let filteredTests = [...testResults];
+            
+            if (studentId) {
+                filteredGrades = filteredGrades.filter(g => g.studentId == studentId);
+                filteredTests = filteredTests.filter(t => t.studentId == studentId);
+            }
+            
+            if (subjectId) {
+                filteredGrades = filteredGrades.filter(g => g.subjectId == subjectId);
+                filteredTests = filteredTests.filter(t => t.subjectId == subjectId);
+            }
+            
+            if (classId) {
+                // Sinf bo'yicha filtr - o'quvchilarni sinf bo'yicha filtrlash
+                const classStudents = students.filter(s => s.class == classId);
+                const classStudentIds = classStudents.map(s => s.id);
+                
+                filteredGrades = filteredGrades.filter(g => classStudentIds.includes(g.studentId));
+                filteredTests = filteredTests.filter(t => classStudentIds.includes(t.studentId));
+            }
+            
+            // Agar hech qanday natija bo'lmasa
+            if (filteredGrades.length === 0 && filteredTests.length === 0) {
+                resultsContainer.innerHTML = '<p>Tanlangan filtr bo\'yicha natijalar topilmadi.</p>';
+                return;
+            }
+            
+            // Natijalarni guruhlash
+            const studentResults = {};
+            const subjectResults = {};
+            const classResults = {};
+            
+            // Baholarni qo'shish
+            filteredGrades.forEach(grade => {
+                const student = students.find(s => s.id === grade.studentId);
+                const subject = subjects.find(s => s.id === grade.subjectId);
+                
+                if (!student || !subject) return;
+                
+                // O'quvchi natijalari
+                if (!studentResults[student.id]) {
+                    studentResults[student.id] = {
+                        name: student.name,
+                        class: student.class,
+                        group: student.group,
+                        grades: [],
+                        average: 0,
+                        testResults: []
+                    };
+                }
+                studentResults[student.id].grades.push({
+                    subject: subject.name,
+                    grade: grade.grade,
+                    date: grade.date,
+                    isTest: grade.comment && grade.comment.includes('Test natijasi')
+                });
+                
+                // Fan natijalari
+                if (!subjectResults[subject.id]) {
+                    subjectResults[subject.id] = {
+                        name: subject.name,
+                        class: subject.class,
+                        grades: [],
+                        average: 0
+                    };
+                }
+                subjectResults[subject.id].grades.push(grade.grade);
+                
+                // Sinf natijalari
+                if (!classResults[student.class]) {
+                    classResults[student.class] = {
+                        class: student.class,
+                        grades: [],
+                        average: 0
+                    };
+                }
+                classResults[student.class].grades.push(grade.grade);
+            });
+            
+            // Test natijalarini qo'shish
+            filteredTests.forEach(test => {
+                const student = students.find(s => s.id === test.studentId);
+                const subject = subjects.find(s => s.id === test.subjectId);
+                
+                if (!student || !subject) return;
+                
+                // O'quvchi natijalari
+                if (!studentResults[student.id]) {
+                    studentResults[student.id] = {
+                        name: student.name,
+                        class: student.class,
+                        group: student.group,
+                        grades: [],
+                        average: 0,
+                        testResults: []
+                    };
+                }
+                
+                studentResults[student.id].testResults.push({
+                    subject: subject.name,
+                    score: test.score,
+                    correct: test.correctAnswers,
+                    total: test.totalQuestions,
+                    date: test.date
+                });
+            });
+            
+            // O'rtacha baholarni hisoblash
+            Object.values(studentResults).forEach(result => {
+                if (result.grades.length > 0) {
+                    const sum = result.grades.reduce((a, b) => a + b.grade, 0);
+                    result.average = (sum / result.grades.length).toFixed(1);
+                }
+            });
+            
+            Object.values(subjectResults).forEach(result => {
+                if (result.grades.length > 0) {
+                    const sum = result.grades.reduce((a, b) => a + b, 0);
+                    result.average = (sum / result.grades.length).toFixed(1);
+                }
+            });
+            
+            Object.values(classResults).forEach(result => {
+                if (result.grades.length > 0) {
+                    const sum = result.grades.reduce((a, b) => a + b, 0);
+                    result.average = (sum / result.grades.length).toFixed(1);
+                }
+            });
+            
+            // Natijalarni chiqarish
+            let html = '<div class="row">';
+            
+            // O'quvchilar natijalari
+            html += '<div class="col"><h3>O\'quvchilar natijalari</h3>';
+            
+            Object.values(studentResults).forEach(result => {
+                // O'quvchi uchun test va oddiy baholarni alohida ko'rsatish
+                let testGradesHTML = '';
+                let regularGradesHTML = '';
+                
+                result.grades.forEach(grade => {
+                    const gradeClass = getGradeClass(grade.grade);
+                    const gradeItem = `
+                        <div style="margin-bottom: 5px;">
+                            <strong>${grade.subject}:</strong> 
+                            <span class="grade ${gradeClass}" style="font-size: 12px;">${grade.grade.toFixed(1)}</span>
+                            ${grade.isTest ? '<span style="color: #3498db; font-size: 12px;"> (test)</span>' : ''}
+                        </div>
+                    `;
+                    
+                    if (grade.isTest) {
+                        testGradesHTML += gradeItem;
+                    } else {
+                        regularGradesHTML += gradeItem;
+                    }
+                });
+                
+                // Test natijalari
+                let testResultsHTML = '';
+                if (result.testResults.length > 0) {
+                    testResultsHTML = '<div style="margin-top: 10px;"><strong>Test natijalari:</strong>';
+                    result.testResults.forEach(test => {
+                        const gradeClass = getGradeClass(test.score);
+                        testResultsHTML += `
+                            <div style="margin-bottom: 5px;">
+                                <strong>${test.subject}:</strong> 
+                                <span class="grade ${gradeClass}" style="font-size: 12px;">${test.score.toFixed(1)}</span>
+                                <span style="font-size: 12px; color: #7f8c8d;"> (${test.correct}/${test.total})</span>
+                            </div>
+                        `;
+                    });
+                    testResultsHTML += '</div>';
+                }
+                
+                html += `
+                    <div class="stat-card" style="text-align: left; margin-bottom: 15px;">
+                        <h4>${result.name} (${result.class}-sinf, ${result.group} guruh)</h4>
+                        <p>O'rtacha baho: <strong>${result.average}</strong></p>
+                        ${regularGradesHTML ? '<div><strong>Oddiy baholar:</strong>' + regularGradesHTML + '</div>' : ''}
+                        ${testGradesHTML ? '<div style="margin-top: 10px;"><strong>Test baholari:</strong>' + testGradesHTML + '</div>' : ''}
+                        ${testResultsHTML}
+                    </div>
+                `;
+            });
+            html += '</div>';
+            
+            // Sinf va fanlar natijalari
+            html += '<div class="col"><h3>Sinf va fanlar natijalari</h3>';
+            
+            // Sinf natijalari
+            Object.values(classResults).forEach(result => {
+                html += `
+                    <div class="stat-card" style="text-align: left; margin-bottom: 15px;">
+                        <h4>${result.class}-sinf</h4>
+                        <p>O'rtacha baho: <strong>${result.average}</strong></p>
+                        <p>Baholar soni: ${result.grades.length}</p>
+                    </div>
+                `;
+            });
+            
+            // Fan natijalari
+            Object.values(subjectResults).forEach(result => {
+                html += `
+                    <div class="stat-card" style="text-align: left; margin-bottom: 15px;">
+                        <h4>${result.name} (${result.class}-sinf)</h4>
+                        <p>O'rtacha baho: <strong>${result.average}</strong></p>
+                        <p>Baholar soni: ${result.grades.length}</p>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            
+            html += '</div>';
+            
+            resultsContainer.innerHTML = html;
+        }
+        
+        // Bosh sahifani yangilash
+        function updateDashboard() {
+            // Umumiy statistika
+            document.getElementById('total-students').textContent = students.length;
+            document.getElementById('total-subjects').textContent = subjects.length;
+            
+            // O'rtacha baho
+            if (grades.length > 0) {
+                const total = grades.reduce((sum, grade) => sum + grade.grade, 0);
+                const average = total / grades.length;
+                document.getElementById('average-grade').textContent = average.toFixed(1);
+                
+                // A'lo baholar soni
+                const excellentCount = grades.filter(grade => grade.grade >= 90).length;
+                document.getElementById('excellent-count').textContent = excellentCount;
+            } else {
+                document.getElementById('average-grade').textContent = '0';
+                document.getElementById('excellent-count').textContent = '0';
+            }
+            
+            // So'nggi test natijalari
+            const recentContainer = document.getElementById('recent-tests');
+            if (testResults.length > 0) {
+                const recentTests = [...testResults].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
+                
+                let html = '<table><thead><tr><th>O\'quvchi</th><th>Sinf</th><th>Fan</th><th>Natija</th><th>Sana</th></tr></thead><tbody>';
+                
+                recentTests.forEach(test => {
+                    const student = students.find(s => s.id === test.studentId);
+                    const subject = subjects.find(s => s.id === test.subjectId);
+                    const gradeClass = getGradeClass(test.score);
+                    
+                    html += `
+                        <tr>
+                            <td>${student ? student.name : 'Anonim'}</td>
+                            <td>${student ? student.class + '-sinf' : ''}</td>
+                            <td>${subject ? subject.name : 'Noma\'lum'}</td>
+                            <td><span class="grade ${gradeClass}">${test.score.toFixed(1)}</span> (${test.correctAnswers}/${test.totalQuestions})</td>
+                            <td>${test.date}</td>
+                        </tr>
+                    `;
+                });
+                
+                html += '</tbody></table>';
+                recentContainer.innerHTML = html;
+            } else {
+                recentContainer.innerHTML = '<p>Hali test natijalari mavjud emas.</p>';
+            }
+        }
+        
+        // Modal oynalar
+        const studentModal = document.getElementById('studentModal');
+        const subjectModal = document.getElementById('subjectModal');
+        
+        // Yangi o'quvchi qo'shish
+        document.getElementById('addStudentBtn').addEventListener('click', () => {
+            document.getElementById('newStudentName').value = '';
+            document.getElementById('newStudentGroup').value = '';
+            document.getElementById('newStudentPhone').value = '';
+            studentModal.style.display = 'block';
+        });
+        
+        // Yangi fan qo'shish
+        document.getElementById('addSubjectBtn').addEventListener('click', () => {
+            document.getElementById('newSubjectName').value = '';
+            document.getElementById('newSubjectTeacher').value = '';
+            document.getElementById('newSubjectCredits').value = 3;
+            subjectModal.style.display = 'block';
+        });
+        
+        // O'quvchini saqlash
+        document.getElementById('saveStudentBtn').addEventListener('click', () => {
+            const name = document.getElementById('newStudentName').value.trim();
+            const studentClass = document.getElementById('newStudentClass').value;
+            const group = document.getElementById('newStudentGroup').value.trim();
+            const phone = document.getElementById('newStudentPhone').value.trim();
+            
+            if (name && studentClass && group && phone) {
+                currentStudentId++;
+                students.push({
+                    id: currentStudentId,
+                    name: name,
+                    class: studentClass,
+                    group: group,
+                    phone: phone
+                });
+                
+                studentModal.style.display = 'none';
+                renderStudentsTable();
+                updateDashboard();
+                
+                // Yangi o'quvchini baholash formasi uchun ham qo'shish
+                renderGradingForm();
+            } else {
+                alert('Iltimos, barcha maydonlarni to\'ldiring!');
+            }
+        });
+        
+        // O'quvchi qo'shishni bekor qilish
+        document.getElementById('cancelStudentBtn').addEventListener('click', () => {
+            studentModal.style.display = 'none';
+        });
+        
+        // Fan saqlash
+        document.getElementById('saveSubjectBtn').addEventListener('click', () => {
+            const name = document.getElementById('newSubjectName').value.trim();
+            const subjectClass = document.getElementById('newSubjectClass').value;
+            const teacher = document.getElementById('newSubjectTeacher').value.trim();
+            const credits = parseInt(document.getElementById('newSubjectCredits').value);
+            
+            if (name && teacher && credits) {
+                currentSubjectId++;
+                subjects.push({
+                    id: currentSubjectId,
+                    name: name,
+                    class: subjectClass,
+                    teacher: teacher,
+                    credits: credits
+                });
+                
+                subjectModal.style.display = 'none';
+                renderSubjectsTable();
+                updateDashboard();
+                
+                // Yangi fanni baholash formasi uchun ham qo'shish
+                renderGradingForm();
+            } else {
+                alert('Iltimos, barcha maydonlarni to\'ldiring!');
+            }
+        });
+        
+        // Fan qo'shishni bekor qilish
+        document.getElementById('cancelSubjectBtn').addEventListener('click', () => {
+            subjectModal.style.display = 'none';
+        });
+        
+        // Bahoni saqlash
+        document.getElementById('saveGradeBtn').addEventListener('click', () => {
+            const studentId = document.getElementById('studentSelect').value;
+            const subjectId = document.getElementById('subjectSelect').value;
+            const gradeValue = document.getElementById('gradeValue').value;
+            const gradeDate = document.getElementById('gradeDate').value;
+            const comment = document.getElementById('gradeComment').value;
+            
+            if (!studentId || !subjectId || !gradeValue || !gradeDate) {
+                alert('Iltimos, barcha kerakli maydonlarni to\'ldiring!');
+                return;
+            }
+            
+            currentGradeId++;
+            grades.push({
+                id: currentGradeId,
+                studentId: parseInt(studentId),
+                subjectId: parseInt(subjectId),
+                grade: parseInt(gradeValue),
+                date: gradeDate,
+                comment: comment
+            });
+            
+            // Formani tozalash
+            document.getElementById('studentSelect').value = '';
+            document.getElementById('subjectSelect').value = '';
+            document.getElementById('gradeValue').value = '';
+            document.getElementById('gradeComment').value = '';
+            
+            // Yangilash
+            renderGradingHistory();
+            updateDashboard();
+            alert('Baho muvaffaqiyatli saqlandi!');
+        });
+        
+        // Testni boshlash
+        document.getElementById('startTestBtn').addEventListener('click', startTest);
+        
+        // Oldingi savol
+        document.getElementById('prevQuestionBtn').addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestion();
+                updateTestProgress();
+            }
+        });
+        
+        // Keyingi savol
+        document.getElementById('nextQuestionBtn').addEventListener('click', () => {
+            if (currentQuestionIndex < currentTest.length - 1) {
+                currentQuestionIndex++;
+                renderQuestion();
+                updateTestProgress();
+            }
+        });
+        
+        // Testni yakunlash
+        document.getElementById('finishTestBtn').addEventListener('click', finishTest);
+        
+        // O'quvchini tahrirlash
+        window.editStudent = function(id) {
+            const student = students.find(s => s.id === id);
+            if (student) {
+                document.getElementById('newStudentName').value = student.name;
+                document.getElementById('newStudentClass').value = student.class;
+                document.getElementById('newStudentGroup').value = student.group;
+                document.getElementById('newStudentPhone').value = student.phone;
+                studentModal.style.display = 'block';
+                
+                // Saqlash tugmasini o'zgartirish
+                const saveBtn = document.getElementById('saveStudentBtn');
+                saveBtn.textContent = 'Yangilash';
+                saveBtn.onclick = function() {
+                    student.name = document.getElementById('newStudentName').value.trim();
+                    student.class = document.getElementById('newStudentClass').value;
+                    student.group = document.getElementById('newStudentGroup').value.trim();
+                    student.phone = document.getElementById('newStudentPhone').value.trim();
+                    
+                    studentModal.style.display = 'none';
+                    renderStudentsTable();
+                    updateDashboard();
+                    renderGradingForm();
+                    
+                    // Tugmani asl holatiga qaytarish
+                    saveBtn.textContent = 'Saqlash';
+                    saveBtn.onclick = document.getElementById('saveStudentBtn').onclick;
+                };
+            }
+        };
+        
+        // O'quvchini o'chirish
+        window.deleteStudent = function(id) {
+            if (confirm('Haqiqatan ham bu o\'quvchini o\'chirmoqchimisiz?')) {
+                students = students.filter(s => s.id !== id);
+                // O'quvchiga tegishli baholarni ham o'chirish
+                grades = grades.filter(g => g.studentId !== id);
+                // O'quvchiga tegishli test natijalarini ham o'chirish
+                testResults = testResults.filter(t => t.studentId !== id);
+                renderStudentsTable();
+                updateDashboard();
+                renderGradingForm();
+            }
+        };
+        
+        // Fan tahrirlash
+        window.editSubject = function(id) {
+            const subject = subjects.find(s => s.id === id);
+            if (subject) {
+                document.getElementById('newSubjectName').value = subject.name;
+                document.getElementById('newSubjectClass').value = subject.class;
+                document.getElementById('newSubjectTeacher').value = subject.teacher;
+                document.getElementById('newSubjectCredits').value = subject.credits;
+                subjectModal.style.display = 'block';
+                
+                // Saqlash tugmasini o'zgartirish
+                const saveBtn = document.getElementById('saveSubjectBtn');
+                saveBtn.textContent = 'Yangilash';
+                saveBtn.onclick = function() {
+                    subject.name = document.getElementById('newSubjectName').value.trim();
+                    subject.class = document.getElementById('newSubjectClass').value;
+                    subject.teacher = document.getElementById('newSubjectTeacher').value.trim();
+                    subject.credits = parseInt(document.getElementById('newSubjectCredits').value);
+                    
+                    subjectModal.style.display = 'none';
+                    renderSubjectsTable();
+                    updateDashboard();
+                    renderGradingForm();
+                    
+                    // Tugmani asl holatiga qaytarish
+                    saveBtn.textContent = 'Saqlash';
+                    saveBtn.onclick = document.getElementById('saveSubjectBtn').onclick;
+                };
+            }
+        };
+        
+        // Fan o'chirish
+        window.deleteSubject = function(id) {
+            if (confirm('Haqiqatan ham bu fanni o\'chirmoqchimisiz?')) {
+                subjects = subjects.filter(s => s.id !== id);
+                // Fanga tegishli baholarni ham o'chirish
+                grades = grades.filter(g => g.subjectId !== id);
+                // Fanga tegishli test natijalarini ham o'chirish
+                testResults = testResults.filter(t => t.subjectId !== id);
+                renderSubjectsTable();
+                updateDashboard();
+                renderGradingForm();
+            }
+        };
+        
+        // Modal oynalar yopish (tashqariga bosganda)
+        window.addEventListener('click', (event) => {
+            if (event.target === studentModal) {
+                studentModal.style.display = 'none';
+                // Tugmani asl holatiga qaytarish
+                document.getElementById('saveStudentBtn').textContent = 'Saqlash';
+                document.getElementById('saveStudentBtn').onclick = document.getElementById('saveStudentBtn').onclick;
+            }
+            if (event.target === subjectModal) {
+                subjectModal.style.display = 'none';
+                // Tugmani asl holatiga qaytarish
+                document.getElementById('saveSubjectBtn').textContent = 'Saqlash';
+                document.getElementById('saveSubjectBtn').onclick = document.getElementById('saveSubjectBtn').onclick;
+            }
+        });
+        
+        // Dastlabki yuklash
+        document.addEventListener('DOMContentLoaded', () => {
+            renderStudentsTable();
+            renderSubjectsTable();
+            renderGradingForm();
+            renderTestSelection();
+            renderResults();
+            updateDashboard();
         });
     </script>
 </body>

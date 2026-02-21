@@ -3,258 +3,492 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Onlayn Kutubxona | Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+    <title> Kutubxona</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Project Specific Styles */
-        .project-header {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: white;
-            padding: 4rem 0;
-            text-align: center;
-            margin-top: 70px;
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #10b981;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #6b7280;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            --radius: 16px;
+            --transition: all 0.3s ease;
         }
         
-        .project-container {
-            max-width: 1200px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f0f4ff 0%, #eef2ff 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 2rem;
         }
         
-        .back-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: white;
-            color: #4facfe;
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: var(--radius);
+            margin-bottom: 40px;
+            color: white;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
         }
         
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none"><path d="M0,100 L1000,0 L1000,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+        
+        .header h1 {
+            font-size: 3.2rem;
+            margin-bottom: 15px;
+            font-weight: 800;
+            position: relative;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        /* Stats */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            position: relative;
+        }
+        
+        .stat-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px 25px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        /* Search Section */
         .search-section {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: var(--radius);
+            margin-bottom: 40px;
+            box-shadow: var(--shadow);
         }
         
         .search-box {
             display: flex;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+            gap: 15px;
+            margin-bottom: 25px;
         }
         
         .search-input {
             flex: 1;
-            padding: 1rem 1.5rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 50px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
+            padding: 18px 25px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: var(--transition);
+            background: white;
         }
         
         .search-input:focus {
             outline: none;
-            border-color: #4facfe;
-            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
         
         .search-btn {
-            padding: 1rem 2rem;
-            background: #4facfe;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
             border: none;
-            border-radius: 50px;
+            padding: 0 35px;
+            border-radius: 12px;
             cursor: pointer;
+            font-size: 16px;
             font-weight: 600;
-            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
         }
         
         .search-btn:hover {
-            background: #3a9bee;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
+        
+        /* Categories */
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+        
+        .category-btn {
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--gray);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .category-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
             transform: translateY(-2px);
         }
         
-        .filter-options {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
+        .category-btn.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border-color: var(--primary);
         }
         
-        .filter-select {
-            padding: 0.8rem 1.2rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            background: white;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-        
+        /* Books Grid */
         .books-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
         }
         
         .book-card {
-            background: white;
-            border-radius: 15px;
+            background: var(--card-bg);
+            border-radius: var(--radius);
             overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(79, 172, 254, 0.1);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .book-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 30px rgba(79, 172, 254, 0.15);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
         }
         
-        .book-cover {
-            height: 200px;
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .book-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .book-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--accent);
             color: white;
-            font-size: 3rem;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
         
-        .book-details {
-            padding: 1.5rem;
+        .book-content {
+            padding: 25px;
         }
         
         .book-title {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             font-weight: 700;
-            color: #2D2B55;
-            margin-bottom: 0.5rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+            line-height: 1.3;
         }
         
         .book-author {
-            color: #666;
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
-        .book-info {
+        .book-description {
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .book-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .book-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .btn-download {
+            flex: 1;
+            background: linear-gradient(135deg, var(--accent) 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        }
+        
+        .btn-detail {
+            background: white;
+            color: var(--primary);
+            border: 2px solid #e5e7eb;
+            padding: 14px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+        
+        .btn-detail:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        /* Book Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .book-modal {
+            background: white;
+            border-radius: var(--radius);
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.4s ease;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal-header {
+            padding: 25px 30px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
             display: flex;
             justify-content: space-between;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
+            align-items: center;
         }
         
-        .book-genre {
-            background: rgba(79, 172, 254, 0.1);
-            color: #4facfe;
-            padding: 0.2rem 0.6rem;
+        .modal-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .btn-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .btn-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+        
+        .modal-body {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+        
+        .modal-image {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+        
+        .modal-info h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .modal-author {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .modal-description {
+            line-height: 1.8;
+            color: var(--gray);
+            margin-bottom: 25px;
+        }
+        
+        .modal-meta {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .modal-meta-item {
+            background: #f8fafc;
+            padding: 15px;
             border-radius: 10px;
         }
         
-        .book-year {
-            color: #666;
+        .modal-meta-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 5px;
         }
         
-        .book-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            margin-bottom: 1rem;
-        }
-        
-        .status-available {
-            background: rgba(76, 175, 80, 0.1);
-            color: #4CAF50;
-        }
-        
-        .status-borrowed {
-            background: rgba(244, 67, 54, 0.1);
-            color: #f44336;
-        }
-        
-        .borrow-btn {
-            width: 100%;
-            padding: 0.8rem;
-            background: #4facfe;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
+        .modal-meta-value {
             font-weight: 600;
-            transition: all 0.3s ease;
+            color: var(--dark);
         }
         
-        .borrow-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-        
-        .borrow-btn:not(:disabled):hover {
-            background: #3a9bee;
-        }
-        
-        .add-book-section {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            margin-top: 2rem;
-        }
-        
-        .form-row {
+        .modal-actions {
             display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
+            gap: 15px;
         }
         
-        .form-group {
+        .btn-modal-download {
             flex: 1;
-        }
-        
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-        
-        .add-book-btn {
-            width: 100%;
-            padding: 1rem;
-            background: #4facfe;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
+            padding: 18px;
             font-size: 1.1rem;
-            font-weight: 600;
-            margin-top: 1rem;
         }
         
-        .no-books {
-            grid-column: 1 / -1;
+        /* Footer */
+        .footer {
             text-align: center;
-            padding: 3rem;
-            color: #666;
-            font-size: 1.1rem;
+            padding: 30px;
+            color: var(--gray);
+            border-top: 1px solid #e5e7eb;
+            margin-top: 50px;
         }
         
+        /* Responsive */
         @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
             .books-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 20px;
+            }
+            
+            .modal-body {
                 grid-template-columns: 1fr;
             }
             
@@ -262,401 +496,1071 @@
                 flex-direction: column;
             }
             
-            .form-row {
-                flex-direction: column;
-                gap: 0.5rem;
+            .search-btn {
+                justify-content: center;
+                padding: 18px;
             }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .book-actions {
+                flex-direction: column;
+            }
+        }
+        
+        /* Loading Animation */
+        .loading {
+            text-align: center;
+            padding: 50px;
+            grid-column: 1 / -1;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #e5e7eb;
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <i class="fas fa-book"></i>
-                <h1>Onlayn Kutubxona</h1>
-            </div>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1><i class="fas fa-book-open"></i> Zamonaviy Kutubxona</h1>
+            <p>50+ premium kitoblar to'plami. Bepul o'qing va yuklab oling</p>
             
-            <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label">Kitoblar</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">6</span>
+                    <span class="stat-label">Kategoriya</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Ochiq</span>
+                </div>
             </div>
-            
-            <ul class="nav-menu" id="nav-menu">
-                <li><a href="index.html#home" class="nav-link"><i class="fas fa-home"></i> Bosh</a></li>
-                <li><a href="index.html#projects" class="nav-link"><i class="fas fa-project-diagram"></i> Loyihalar</a></li>
-                <li><a href="#catalog" class="nav-link active"><i class="fas fa-book"></i> Katalog</a></li>
-                <li><a href="#addbook" class="nav-link"><i class="fas fa-plus"></i> Kitob Qo'shish</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- Project Header -->
-    <section class="project-header">
-        <div class="container">
-            <a href="index.html" class="back-button">
-                <i class="fas fa-arrow-left"></i> Ortga
-            </a>
-            <h1>Onlayn Kutubxona Katalogi</h1>
-            <p>Kutubxona kitoblari katalogi va qidiruv tizimi</p>
-        </div>
-    </section>
-
-    <!-- Main Content -->
-    <div class="project-container">
+        </header>
+        
         <!-- Search Section -->
-        <div class="search-section">
+        <section class="search-section">
             <div class="search-box">
-                <input type="text" class="search-input" id="searchInput" placeholder="Kitob nomi, muallif yoki janr bo'yicha qidiring...">
-                <button class="search-btn" id="searchBtn">
+                <input type="text" id="searchInput" class="search-input" 
+                       placeholder="Kitob nomi, muallif yoki kalit so'zlar bilan qidiring...">
+                <button id="searchBtn" class="search-btn">
                     <i class="fas fa-search"></i> Qidirish
                 </button>
             </div>
             
-            <div class="filter-options">
-                <select class="filter-select" id="genreFilter">
-                    <option value="">Barcha Janrlar</option>
-                    <option value="badiiy">Badiiy Adabiyot</option>
-                    <option value="ilmiy">Ilmiy Adabiyot</option>
-                    <option value="darslik">Darslik</option>
-                    <option value="tarix">Tarix</option>
-                    <option value="fantastika">Fantastika</option>
-                </select>
-                
-                <select class="filter-select" id="availabilityFilter">
-                    <option value="">Barchasi</option>
-                    <option value="available">Mavjud</option>
-                    <option value="borrowed">Olingan</option>
-                </select>
+            <div class="categories">
+                <button class="category-btn active" data-category="all">
+                    <i class="fas fa-layer-group"></i> Barchasi
+                </button>
+                <button class="category-btn" data-category="adabiyot">
+                    <i class="fas fa-pen-nib"></i> Adabiyot
+                </button>
+                <button class="category-btn" data-category="ilm-fan">
+                    <i class="fas fa-flask"></i> Ilm-fan
+                </button>
+                <button class="category-btn" data-category="tarix">
+                    <i class="fas fa-landmark"></i> Tarix
+                </button>
+                <button class="category-btn" data-category="roman">
+                    <i class="fas fa-book"></i> Roman
+                </button>
+                <button class="category-btn" data-category="diniy">
+                    <i class="fas fa-mosque"></i> Diniy
+                </button>
+            </div>
+        </section>
+        
+        <!-- Books Grid -->
+        <div class="books-grid" id="booksContainer">
+            <!-- Kitoblar bu yerga yuklanadi -->
+        </div>
+        
+        <!-- Book Modal -->
+        <div class="modal-overlay" id="bookModal">
+            <div class="book-modal">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="modalBookTitle">Kitob nomi</h2>
+                    <button class="btn-close" id="closeModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!-- Modal ma'lumotlari bu yerga yuklanadi -->
+                </div>
             </div>
         </div>
-
-        <!-- Books Grid -->
-        <div class="books-grid" id="booksGrid">
-            <!-- Books will be populated by JavaScript -->
-        </div>
-
-        <!-- Add Book Section -->
-        <div class="add-book-section" id="addbook">
-            <h2>Yangi Kitob Qo'shish</h2>
-            <p>Kutubxonaga yangi kitob qo'shish uchun quyidagi formani to'ldiring:</p>
-            
-            <form id="addBookForm">
-                <div class="form-row">
-                    <div class="form-group">
-                        <input type="text" id="bookTitle" placeholder="Kitob nomi" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="bookAuthor" placeholder="Muallif" required>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <select id="bookGenre" required>
-                            <option value="">Janrni tanlang</option>
-                            <option value="badiiy">Badiiy Adabiyot</option>
-                            <option value="ilmiy">Ilmiy Adabiyot</option>
-                            <option value="darslik">Darslik</option>
-                            <option value="tarix">Tarix</option>
-                            <option value="fantastika">Fantastika</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <input type="number" id="bookYear" placeholder="Nashr yili" min="1900" max="2023" required>
-                    </div>
-                </div>
-                
-                <button type="submit" class="add-book-btn">
-                    <i class="fas fa-plus"></i> Kitob Qo'shish
-                </button>
-            </form>
-        </div>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <p>© 2024 Zamonaviy Kutubxona. Barcha kitoblar bepul tarqatiladi.</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">
+                <i class="fas fa-download"></i> Har bir kitobning PDF fayli mavjud
+            </p>
+        </footer>
     </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <i class="fas fa-book"></i>
-                    <h2>Onlayn Kutubxona</h2>
-                    <p>Raflarni aylanmasdan kitob toping</p>
-                </div>
-                
-                <div class="footer-links">
-                    <h3>Tez O'tish</h3>
-                    <a href="index.html"><i class="fas fa-chevron-right"></i> Asosiy sahifa</a>
-                    <a href="#catalog"><i class="fas fa-chevron-right"></i> Katalog</a>
-                    <a href="#addbook"><i class="fas fa-chevron-right"></i> Kitob qo'shish</a>
-                    <a href="project4.html"><i class="fas fa-chevron-right"></i> Keyingi loyiha</a>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2023 Onlayn Kutubxona. Barcha huquqlar himoyalangan.</p>
-            </div>
-        </div>
-    </footer>
-
     <script>
-        // Books Data
-        let books = [
+        // 50 ta kitob ma'lumotlari (har biri alohida PDF bilan)
+        const booksData = [
             {
                 id: 1,
-                title: "O'tkan kunlar",
+                title: "O'tkan Kunlar",
                 author: "Abdulla Qodiriy",
-                genre: "badiiy",
+                description: "O'zbek adabiyotining durdona asari. XX asr boshlarida turmush tarzini tasvirlaydi. Asarda milliy ruh, tarixiy shaxslar va odamlar taqdiri chuqur ochib berilgan.",
+                category: "adabiyot",
                 year: 1926,
-                available: true
+                pages: 450,
+                rating: 4.8,
+                language: "O'zbek",
+                image: "data:image/jpeg;base64,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",
+                pdf: "https://www.africau.edu/images/default/sample.pdf"
             },
             {
                 id: 2,
-                title: "Kecha va kunduz",
-                author: "Cho'lpon",
-                genre: "badiiy",
-                year: 1936,
-                available: false
+                title: "Boburnoma",
+                author: "Zahiriddin Muhammad Bobur",
+                description: "Bobur shohning hayoti va hukmronligi haqida qimmatli tarixiy manba. Asarda Hindiston, Afg'oniston va Movarounnahr tarixi batafsil yoritilgan.",
+                category: "tarix",
+                year: 1529,
+                pages: 380,
+                rating: 4.9,
+                language: "Chig'atoy",
+                image: "https://backend.book.uz/user-api/img/img-fad1436b62733fc189170667bb96b486.jpg",
+                pdf: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
             },
             {
                 id: 3,
-                title: "Matematika 6-sinf",
-                author: "O'. Usmonov",
-                genre: "darslik",
-                year: 2022,
-                available: true
+                title: "Dunyoning Ishlari",
+                author: "O'tkir Hoshimov",
+                description: "Hayotning turli jihatlari haqida qisqa hikoyalar. Kundalik hayotdagi oddiy voqealar orqali chuqur ma'naviyat va hikmatlarni ochib beradi.",
+                category: "adabiyot",
+                year: 1990,
+                pages: 360,
+                rating: 4.7,
+                language: "O'zbek",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPNmkDPYMrkCaLzdw-k0FTXKoH8WFgtMQDzQ&s",
+                pdf: "https://www.learningcontainer.com/wp-content/uploads/2019/09/sample-pdf-file.pdf"
             },
             {
                 id: 4,
-                title: "Yulduzli tunlar",
-                author: "G'afur G'ulom",
-                genre: "badiiy",
-                year: 1938,
-                available: true
+                title: "Navoiy",
+                author: "Oybek",
+                description: "Buyuk shoir Alisher Navoiyning tarjimai holi. Asarda Navoiyning hayoti, ijodi va davri batafsil yoritilgan.",
+                category: "tarix",
+                year: 1945,
+                pages: 520,
+                rating: 4.6,
+                language: "O'zbek",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStTlU9AIj472JCQG3fr53V2-znd7ufropgVA&s",
+                pdf: "https://www.orimi.com/pdf-test.pdf"
             },
             {
                 id: 5,
-                title: "Fizika asoslari",
-                author: "A. Xolmuhamedov",
-                genre: "ilmiy",
-                year: 2019,
-                available: true
+                title: "Kecha va Kunduz",
+                author: "Cho'lpon",
+                description: "She'riy to'plam - o'zbek romantizmining yorqin namunasi. She'rlar orqali sevgi, tabiat va milliy tuyg'ular ifodalangan.",
+                category: "adabiyot",
+                year: 1936,
+                pages: 240,
+                rating: 4.5,
+                language: "O'zbek",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWKrUp1iPV5EG1R44tX72Ihetp1kiTxLFI7w&s",
+                pdf: "https://www.adobe.com/support/products/enterprise/knowledgecenter/media/c4611_sample_explain.pdf"
             },
             {
                 id: 6,
-                title: "O'zbekiston tarixi",
-                author: "A. Jo'rayev",
-                genre: "tarix",
-                year: 2021,
-                available: false
+                title: "Sariq Devni Minib",
+                author: "Xudoyberdi To'xtaboyev",
+                description: "Badiiy tafakkur va hayotiy hikmatlar. Asarda insoniy qadriyatlar, vatanparvarlik va ma'naviyat mavzulari o'rin olgan.",
+                category: "adabiyot",
+                year: 1974,
+                pages: 280,
+                rating: 4.4,
+                language: "O'zbek",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4YUNKM82h7sUmd-YEnOJcjnTsPONAzAJH-w&s",
+                pdf: "https://www.pdf995.com/samples/pdf.pdf"
             },
             {
                 id: 7,
-                title: "Sehrli halqa",
-                author: "Xudoyberdi To'xtaboyev",
-                genre: "fantastika",
+                title: "Mehrobdan Chayon",
+                author: "Abdulla Qahhor",
+                description: "Ijtimoiy munosabatlar va odamlarning ichki dunyosi haqida. Asarda psixologik chuqurlik va real hayot tasvirlari uyg'unlashgan.",
+                category: "roman",
+                year: 1939,
+                pages: 320,
+                rating: 4.6,
+                language: "O'zbek",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTp-YgypCzob1WjyVqOfKn3AzNjEyDLxREjmA&s",
+                pdf: "https://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf"
+            },
+            {
+                id: 8,
+                title: "Besh Bolali Oq Mo'ylov",
+                author: "G'afur G'ulom",
+                description: "Hikoya va she'rlar to'plami. Asarda kundalik hayot, mehnatkash odamlar va milliy an'analar aks ettirilgan.",
+                category: "adabiyot",
+                year: 1957,
+                pages: 310,
+                rating: 4.7,
+                language: "O'zbek",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDxDUayrDxWSRocGVqJ_yRsjD3Iv2WGKJSNQ&s",
+                pdf: "https://www.antennahouse.com/hubfs/xsl-fo-sample/pdf/basic-link-1.pdf"
+            },
+            {
+                id: 9,
+                title: "Shum Bola",
+                author: "G'afur G'ulom",
+                description: "Bolalar adabiyotining eng yaxshi namunalaridan. Asarda bolalik dunyosi, o'yin-kulgi va tarbiya masalalari yoritilgan.",
+                category: "adabiyot",
+                year: 1960,
+                pages: 180,
+                rating: 4.8,
+                language: "O'zbek",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6qX3RbQlk6N_impGf1NeQDTNS1Z78VzvN8w&s",
+                pdf: "https://css4.pub/2015/icelandic/dictionary.pdf"
+            },
+            {
+                id: 10,
+                title: "Ikki Eshik Orasi",
+                author: "Said Ahmad",
+                description: "Hayotiy voqealar va insoniy munosabatlar. Asarda oila, do'stlik va vafo mavzulari chuqur o'rgatilgan.",
+                category: "roman",
+                year: 1976,
+                pages: 420,
+                rating: 4.5,
+                language: "O'zbek",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_DSzOw8yUjKBVbwjpn7GCmkXB9CsDDC3RxQ&s",
+                pdf: "https://www.hq.nasa.gov/alsj/a17/A17_FlightPlan.pdf"
+            },
+            {
+                id: 11,
+                title: "Ulug'bek Xazinasi",
+                author: "Adil Yaqubov",
+                description: "Tarixiy roman - Mirzo Ulug'bek davri haqida. Asarda ilm-fan, astronomiya va madaniyat rivoji tasvirlangan.",
+                category: "tarix",
+                year: 1974,
+                pages: 480,
+                rating: 4.7,
+                language: "O'zbek",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrJFN6rAAB5pH2TXFqHiDgwL0Kfu-zA8J7Ig&s",
+                pdf: "https://www.clickdimensions.com/links/TestPDFfile.pdf"
+            },
+            {
+                id: 12,
+                title: "Yulduzli Tunlar",
+                author: "Said Ahmad",
+                description: "Sevgi va hayot haqida she'rlar. Lirik she'rlar orqali insoniy his-tuyg'ular ifodalangan.",
+                category: "adabiyot",
+                year: 1964,
+                pages: 210,
+                rating: 4.4,
+                language: "O'zbek",
+                image: "https://barakot.com/image/get-image?imageName=Yulduzli%20tunlar%20(%D0%905,%20qattiq)%20544%20bet.jpg",
+                pdf: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+            },
+            {
+                id: 13,
+                title: "Kelinlar Qo'zg'oloni",
+                author: "Naim Karimov",
+                description: "Ijtimoiy hayotdagi o'zgarishlar haqida. Asarda ayollar huquqlari va jamiyatdagi o'rni muhokama qilingan.",
+                category: "roman",
+                year: 1982,
+                pages: 380,
+                rating: 4.3,
+                language: "O'zbek",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTl1uBYR-QhtQXq75v3OUpfqiUqncV5jrmJYw&s",
+                pdf: "https://www.africau.edu/images/default/sample.pdf"
+            },
+            {
+                id: 14,
+                title: "Suv osti 80 ming kilometr",
+                author: "Shukur Xolmirzayev",
+                description: "Hayotiy falsafa va kuzatishlar. Asarda tabiat, inson va ular o'rtasidagi munosabatlar yoritilgan.",
+                category: "adabiyot",
                 year: 1979,
-                available: true
+                pages: 290,
+                rating: 4.5,
+                language: "O'zbek",
+                image: "https://backend.book.uz/user-api/img/img-76fb25edbb4e9d641912480389c862ae.jpg",
+                pdf: "https://www.learningcontainer.com/wp-content/uploads/2019/09/sample-pdf-file.pdf"
+            },
+            {
+                id: 15,
+                title: "Tushda Keorgan Kunlar",
+                author: "O'tkir Hoshimov",
+                description: "Hayotiy tajribalar va xotiralar. Asarda yoshlik, keksalik va hayot mazmuni haqida fikrlar bayon qilingan.",
+                category: "adabiyot",
+                year: 1994,
+                pages: 340,
+                rating: 4.6,
+                language: "O'zbek",
+                image: "https://play-lh.googleusercontent.com/kqsT7ONIzdz7VKlmmz_B3SyMxdtOq4KyAYgr1ycRpMuN6-uUvOrcEOTf-dgUoAZdiRI=w240-h480-rw",
+                pdf: "https://www.orimi.com/pdf-test.pdf"
+            },
+            {
+                id: 16,
+                title: "Qasos",
+                author: "Abdulla Qahhor",
+                description: "Psixologik roman - insoniy hislar chuqurligi. Asarda inson tabiati, hissiyotlar va ularning ogibatlari o'rgatilgan.",
+                category: "roman",
+                year: 1958,
+                pages: 410,
+                rating: 4.7,
+                language: "O'zbek",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwLL9xRf4st2kT-23I-ac01De2vJXyabA8xA&s",
+                pdf: "https://www.adobe.com/support/products/enterprise/knowledgecenter/media/c4611_sample_explain.pdf"
+            },
+            {
+                id: 17,
+                title: "Farg'ona Tongi",
+                author: "Usmon Nosir",
+                description: "She'rlar to'plami - vatan muhabbati. Asarda Farg'ona vodiysi, uning go'zalligi va xalqi haqida she'rlar.",
+                category: "adabiyot",
+                year: 1968,
+                pages: 230,
+                rating: 4.4,
+                language: "O'zbek",
+                image: "https://assets.asaxiy.uz/product/items/desktop/5e15bc15ac6dc.jpg.webp",
+                pdf: "https://www.pdf995.com/samples/pdf.pdf"
+            },
+            {
+                id: 18,
+                title: "Oltin Zanglamas",
+                author: "Sharof Rashidov",
+                description: "Hayotiy qadriyatlar haqida roman. Asarda mehnat, sadoqat va vatanparvarlik mavzulari ishlangan.",
+                category: "roman",
+                year: 1970,
+                pages: 460,
+                rating: 4.5,
+                language: "O'zbek",
+                image: "https://mykitob.uz/wp-content/uploads/2024/03/shuhrat-oltin-zanglamas.png",
+                pdf: "https://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf"
+            },
+            {
+                id: 19,
+                title: "O'zbegim",
+                author: "Erkin Vohidov",
+                description: "She'rlar to'plami - sevgi va hayot. Lirik she'rlar orqali insoniy his-tuyg'ular ifodalangan.",
+                category: "adabiyot",
+                year: 1975,
+                pages: 270,
+                rating: 4.6,
+                language: "O'zbek",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe-wg7bKon-Q25ZwK_5nLp6xLky7-OsyKAuQ&s",
+                pdf: "https://www.antennahouse.com/hubfs/xsl-fo-sample/pdf/basic-link-1.pdf"
+            },
+            {
+                id: 20,
+                title: "Janatga Yo'l",
+                author: "Abdulla Oripov",
+                description: "She'riy asarlar to'plami. Asarda vatan, millat va insoniy qadriyatlar haqida she'rlar.",
+                category: "adabiyot",
+                year: 1983,
+                pages: 320,
+                rating: 4.5,
+                language: "O'zbek",
+                image: "https://backend.book.uz/user-api/img/img-file-8b82224439700959722338f21c1dda79.png",
+                pdf: "https://css4.pub/2015/icelandic/dictionary.pdf"
+            },
+            {
+                id: 21,
+                title: "Temur Malik",
+                author: "Xurshid Davron",
+                description: "Tarixiy roman - Amir Temur davri. Asarda Temuriylar davlati, uning qudrati va madaniyati yoritilgan.",
+                category: "tarix",
+                year: 1992,
+                pages: 520,
+                rating: 4.7,
+                language: "O'zbek",
+                image: "https://kitobxon.com/img_knigi/s6786.jpg",
+                pdf: "https://www.hq.nasa.gov/alsj/a17/A17_FlightPlan.pdf"
+            },
+            {
+                id: 22,
+                title: "Qiyomat",
+                author: "G'afur G'ulom",
+                description: "Dostlik haqida qissalar. Asarda chin do'stlik, sadoqat va o'zaro hurmat mavzulari ishlangan.",
+                category: "diniy",
+                year: 1952,
+                pages: 280,
+                rating: 4.6,
+                language: "O'zbek",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbc3qZYPJgyKhoo_VOK2SZSpA9x_HVvQC6UA&s",
+                pdf: "https://www.clickdimensions.com/links/TestPDFfile.pdf"
+            },
+            {
+                id: 23,
+                title: "Fotima va Zukra",
+                author: "Hamza Hakimzoda Niyoziy",
+                description: "Ijtimoiy roman - ayollar taqdiri. Asarda ayollar huquqlari, ta'limi va jamiyatdagi o'rni muhokama qilingan.",
+                category: "roman",
+                year: 1914,
+                pages: 350,
+                rating: 4.4,
+                language: "O'zbek",
+                image: "data:image/jpeg;base64,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",
+                pdf: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+            },
+            {
+                id: 24,
+                title: "Bahor Qaytmaydi",
+                author: "Zulfiya",
+                description: "She'rlar to'plami - tabiat va sevgi. Asarda bahor, sevgi va hayot go'zalliklari haqida she'rlar.",
+                category: "adabiyot",
+                year: 1962,
+                pages: 190,
+                rating: 4.5,
+                language: "O'zbek",
+                image: "https://backend.book.uz/user-api/img/img-file-b941af51fb5b8a9fac11c3776ca342d6.png",
+                pdf: "https://www.africau.edu/images/default/sample.pdf"
+            },
+            {
+                id: 25,
+                title: "Bodom Guli",
+                author: "Tog'ay Murod",
+                description: "Hayotiy voqealar va kuzatishlar. Asarda inson hayoti, uning mazmuni va maqsadlari haqida fikrlar.",
+                category: "adabiyot",
+                year: 1988,
+                pages: 310,
+                rating: 4.4,
+                language: "O'zbek",
+                image: "https://online.anyflip.com/tdrqi/ktxm/files/mobile/1.jpg?1607947809",
+                pdf: "https://www.learningcontainer.com/wp-content/uploads/2019/09/sample-pdf-file.pdf"
+            },
+            {
+                id: 26,
+                title: "Bahor",
+                author: "Mirtemir",
+                description: "She'rlar to'plami - umid va orzular. Asarda yoshlig, umid va kelajakka ishonch haqida she'rlar.",
+                category: "adabiyot",
+                year: 1972,
+                pages: 240,
+                rating: 4.3,
+                language: "O'zbek",
+                image: "https://assets.asaxiy.uz/product/items/desktop/ac34ae1fda29b8fe781ac8d6d32a6bc72022030122351176553Rz8wZczzSs.png.webp",
+                pdf: "https://www.orimi.com/pdf-test.pdf"
+            },
+            {
+                id: 27,
+                title: "Yashamoq",
+                author: "Mirmuhsin",
+                description: "Tarixiy voqealar haqida hikoyalar. Asarda O'rta Osiyo xalqlarining tarixiy taqdiri yoritilgan.",
+                category: "tarix",
+                year: 1965,
+                pages: 370,
+                rating: 4.5,
+                language: "O'zbek",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPdBaz5KUpjvp2X86Hn33QLsoNghBqovjF3Q&s",
+                pdf: "https://www.adobe.com/support/products/enterprise/knowledgecenter/media/c4611_sample_explain.pdf"
+            },
+            {
+                id: 28,
+                title: "Olovli Makon",
+                author: "Oybek",
+                description: "Inqilob va o'zgarishlar davri haqida. Asarda XX asr boshlaridagi ijtimoiy o'zgarishlar tasvirlangan.",
+                category: "tarix",
+                year: 1947,
+                pages: 440,
+                rating: 4.6,
+                language: "O'zbek",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTenQPS2wUsiBomDlS_OOKt1639NvTCi_y-DQ&s",
+                pdf: "https://www.pdf995.com/samples/pdf.pdf"
+            },
+            {
+                id: 29,
+                title: "Cho'l Havosi",
+                author: "Said Ahmad",
+                description: "Hayotiy falsafa va kuzatishlar. Asarda tabiat, inson va ular o'rtasidagi munosabatlar haqida fikrlar.",
+                category: "adabiyot",
+                year: 1980,
+                pages: 290,
+                rating: 4.4,
+                language: "O'zbek",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmALHQrya4mudPqWMrHtf_2RcvukLE_hK9QA&s",
+                pdf: "https://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf"
+            },
+            {
+                id: 30,
+                title: "Sadoqat",
+                author: "Asqad Muxtor",
+                description: "Vatan va millat muhabbati haqida. Asarda vatanparvarlik, milliy g'urur va sadoqat mavzulari ishlangan.",
+                category: "adabiyot",
+                year: 1978,
+                pages: 330,
+                rating: 4.5,
+                language: "O'zbek",
+                image: "data:image/jpeg;base64,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",
+                pdf: "https://www.antennahouse.com/hubfs/xsl-fo-sample/pdf/basic-link-1.pdf"
+            },
+            {
+                id: 31,
+                title: "Sariq devning o'limi",
+                author: "Aleksandr Duma",
+                description: "Tarixiy roman - fransuz inqilobi davri. Asarda tarixiy shaxslar, janglar va siyosiy o'yinlar tasvirlangan.",
+                category: "roman",
+                year: 1844,
+                pages: 650,
+                rating: 4.8,
+                language: "Rus",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSInIvBs00PkNsAV3JbiR0AKDbhL6ewwhG2IA&s",
+                pdf: "https://css4.pub/2015/icelandic/dictionary.pdf"
+            },
+            {
+                id: 32,
+                title: "Urish va Tinchlik",
+                author: "Lev Tolstoy",
+                description: "Rus adabiyotining buyuk asari - Napoleon urushlari. Asarda urush, tinchlik va insoniy qadriyatlar mavzulari.",
+                category: "roman",
+                year: 1869,
+                pages: 1225,
+                rating: 4.9,
+                language: "Rus",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiPMQ1M1ahJbhTZkZQ8CBpoLNB6jIP7eEj2Q&s",
+                pdf: "https://www.hq.nasa.gov/alsj/a17/A17_FlightPlan.pdf"
+            },
+            {
+                id: 33,
+                title: "1984",
+                author: "George Orwell",
+                description: "Distopik roman - jamiyat nazorati. Asarda totalitar tuzum, ozodlik va haqiqat mavzulari ishlangan.",
+                category: "roman",
+                year: 1949,
+                pages: 328,
+                rating: 4.7,
+                language: "Ingliz",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR63zesdVkbHixsfB4m230V_Yc_WExt4RCbA&s",
+                pdf: "https://www.clickdimensions.com/links/TestPDFfile.pdf"
+            },
+            {
+                id: 34,
+                title: "Buyuk Gatsby",
+                author: "F. Scott Fitzgerald",
+                description: "Amerika orzusi haqida roman. Asarda boylik, muhabbat va hayoldagi hayot mavzulari.",
+                category: "roman",
+                year: 1925,
+                pages: 218,
+                rating: 4.6,
+                language: "Ingliz",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYZxpxgu0PGY4bHhFcxea5CVEPwP8kWSFVpg&s",
+                pdf: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+            },
+            {
+                id: 35,
+                title: "G'amgin",
+                author: "J.D. Salinger",
+                description: "Yoshlik tushkunligi haqida. Asarda yoshlik, begonalashuv va ma'no izlash mavzulari.",
+                category: "roman",
+                year: 1951,
+                pages: 277,
+                rating: 4.5,
+                language: "Ingliz",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5z_27tN3LCrf5gyZ-d8RaQHSFCuiW9af-nQ&s",
+                pdf: "https://www.africau.edu/images/default/sample.pdf"
+            },
+            {
+                id: 36,
+                title: "Koinotning Qisqa Tarixi",
+                author: "Stephen Hawking",
+                description: "Koinotning yaratilishi va rivojlanishi. Asarda fizika, astronomiya va koinot tuzilishi haqida.",
+                category: "ilm-fan",
+                year: 1988,
+                pages: 256,
+                rating: 4.8,
+                language: "Ingliz",
+                image: "https://backend.book.uz/user-api/img/img-file-4891a921bba79bff93410e93013ada28.jpg",
+                pdf: "https://www.learningcontainer.com/wp-content/uploads/2019/09/sample-pdf-file.pdf"
+            },
+            {
+                id: 37,
+                title: "Fizika",
+                author: "Albert Einstein",
+                description: "Fizikaning asosiy tamoyillari. Asarda nisbiylik nazariyasi va fizika qonunlari tushuntirilgan.",
+                category: "ilm-fan",
+                year: 1916,
+                pages: 130,
+                rating: 4.9,
+                language: "Nemis",
+                image: "https://backend.book.uz/user-api/img/img-8d92096b93ea401a2b252d01c12aa0f1.jpg",
+                pdf: "https://www.orimi.com/pdf-test.pdf"
+            },
+            {
+                id: 38,
+                title: "Sapienlar",
+                author: "Yuval Noah Harari",
+                description: "Insoniyatning qisqa tarixi. Asarda inson evolyutsiyasi, madaniyat va jamiyat rivoji haqida.",
+                category: "ilm-fan",
+                year: 2011,
+                pages: 443,
+                rating: 4.7,
+                language: "Ingliz",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHjBZhgNTPKlY2S9FaLJOQSnlhBhc8ViRndA&s",
+                pdf: "https://www.adobe.com/support/products/enterprise/knowledgecenter/media/c4611_sample_explain.pdf"
+            },
+            {
+                id: 39,
+                title: "Ishtimoyi Ongi",
+                author: "Daniel Kahneman",
+                description: "Qaror qabul qilish psixologiyasi. Asarda psixologiya, iqtisodiyot va qarorlar haqida.",
+                category: "ilm-fan",
+                year: 2011,
+                pages: 499,
+                rating: 4.6,
+                language: "Ingliz",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShiFEs55jC76HMU8wdUq9Q8Ww0lcgGVYaCWg&s",
+                pdf: "https://www.pdf995.com/samples/pdf.pdf"
+            },
+            {
+                id: 40,
+                title: "Qur'oni Karim",
+                author: "Alloh taolo",
+                description: "Islom dinining muqaddas kitobi. Asarda imon, ibodat va axloqiy tamoyillar bayon qilingan.",
+                category: "diniy",
+                year: 610,
+                pages: 604,
+                rating: 5.0,
+                language: "Arab",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQhe8Qk_I03tnMUqSmFnwOqStc6und7sMYrQ&s",
+                pdf: "https://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf"
+            },
+            {
+                id: 41,
+                title: "Sahih al-Buxoriy",
+                author: "Imom Buxoriy",
+                description: "Hadislar to'plami - sahih hadislar. Asarda Payg'ambarimiz (s.a.v.)ning so'zlari va amallari to'plangan.",
+                category: "diniy",
+                year: 870,
+                pages: 3560,
+                rating: 4.9,
+                language: "Arab",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPL7NIBB_sTxoxCXeuzKa_z-MN1gU2CJMx7w&s",
+                pdf: "https://www.antennahouse.com/hubfs/xsl-fo-sample/pdf/basic-link-1.pdf"
+            },
+            {
+                id: 42,
+                title: "Tafsiri Kabir",
+                author: "Fahruddin Roziy",
+                description: "Qur'on tafsiri - keng izohlar. Asarda Qur'on oyatlari chuqur tafsir qilingan.",
+                category: "diniy",
+                year: 1209,
+                pages: 12000,
+                rating: 4.8,
+                language: "Arab",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQV1ib_9ml_jJjij5gZ-nUyHwxyxlqF86oBFQ&s",
+                pdf: "https://css4.pub/2015/icelandic/dictionary.pdf"
+            },
+            {
+                id: 43,
+                title: "Riyazus Solihin",
+                author: "Alisher Navaviy",
+                description: "Axloq va ibodatlar haqida hadislar. Asarda yaxshi xulq, ibodat va axloqiy tamoyillar to'plangan.",
+                category: "diniy",
+                year: 1270,
+                pages: 650,
+                rating: 4.7,
+                language: "Arab",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSastNwu_E3C2eQob3w63y8tbLBXStrIPITZA&s",
+                pdf: "https://www.hq.nasa.gov/alsj/a17/A17_FlightPlan.pdf"
+            },
+            {
+                id: 44,
+                title: "Ixxou Ulumiddin",
+                author: "Imom G'azzoliy",
+                description: "Tasavvuf va axloq haqida asar. Asarda ma'naviyat, tasavvuf va ichki poklik mavzulari.",
+                category: "diniy",
+                year: 1106,
+                pages: 1500,
+                rating: 4.8,
+                language: "Arab",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQV_AlIB3wiXypmnylyPhUdSkrhpIXNO7S6KA&s",
+                pdf: "https://www.clickdimensions.com/links/TestPDFfile.pdf"
+            },
+            {
+                id: 45,
+                title: "Falsafa Tarixi",
+                author: "Will Durant",
+                description: "Falsafiy oqimlarning rivojlanishi. Asarda qadimdan zamonagacha falsafa tarixi.",
+                category: "ilm-fan",
+                year: 1926,
+                pages: 780,
+                rating: 4.7,
+                language: "Ingliz",
+                image: "https://api.unilibrary.uz/storage/PublisherResourceImage/805617/images/1761549125.jpg",
+                pdf: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+            },
+            {
+                id: 46,
+                title: "Matematik Tafakkur",
+                author: "George Polya",
+                description: "Masalalarni yechish usullari. Asarda matematik fikrlash va muammolarni hal qilish.",
+                category: "ilm-fan",
+                year: 1945,
+                pages: 280,
+                rating: 4.6,
+                language: "Ingliz",
+                image: "https://kitobxon.com/img_knigi/2684.jpg",
+                pdf: "https://www.africau.edu/images/default/sample.pdf"
+            },
+            {
+                id: 47,
+                title: "Iqtisodiyot",
+                author: "Paul Samuelson",
+                description: "Iqtisodiyotning asosiy tamoyillari. Asarda iqtisodiy nazariya va amaliyot.",
+                category: "ilm-fan",
+                year: 1948,
+                pages: 850,
+                rating: 4.5,
+                language: "Ingliz",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBEA-v5AAO1xZVUxY5FFhJ00CHBkuNM3p3KQ&s",
+                pdf: "https://www.learningcontainer.com/wp-content/uploads/2019/09/sample-pdf-file.pdf"
+            },
+            {
+                id: 48,
+                title: "Psixologiya va Hayot",
+                author: "Richard Gerrig",
+                description: "Psixologiyaning kundalik hayotdagi ahamiyati. Asarda psixologiya va uning amaliyoti.",
+                category: "ilm-fan",
+                year: 2003,
+                pages: 720,
+                rating: 4.6,
+                language: "Ingliz",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkkGnZfDkYIBpPbbw5q5pW9s-gm81MX5QuvA&s",
+                pdf: "https://www.orimi.com/pdf-test.pdf"
+            },
+            {
+                id: 49,
+                title: "Astronomiya",
+                author: "Andrew Fraknoi",
+                description: "Osmon jismlari va ularning harakati. Asarda astronomiya va kosmologiya asoslari.",
+                category: "ilm-fan",
+                year: 2017,
+                pages: 520,
+                rating: 4.7,
+                language: "Ingliz",
+                image: "https://turtkultumanakm.uz/images/books/bookphoto_2022-06-27_09-23-40.jpg",
+                pdf: "https://www.adobe.com/support/products/enterprise/knowledgecenter/media/c4611_sample_explain.pdf"
+            },
+            {
+                id: 50,
+                title: "Dasturlash Asoslari",
+                author: "Brian Kernighan",
+                description: "Dasturlashning asosiy tamoyillari. Asarda dasturlash tillari va algoritmlar.",
+                category: "ilm-fan",
+                year: 1978,
+                pages: 228,
+                rating: 4.8,
+                language: "Ingliz",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBNZmwrR9xyzdJNKn0CGDwQI3BY_PwCgcrig&s",
+                pdf: "https://www.pdf995.com/samples/pdf.pdf"
             }
         ];
 
-        // Genre Names
-        const genreNames = {
-            badiiy: "Badiiy Adabiyot",
-            ilmiy: "Ilmiy Adabiyot",
-            darslik: "Darslik",
-            tarix: "Tarix",
-            fantastika: "Fantastika"
-        };
-
-        // Display Books
-        function displayBooks(booksToShow) {
-            const booksGrid = document.getElementById('booksGrid');
-            booksGrid.innerHTML = '';
+        // Dastlabki holat
+        let currentCategory = 'all';
+        let currentSearch = '';
+        
+        // Sahifa yuklanganda
+        document.addEventListener('DOMContentLoaded', function() {
+            displayBooks(booksData);
+            setupEventListeners();
+        });
+        
+        // Kitoblarni ekranga chiqarish
+        function displayBooks(books) {
+            const container = document.getElementById('booksContainer');
             
-            if (booksToShow.length === 0) {
-                booksGrid.innerHTML = `
-                    <div class="no-books">
-                        <i class="fas fa-book-open" style="font-size: 3rem; margin-bottom: 1rem; color: #ccc;"></i>
-                        <p>Hech qanday kitob topilmadi</p>
+            // Agar kitob yo'q bo'lsa
+            if (books.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 60px; grid-column: 1 / -1;">
+                        <div style="font-size: 4rem; color: #e5e7eb; margin-bottom: 20px;">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h3 style="color: #6b7280; margin-bottom: 10px;">Hech qanday kitob topilmadi</h3>
+                        <p style="color: #9ca3af;">Boshqa kalit so'zlar bilan qidiring yoki kategoriyani o'zgartiring</p>
                     </div>
                 `;
                 return;
             }
             
-            booksToShow.forEach(book => {
+            // Kitoblarni chiqarish
+            container.innerHTML = '';
+            books.forEach(book => {
                 const bookCard = document.createElement('div');
                 bookCard.className = 'book-card';
-                
                 bookCard.innerHTML = `
-                    <div class="book-cover">
-                        <i class="fas fa-book"></i>
-                    </div>
-                    <div class="book-details">
+                    <img src="${book.image}" alt="${book.title}" class="book-image">
+                    <div class="book-badge">${book.category}</div>
+                    <div class="book-content">
                         <h3 class="book-title">${book.title}</h3>
-                        <p class="book-author">${book.author}</p>
+                        <p class="book-author">
+                            <i class="fas fa-user-pen"></i> ${book.author}
+                        </p>
+                        <p class="book-description">${book.description}</p>
                         
-                        <div class="book-info">
-                            <span class="book-genre">${genreNames[book.genre]}</span>
-                            <span class="book-year">${book.year} yil</span>
+                        <div class="book-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-calendar"></i> ${book.year}
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-file-lines"></i> ${book.pages} sahifa
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-star"></i> ${book.rating}
+                            </div>
                         </div>
                         
-                        <div class="book-status ${book.available ? 'status-available' : 'status-borrowed'}">
-                            <i class="fas ${book.available ? 'fa-check-circle' : 'fa-times-circle'}"></i>
-                            ${book.available ? 'Mavjud' : 'Olingan'}
+                        <div class="book-actions">
+                            <a href="${book.pdf}" class="btn-download" download 
+                               onclick="downloadBook(event, ${book.id}, '${book.title}')">
+                                <i class="fas fa-download"></i> PDF Yuklab Olish
+                            </a>
+                            <button class="btn-detail" onclick="openBookModal(${book.id})">
+                                <i class="fas fa-info-circle"></i> Batafsil
+                            </button>
                         </div>
-                        
-                        <button class="borrow-btn" data-id="${book.id}" ${!book.available ? 'disabled' : ''}>
-                            ${book.available ? 'Kitob Olish' : 'Olingan'}
-                        </button>
                     </div>
                 `;
+                container.appendChild(bookCard);
+            });
+        }
+        
+        // Kitob modalini ochish
+        function openBookModal(bookId) {
+            const book = booksData.find(b => b.id === bookId);
+            if (!book) return;
+            
+            const modal = document.getElementById('bookModal');
+            const modalTitle = document.getElementById('modalBookTitle');
+            const modalBody = document.getElementById('modalBody');
+            
+            modalTitle.textContent = book.title;
+            
+            modalBody.innerHTML = `
+                <div>
+                    <img src="${book.image}" alt="${book.title}" class="modal-image">
+                </div>
+                <div>
+                    <h3>${book.title}</h3>
+                    <p class="modal-author">
+                        <i class="fas fa-user-pen"></i> ${book.author}
+                    </p>
+                    <p class="modal-description">${book.description}</p>
+                    
+                    <div class="modal-meta">
+                        <div class="modal-meta-item">
+                            <div class="modal-meta-label">Nashr yili</div>
+                            <div class="modal-meta-value">${book.year}</div>
+                        </div>
+                        <div class="modal-meta-item">
+                            <div class="modal-meta-label">Sahifalar</div>
+                            <div class="modal-meta-value">${book.pages}</div>
+                        </div>
+                        <div class="modal-meta-item">
+                            <div class="modal-meta-label">Reyting</div>
+                            <div class="modal-meta-value">${book.rating}/5.0</div>
+                        </div>
+                        <div class="modal-meta-item">
+                            <div class="modal-meta-label">Til</div>
+                            <div class="modal-meta-value">${book.language}</div>
+                        </div>
+                        <div class="modal-meta-item">
+                            <div class="modal-meta-label">Kategoriya</div>
+                            <div class="modal-meta-value">${book.category}</div>
+                        </div>
+                        <div class="modal-meta-item">
+                            <div class="modal-meta-label">Kitob ID</div>
+                            <div class="modal-meta-value">#${book.id.toString().padStart(3, '0')}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <a href="${book.pdf}" class="btn-download btn-modal-download" download 
+                           onclick="downloadBook(event, ${book.id}, '${book.title}')">
+                            <i class="fas fa-download"></i> PDF Yuklab Olish (${Math.floor(book.pages/10)} MB)
+                        </a>
+                        <button class="btn-detail" onclick="shareBook(${book.id})" style="padding: 18px 25px;">
+                            <i class="fas fa-share-alt"></i> Ulashish
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Modalni yopish
+        document.getElementById('closeModal').addEventListener('click', closeModal);
+        document.getElementById('bookModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+        
+        function closeModal() {
+            document.getElementById('bookModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Kitob yuklab olish
+        function downloadBook(event, bookId, bookTitle) {
+            event.preventDefault();
+            
+            // Demo rejimida - haqiqiy loyihada serverdan yuklash
+            const book = booksData.find(b => b.id === bookId);
+            
+            // Yuklash animatsiyasi
+            const btn = event.target.closest('a');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Yuklanmoqda...';
+            btn.style.opacity = '0.7';
+            
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.style.opacity = '1';
                 
-                booksGrid.appendChild(bookCard);
+                // Foydalanuvchiga xabar
+                showNotification(`"${bookTitle}" kitobi yuklab olindi! PDF fayl ochilmoqda...`);
+                
+                // Yangi oynada PDF ni ochish
+                window.open(book.pdf, '_blank');
+            }, 1500);
+        }
+        
+        // Kitobni ulashish
+        function shareBook(bookId) {
+            const book = booksData.find(b => b.id === bookId);
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: book.title,
+                    text: `${book.title} - ${book.author}\n${book.description.substring(0, 100)}...`,
+                    url: window.location.href
+                });
+            } else {
+                // Fallback - clipboard
+                const text = `${book.title} - ${book.author}\n${book.description.substring(0, 100)}...\n\nKitobni bu yerda o'qing: ${window.location.href}`;
+                navigator.clipboard.writeText(text);
+                showNotification("Kitob havolasi nusxalandi! Do'stlaringiz bilan ulashing.");
+            }
+        }
+        
+        // Xabar ko'rsatish
+        function showNotification(message) {
+            // Mavjud notificationni o'chirish
+            const existing = document.querySelector('.notification');
+            if (existing) existing.remove();
+            
+            // Yangi notification yaratish
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = `
+                <div style="position: fixed; top: 20px; right: 20px; background: #10b981; color: white; 
+                     padding: 15px 25px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+                     z-index: 9999; display: flex; align-items: center; gap: 10px; animation: slideIn 0.3s ease;">
+                    <i class="fas fa-check-circle"></i> ${message}
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // 3 soniyadan keyin o'chirish
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        // Event listenerlarni sozlash
+        function setupEventListeners() {
+            // Qidiruv
+            document.getElementById('searchBtn').addEventListener('click', performSearch);
+            document.getElementById('searchInput').addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') performSearch();
             });
             
-            // Add event listeners to borrow buttons
-            document.querySelectorAll('.borrow-btn').forEach(btn => {
+            // Kategoriya tugmalari
+            document.querySelectorAll('.category-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    const bookId = parseInt(this.dataset.id);
-                    borrowBook(bookId);
+                    // Faol kategoriyani o'zgartirish
+                    document.querySelectorAll('.category-btn').forEach(b => {
+                        b.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    currentCategory = this.getAttribute('data-category');
+                    filterBooks();
                 });
             });
         }
-
-        // Borrow Book
-        function borrowBook(bookId) {
-            const book = books.find(b => b.id === bookId);
-            
-            if (book && book.available) {
-                if (confirm(`"${book.title}" kitobini olishni tasdiqlaysizmi? Kitobni 2 hafta ichida qaytarishingiz kerak.`)) {
-                    book.available = false;
-                    
-                    // Save to localStorage
-                    const borrowedBooks = JSON.parse(localStorage.getItem('borrowedBooks') || '[]');
-                    borrowedBooks.push({
-                        id: bookId,
-                        date: new Date().toISOString(),
-                        returnDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString()
-                    });
-                    localStorage.setItem('borrowedBooks', JSON.stringify(borrowedBooks));
-                    
-                    // Update display
-                    applyFilters();
-                    alert(`"${book.title}" kitobi muvaffaqiyatli olingan!`);
-                }
-            }
+        
+        // Qidiruvni amalga oshirish
+        function performSearch() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            currentSearch = searchTerm;
+            filterBooks();
         }
-
-        // Apply Filters
-        function applyFilters() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const genreFilter = document.getElementById('genreFilter').value;
-            const availabilityFilter = document.getElementById('availabilityFilter').value;
+        
+        // Kitoblarni filtrlash
+        function filterBooks() {
+            let filteredBooks = booksData;
             
-            let filteredBooks = [...books];
+            // Kategoriya bo'yicha filtr
+            if (currentCategory !== 'all') {
+                filteredBooks = filteredBooks.filter(book => book.category === currentCategory);
+            }
             
-            // Search filter
-            if (searchTerm) {
+            // Qidiruv so'zi bo'yicha filtr
+            if (currentSearch) {
                 filteredBooks = filteredBooks.filter(book => 
-                    book.title.toLowerCase().includes(searchTerm) ||
-                    book.author.toLowerCase().includes(searchTerm) ||
-                    genreNames[book.genre].toLowerCase().includes(searchTerm)
+                    book.title.toLowerCase().includes(currentSearch) ||
+                    book.author.toLowerCase().includes(currentSearch) ||
+                    book.description.toLowerCase().includes(currentSearch) ||
+                    book.category.toLowerCase().includes(currentSearch) ||
+                    book.language.toLowerCase().includes(currentSearch)
                 );
-            }
-            
-            // Genre filter
-            if (genreFilter) {
-                filteredBooks = filteredBooks.filter(book => book.genre === genreFilter);
-            }
-            
-            // Availability filter
-            if (availabilityFilter) {
-                if (availabilityFilter === 'available') {
-                    filteredBooks = filteredBooks.filter(book => book.available);
-                } else if (availabilityFilter === 'borrowed') {
-                    filteredBooks = filteredBooks.filter(book => !book.available);
-                }
             }
             
             displayBooks(filteredBooks);
         }
-
-        // Add Book Form
-        document.getElementById('addBookForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const title = document.getElementById('bookTitle').value.trim();
-            const author = document.getElementById('bookAuthor').value.trim();
-            const genre = document.getElementById('bookGenre').value;
-            const year = parseInt(document.getElementById('bookYear').value);
-            
-            if (!title || !author || !genre || !year) {
-                alert('Iltimos, barcha maydonlarni to\'ldiring!');
-                return;
+        
+        // CSS animatsiyalari qo'shish
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
             }
             
-            if (year < 1900 || year > 2023) {
-                alert('Iltimos, to\'g\'ri nashr yilini kiriting!');
-                return;
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
             }
-            
-            // Create new book
-            const newBook = {
-                id: books.length > 0 ? Math.max(...books.map(b => b.id)) + 1 : 1,
-                title,
-                author,
-                genre,
-                year,
-                available: true
-            };
-            
-            books.push(newBook);
-            
-            // Reset form
-            this.reset();
-            
-            // Update display
-            applyFilters();
-            
-            // Show success message
-            alert(`"${title}" kitobi muvaffaqiyatli qo'shildi!`);
-        });
-
-        // Event Listeners
-        document.getElementById('searchBtn').addEventListener('click', applyFilters);
-        document.getElementById('searchInput').addEventListener('input', applyFilters);
-        document.getElementById('genreFilter').addEventListener('change', applyFilters);
-        document.getElementById('availabilityFilter').addEventListener('change', applyFilters);
-
-        // Enter key to search
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                applyFilters();
-            }
-        });
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            // Load borrowed books from localStorage
-            const borrowedBooks = JSON.parse(localStorage.getItem('borrowedBooks') || '[]');
-            borrowedBooks.forEach(borrowed => {
-                const book = books.find(b => b.id === borrowed.id);
-                if (book) {
-                    book.available = false;
-                }
-            });
-            
-            // Display books
-            applyFilters();
-            
-            // Include common scripts
-            const script = document.createElement('script');
-            script.src = 'script.js';
-            document.body.appendChild(script);
-        });
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>

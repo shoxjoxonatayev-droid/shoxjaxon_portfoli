@@ -763,6 +763,9 @@ function openMap() {
     }, 1000);
 }
 
+// ====== UTILITY FUNCTIONS ======
+// ... mavjud kodlar ...
+
 // ====== CURRENT YEAR ======
 document.addEventListener('DOMContentLoaded', function() {
     const yearElements = document.querySelectorAll('.current-year');
@@ -808,3 +811,36 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+// ====== LOYIHA DEMO FUNKSIYASI ======
+function showProjectDemo(projectNumber) {
+    console.log("Loyiha demo bosildi:", projectNumber);
+    
+    // Fayl nomlari
+    const projectFiles = [
+        "project1.html",
+        "project2.html", 
+        "project3.html",
+        "project4.html",
+        "project5.html"  // 5-raqamli loyiha
+    ];
+    
+    // Raqamni tekshirish
+    if (projectNumber < 1 || projectNumber > projectFiles.length) {
+        console.error("Noto'g'ri loyiha raqami:", projectNumber);
+        alert("Loyiha topilmadi!");
+        return;
+    }
+    
+    // Fayl nomini olish
+    const fileName = projectFiles[projectNumber - 1];
+    console.log("Ochiladigan fayl:", fileName);
+    
+    // Sahifaga o'tish
+    try {
+        window.location.href = fileName;
+    } catch (error) {
+        console.error("O'tishda xatolik:", error);
+        alert("Sahifaga o'tishda xatolik! Fayl nomini tekshiring: " + fileName);
+    }
+}
