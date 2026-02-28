@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sinf Albomi - O'quvchilar ro'yxati</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        /* Login va Registratsiya stillari */
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .auth-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+            padding: 50px;
+            animation: slideIn 0.5s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .auth-header i {
+            font-size: 70px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .auth-header h2 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .auth-header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 18px 20px 18px 55px;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            outline: none;
+            background: white;
+        }
+
+        .form-group input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .auth-link {
+            text-align: center;
+            color: #666;
+            font-size: 16px;
+        }
+
+        .auth-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .auth-link a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            display: none;
+        }
+
+        .success-message {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            display: none;
+        }
+
+        /* Asosiy sayt stillari */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            display: none;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 15px 30px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo i {
+            font-size: 35px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            padding: 8px 15px;
+            border-radius: 50px;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 8px 20px 8px 15px;
+            border-radius: 50px;
+            color: white;
+        }
+
+        .user-info i {
+            font-size: 24px;
+        }
+
+        .logout-btn {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 10px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logout-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 30px;
+            padding: 60px 50px;
+            margin-bottom: 40px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.3);
+        }
+
+        .hero-content h1 {
+            font-size: 52px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 50px;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px 30px;
+            border-radius: 20px;
+        }
+
+        .stat-number {
+            font-size: 40px;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            opacity: 0.8;
+        }
+
+        .hero-image i {
+            font-size: 250px;
+            opacity: 0.2;
+        }
+
+        /* Qidiruv va filtr */
+        .search-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-box {
+            flex: 1;
+            position: relative;
+            min-width: 300px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            font-size: 18px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 18px 20px 18px 55px;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f0f0f0;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        /* O'quvchilar grid */
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 0 10px;
+        }
+
+        .section-title h2 {
+            font-size: 32px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .add-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .add-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.3);
+        }
+
+        .students-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+            padding: 0 10px;
+        }
+
+        .student-card {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: cardAppear 0.5s ease;
+        }
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .student-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(102, 126, 234, 0.3);
+        }
+
+        .student-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            opacity: 0.1;
+        }
+
+        .student-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            position: relative;
+            border: 4px solid white;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .student-avatar i {
+            font-size: 50px;
+            color: white;
+        }
+
+        .student-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .student-info h3 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .student-info .class {
+            color: #667eea;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .student-info .role {
+            color: #666;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .student-tags {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .tag {
+            background: #f0f0f0;
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 13px;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .tag i {
+            color: #667eea;
+        }
+
+        .student-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+            border-top: 2px solid #f0f0f0;
+            padding-top: 20px;
+        }
+
+        .action-btn {
+            width: 45px;
+            height: 45px;
+            border: none;
+            border-radius: 50%;
+            background: #f0f0f0;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .action-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .action-btn.delete:hover {
+            background: #ff4757;
+        }
+
+        /* Guruhlar bo'limi */
+        .groups-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .group-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .group-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+        }
+
+        .group-card i {
+            font-size: 40px;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .group-card h4 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .group-card p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .group-count {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        /* Modal stillari */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlide 0.3s ease;
+        }
+
+        @keyframes modalSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-content h2 {
+            color: #667eea;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 28px;
+        }
+
+        .close-btn {
+            float: right;
+            font-size: 30px;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: #667eea;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 40px 20px;
+            }
+
+            .hero-content h1 {
+                font-size: 36px;
+            }
+
+            .hero-stats {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .hero-image i {
+                font-size: 180px;
+                margin-top: 30px;
+            }
+
+            .navbar {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .search-section {
+                flex-direction: column;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .filter-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Ro'yxatdan o'tish qismi -->
+    <div class="auth-container" id="authContainer">
+        <div class="auth-card" id="loginCard">
+            <div class="auth-header">
+                <i class="fas fa-users"></i>
+                <h2>Sinf Albomiga Xush Kelibsiz!</h2>
+                <p>Sinfdoshlaringiz bilan tanishib oling</p>
+            </div>
+            
+            <div class="error-message" id="loginError">
+                <i class="fas fa-exclamation-circle"></i>
+                <span></span>
+            </div>
+            
+            <div class="form-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="loginUsername" placeholder="Foydalanuvchi nomi" required>
+            </div>
+            
+            <div class="form-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="loginPassword" placeholder="Parol" required>
+            </div>
+            
+            <button class="auth-btn" onclick="login()">
+                <i class="fas fa-sign-in-alt"></i> Kirish
+            </button>
+            
+            <div class="auth-link">
+                Hisobingiz yo'qmi? <a onclick="showRegister()">Ro'yxatdan o'tish</a>
+            </div>
+        </div>
+
+        <div class="auth-card" id="registerCard" style="display: none;">
+            <div class="auth-header">
+                <i class="fas fa-user-plus"></i>
+                <h2>Yangi Hisob Yaratish</h2>
+                <p>Sinfdoshlar ro'yxatiga qo'shiling</p>
+            </div>
+            
+            <div class="success-message" id="registerSuccess">
+                <i class="fas fa-check-circle"></i>
+                <span></span>
+            </div>
+            
+            <div class="error-message" id="registerError">
+                <i class="fas fa-exclamation-circle"></i>
+                <span></span>
+            </div>
+            
+            <div class="form-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="regFullName" placeholder="To'liq ismingiz" required>
+            </div>
+            
+            <div class="form-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="regEmail" placeholder="Email manzilingiz" required>
+            </div>
+            
+            <div class="form-group">
+                <i class="fas fa-user-tag"></i>
+                <input type="text" id="regUsername" placeholder="Foydalanuvchi nomi" required>
+            </div>
+            
+            <div class="form-group">
+                <i class="fas fa-graduation-cap"></i>
+                <input type="text" id="regClass" placeholder="Sinf" required>
+            </div>
+            
+            <div class="form-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="regPassword" placeholder="Parol" required>
+            </div>
+            
+            <div class="form-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="regConfirmPassword" placeholder="Parolni takrorlang" required>
+            </div>
+            
+            <button class="auth-btn" onclick="register()">
+                <i class="fas fa-user-plus"></i> Ro'yxatdan o'tish
+            </button>
+            
+            <div class="auth-link">
+                Hisobingiz bormi? <a onclick="showLogin()">Kirish</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Asosiy sayt qismi -->
+    <div class="main-container" id="mainContainer">
+        <nav class="navbar">
+            <div class="logo">
+                <i class="fas fa-users"></i>
+                <span>Sinf Albomi</span>
+            </div>
+            <div class="nav-links">
+                <a href="#" onclick="showSection('home')"><i class="fas fa-home"></i> Bosh sahifa</a>
+                <a href="#" onclick="showSection('students')"><i class="fas fa-user-graduate"></i> O'quvchilar</a>
+                <a href="#" onclick="showSection('groups')"><i class="fas fa-layer-group"></i> Guruhlar</a>
+                <a href="#" onclick="showSection('about')"><i class="fas fa-info-circle"></i> Biz haqimizda</a>
+                <div class="user-info" id="userInfo">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="usernameDisplay"></span>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Chiqish
+                </button>
+            </div>
+        </nav>
+
+        <div class="hero" id="hero">
+            <div class="hero-content">
+                <h1 id="welcomeMessage">Sinfdoshlaringiz bilan tanishing!</h1>
+                <p>9 sinf o'quvchilari ro'yxati va ular haqida ma'lumotlar</p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalStudents">0</span>
+                        <span class="stat-label">O'quvchilar</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalGroups">4</span>
+                        <span class="stat-label">Guruhlar</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalTeachers">5</span>
+                        <span class="stat-label">O'qituvchilar</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <i class="fas fa-user-graduate"></i>
+            </div>
+        </div>
+
+        <!-- Qidiruv va filtr qismi -->
+        <div class="search-section">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="O'quvchini ismi bo'yicha qidirish..." onkeyup="searchStudents()">
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterStudents('all')">
+                    <i class="fas fa-users"></i> Barchasi
+                </button>
+                <button class="filter-btn" onclick="filterStudents('boys')">
+                    <i class="fas fa-mars"></i> O'g'il bolalar
+                </button>
+                <button class="filter-btn" onclick="filterStudents('girls')">
+                    <i class="fas fa-venus"></i> Qiz bolalar
+                </button>
+            </div>
+        </div>
+
+        <div class="section-title">
+            <h2><i class="fas fa-user-graduate"></i> O'quvchilar ro'yxati</h2>
+            <button class="add-btn" onclick="openAddStudentModal()">
+                <i class="fas fa-plus-circle"></i> Yangi o'quvchi qo'shish
+            </button>
+        </div>
+
+        <!-- O'quvchilar grid -->
+        <div class="students-grid" id="studentsGrid"></div>
+
+        <!-- Guruhlar bo'limi (yashirin) -->
+        <div id="groupsSection" style="display: none;">
+            <div class="section-title">
+                <h2><i class="fas fa-layer-group"></i> Guruhlar bo'yicha</h2>
+            </div>
+            <div class="groups-section" id="groupsContainer"></div>
+        </div>
+
+        <!-- Biz haqimizda bo'limi (yashirin) -->
+        <div id="aboutSection" style="display: none; background: white; border-radius: 30px; padding: 40px;">
+            <h2 style="color: #667eea; margin-bottom: 30px;"><i class="fas fa-info-circle"></i> Biz haqimizda</h2>
+            <div style="display: grid; gap: 30px; grid-template-columns: 1fr 1fr;">
+                <div style="background: #f8f9fa; padding: 30px; border-radius: 20px;">
+                    <i class="fas fa-school" style="font-size: 50px; color: #667eea; margin-bottom: 20px;"></i>
+                    <h3 style="margin-bottom: 15px;">Sinfimiz haqida</h3>
+                    <p style="color: #666; line-height: 1.8;">Biz 9 sinf o'quvchilarimiz. Birgalikda o'qib, birgalikda o'sib kelmoqdamiz. Sinfimizda 25 nafar o'quvchi tahsil oladi.</p>
+                </div>
+                <div style="background: #f8f9fa; padding: 30px; border-radius: 20px;">
+                    <i class="fas fa-trophy" style="font-size: 50px; color: #667eea; margin-bottom: 20px;"></i>
+                    <h3 style="margin-bottom: 15px;">Yutuqlarimiz</h3>
+                    <p style="color: #666; line-height: 1.8;">Sinfimiz o'quvchilari turli fan olimpiadalarida va sport musobaqalarida faxrli o'rinlarni egallab kelmoqda.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Yangi o'quvchi qo'shish modali -->
+    <div class="modal" id="studentModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2><i class="fas fa-user-plus"></i> Yangi o'quvchi qo'shish</h2>
+            
+            <div class="form-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="studentName" placeholder="O'quvchining to'liq ismi" required>
+            </div>
+            
+            <div class="form-group">
+                <i class="fas fa-venus-mars"></i>
+                <select id="studentGender" style="width: 100%; padding: 18px 20px 18px 55px; border: 2px solid #e0e0e0; border-radius: 15px; font-size: 16px;">
+                    <option value="male">O'g'il bola</option>
+                    <option value="female">Qiz bola</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <i class="fas fa-graduation-cap"></i>
+                <input type="text" id="studentClass" placeholder="Sinfi" value="9" required>
+            </div>
+            
+            <div class="form-group">
+                <i class="fas fa-star"></i>
+                <select id="studentRole" style="width: 100%; padding: 18px 20px 18px 55px; border: 2px solid #e0e0e0; border-radius: 15px; font-size: 16px;">
+                    <option value="O'quvchi">O'quvchi</option>
+                    <option value="Sinf rahbari">Sinf rahbari</option>
+                    <option value="Sinf sardori">Sinf sardori</option>
+                    <option value="Faol a'zo">Faol a'zo</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <i class="fas fa-tag"></i>
+                <input type="text" id="studentHobby" placeholder="Qiziqishlari (vergul bilan ajrating)" required>
+            </div>
+            
+            <button class="auth-btn" onclick="addStudent()">
+                <i class="fas fa-save"></i> Saqlash
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Ma'lumotlar bazasi
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+        let students = JSON.parse(localStorage.getItem('students')) || [];
+        let currentFilter = 'all';
+        let searchTerm = '';
+
+        // Namunaviy o'quvchilar (agar bo'sh bo'lsa)
+        if (students.length === 0) {
+            students = [
+                { id: 1, name: "Ali Valiyev", gender: "male", class: "9", role: "Sinf sardori", hobby: "Matematika, Futbol", interests: ["Matematika", "Futbol"] },
+                { id: 2, name: "Dilnoza Karimova", gender: "female", class: "9", role: "O'quvchi", hobby: "San'at, Adabiyot", interests: ["San'at", "Adabiyot"] },
+                { id: 3, name: "Jasur Tursunov", gender: "male", class: "9", role: "O'quvchi", hobby: "Fizika, Shaxmat", interests: ["Fizika", "Shaxmat"] },
+                { id: 4, name: "Madina Akramova", gender: "female", class: "9", role: "Faol a'zo", hobby: "Kimyo, Musiqa", interests: ["Kimyo", "Musiqa"] },
+                { id: 5, name: "Bobur Hamidov", gender: "male", class: "9", role: "O'quvchi", hobby: "Tarix, Basketbol", interests: ["Tarix", "Basketbol"] },
+                { id: 6, name: "Zebo Alimova", gender: "female", class: "9", role: "O'quvchi", hobby: "Biologiya, Rasm", interests: ["Biologiya", "Rasm"] },
+                { id: 7, name: "Sardor Rahimov", gender: "male", class: "9", role: "O'quvchi", hobby: "Informatika, Tennis", interests: ["Informatika", "Tennis"] },
+                { id: 8, name: "Gulnoza Azizova", gender: "female", class: "9", role: "O'quvchi", hobby: "Ingliz tili, She'riyat", interests: ["Ingliz tili", "She'riyat"] },
+                { id: 9, name: "Shahzod Komilov", gender: "male", class: "9", role: "O'quvchi", hobby: "Geografiya, Turizm", interests: ["Geografiya", "Turizm"] },
+                { id: 10, name: "Nodira Yusupova", gender: "female", class: "9", role: "Sinf rahbari", hobby: "Pedagogika, Psixologiya", interests: ["Pedagogika", "Psixologiya"] }
+            ];
+            localStorage.setItem('students', JSON.stringify(students));
+        }
+
+        // UI funksiyalari
+        function showRegister() {
+            document.getElementById('loginCard').style.display = 'none';
+            document.getElementById('registerCard').style.display = 'block';
+            hideMessages();
+        }
+
+        function showLogin() {
+            document.getElementById('registerCard').style.display = 'none';
+            document.getElementById('loginCard').style.display = 'block';
+            hideMessages();
+        }
+
+        function hideMessages() {
+            document.getElementById('loginError').style.display = 'none';
+            document.getElementById('registerError').style.display = 'none';
+            document.getElementById('registerSuccess').style.display = 'none';
+        }
+
+        function showError(elementId, message) {
+            const errorDiv = document.getElementById(elementId);
+            errorDiv.querySelector('span').textContent = message;
+            errorDiv.style.display = 'flex';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        function showSuccess(elementId, message) {
+            const successDiv = document.getElementById(elementId);
+            successDiv.querySelector('span').textContent = message;
+            successDiv.style.display = 'flex';
+            setTimeout(() => {
+                successDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        // Registratsiya
+        function register() {
+            const fullName = document.getElementById('regFullName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const username = document.getElementById('regUsername').value.trim();
+            const studentClass = document.getElementById('regClass').value.trim();
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+
+            if (!fullName || !email || !username || !studentClass || !password || !confirmPassword) {
+                showError('registerError', 'Iltimos, barcha maydonlarni to\'ldiring!');
+                return;
+            }
+
+            if (password.length < 4) {
+                showError('registerError', 'Parol kamida 4 belgidan iborat bo\'lishi kerak!');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showError('registerError', 'Parollar mos kelmadi!');
+                return;
+            }
+
+            const userExists = users.some(u => u.username === username || u.email === email);
+            if (userExists) {
+                showError('registerError', 'Bu foydalanuvchi nomi yoki email allaqachon mavjud!');
+                return;
+            }
+
+            const newUser = {
+                id: Date.now(),
+                fullName,
+                email,
+                username,
+                studentClass,
+                password
+            };
+
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // O'quvchilar ro'yxatiga ham qo'shish
+            const newStudent = {
+                id: Date.now(),
+                name: fullName,
+                gender: "male",
+                class: studentClass,
+                role: "O'quvchi",
+                hobby: "Qiziqishlar",
+                interests: ["Qiziqish"]
+            };
+            students.push(newStudent);
+            localStorage.setItem('students', JSON.stringify(students));
+            
+            document.getElementById('regFullName').value = '';
+            document.getElementById('regEmail').value = '';
+            document.getElementById('regUsername').value = '';
+            document.getElementById('regClass').value = '';
+            document.getElementById('regPassword').value = '';
+            document.getElementById('regConfirmPassword').value = '';
+            
+            showSuccess('registerSuccess', 'Muvaffaqiyatli ro\'yxatdan o\'tdingiz!');
+            
+            setTimeout(() => {
+                showLogin();
+            }, 2000);
+        }
+
+        // Login
+        function login() {
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            if (!username || !password) {
+                showError('loginError', 'Iltimos, foydalanuvchi nomi va parolni kiriting!');
+                return;
+            }
+
+            const user = users.find(u => u.username === username && u.password === password);
+
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                
+                document.getElementById('authContainer').style.display = 'none';
+                document.getElementById('mainContainer').style.display = 'block';
+                
+                document.getElementById('usernameDisplay').textContent = user.fullName || user.username;
+                document.getElementById('welcomeMessage').textContent = `Xush kelibsiz, ${user.fullName || user.username}!`;
+                
+                showStudents();
+                updateStats();
+            } else {
+                showError('loginError', 'Foydalanuvchi nomi yoki parol noto\'g\'ri!');
+            }
+        }
+
+        // Logout
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            
+            document.getElementById('authContainer').style.display = 'flex';
+            document.getElementById('mainContainer').style.display = 'none';
+            
+            document.getElementById('loginUsername').value = '';
+            document.getElementById('loginPassword').value = '';
+        }
+
+        // O'quvchilarni ko'rsatish
+        function showStudents() {
+            document.getElementById('studentsGrid').style.display = 'grid';
+            document.getElementById('groupsSection').style.display = 'none';
+            document.getElementById('aboutSection').style.display = 'none';
+            
+            let filteredStudents = students;
+            
+            // Filtrlash
+            if (currentFilter === 'boys') {
+                filteredStudents = students.filter(s => s.gender === 'male');
+            } else if (currentFilter === 'girls') {
+                filteredStudents = students.filter(s => s.gender === 'female');
+            }
+            
+            // Qidirish
+            if (searchTerm) {
+                filteredStudents = filteredStudents.filter(s => 
+                    s.name.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+            }
+            
+            displayStudents(filteredStudents);
+        }
+
+        function displayStudents(studentsList) {
+            const grid = document.getElementById('studentsGrid');
+            grid.innerHTML = '';
+            
+            if (studentsList.length === 0) {
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 50px; background: white; border-radius: 20px;"><i class="fas fa-users" style="font-size: 60px; color: #ccc;"></i><h3 style="color: #666; margin-top: 20px;">O\'quvchilar topilmadi</h3></div>';
+                return;
+            }
+            
+            studentsList.forEach(student => {
+                const interests = student.hobby ? student.hobby.split(',').map(i => i.trim()) : ['Qiziqish'];
+                
+                const card = document.createElement('div');
+                card.className = 'student-card';
+                card.innerHTML = `
+                    <div class="student-avatar">
+                        <i class="fas ${student.gender === 'male' ? 'fa-user-graduate' : 'fa-user-tie'}"></i>
+                    </div>
+                    <div class="student-info">
+                        <h3>${student.name}</h3>
+                        <div class="class">
+                            <i class="fas fa-graduation-cap"></i> ${student.class || '9'}
+                        </div>
+                        <div class="role">
+                            <i class="fas fa-star"></i> ${student.role || 'O\'quvchi'}
+                        </div>
+                    </div>
+                    <div class="student-tags">
+                        ${interests.map(interest => 
+                            `<span class="tag"><i class="fas fa-tag"></i> ${interest}</span>`
+                        ).join('')}
+                    </div>
+                    <div class="student-actions">
+                        <button class="action-btn" onclick="viewStudent(${student.id})" title="Ko'rish">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn" onclick="editStudent(${student.id})" title="Tahrirlash">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn delete" onclick="deleteStudent(${student.id})" title="O'chirish">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Filtrlash
+        function filterStudents(filter) {
+            currentFilter = filter;
+            
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            showStudents();
+        }
+
+        // Qidirish
+        function searchStudents() {
+            searchTerm = document.getElementById('searchInput').value;
+            showStudents();
+        }
+
+        // Sortlash
+        function sortStudents() {
+            students.sort((a, b) => a.name.localeCompare(b.name));
+            localStorage.setItem('students', JSON.stringify(students));
+            showStudents();
+        }
+
+        // O'quvchi qo'shish modali
+        function openAddStudentModal() {
+            document.getElementById('studentModal').style.display = 'flex';
+            document.getElementById('studentName').value = '';
+            document.getElementById('studentHobby').value = '';
+        }
+
+        function closeModal() {
+            document.getElementById('studentModal').style.display = 'none';
+        }
+
+        function addStudent() {
+            const name = document.getElementById('studentName').value.trim();
+            const gender = document.getElementById('studentGender').value;
+            const studentClass = document.getElementById('studentClass').value;
+            const role = document.getElementById('studentRole').value;
+            const hobby = document.getElementById('studentHobby').value.trim();
+
+            if (!name) {
+                alert('Iltimos, o\'quvchi ismini kiriting!');
+                return;
+            }
+
+            const newStudent = {
+                id: Date.now(),
+                name: name,
+                gender: gender,
+                class: studentClass,
+                role: role,
+                hobby: hobby || 'Qiziqishlar',
+                interests: hobby ? hobby.split(',').map(i => i.trim()) : ['Qiziqish']
+            };
+
+            students.push(newStudent);
+            localStorage.setItem('students', JSON.stringify(students));
+            
+            closeModal();
+            showStudents();
+            updateStats();
+            
+            alert('O\'quvchi muvaffaqiyatli qo\'shildi!');
+        }
+
+        // O'quvchini o'chirish
+        function deleteStudent(id) {
+            if (confirm('Bu o\'quvchini ro\'yxatdan o\'chirishni xohlaysizmi?')) {
+                students = students.filter(s => s.id !== id);
+                localStorage.setItem('students', JSON.stringify(students));
+                showStudents();
+                updateStats();
+            }
+        }
+
+        // O'quvchini ko'rish
+        function viewStudent(id) {
+            const student = students.find(s => s.id === id);
+            alert(`O'quvchi: ${student.name}\nSinf: ${student.class}\nRoli: ${student.role}\nQiziqishlari: ${student.hobby}`);
+        }
+
+        // O'quvchini tahrirlash
+        function editStudent(id) {
+            const student = students.find(s => s.id === id);
+            const newName = prompt('Yangi ismni kiriting:', student.name);
+            if (newName) {
+                student.name = newName;
+                localStorage.setItem('students', JSON.stringify(students));
+                showStudents();
+            }
+        }
+
+        // Bo'limlarni ko'rsatish
+        function showSection(section) {
+            document.getElementById('studentsGrid').style.display = 'none';
+            document.getElementById('groupsSection').style.display = 'none';
+            document.getElementById('aboutSection').style.display = 'none';
+            
+            if (section === 'home' || section === 'students') {
+                showStudents();
+            } else if (section === 'groups') {
+                showGroups();
+            } else if (section === 'about') {
+                document.getElementById('aboutSection').style.display = 'block';
+            }
+        }
+
+        // Guruhlarni ko'rsatish
+        function showGroups() {
+            document.getElementById('groupsSection').style.display = 'block';
+            
+            const groups = {};
+            students.forEach(s => {
+                const className = s.class || '9';
+                if (!groups[className]) {
+                    groups[className] = [];
+                }
+                groups[className].push(s);
+            });
+            
+            const container = document.getElementById('groupsContainer');
+            container.innerHTML = '';
+            
+            for (let className in groups) {
+                const boys = groups[className].filter(s => s.gender === 'male').length;
+                const girls = groups[className].filter(s => s.gender === 'female').length;
+                
+                const groupCard = document.createElement('div');
+                groupCard.className = 'group-card';
+                groupCard.innerHTML = `
+                    <i class="fas fa-users"></i>
+                    <h4>${className} sinf</h4>
+                    <p>Jami: ${groups[className].length} o'quvchi</p>
+                    <p><i class="fas fa-mars" style="color: #3498db;"></i> O'g'il bolalar: ${boys}</p>
+                    <p><i class="fas fa-venus" style="color: #e83e8c;"></i> Qiz bolalar: ${girls}</p>
+                    <div class="group-count">${groups[className].length} o'quvchi</div>
+                `;
+                container.appendChild(groupCard);
+            }
+        }
+
+        // Statistikani yangilash
+        function updateStats() {
+            document.getElementById('totalStudents').textContent = students.length;
+            
+            const boys = students.filter(s => s.gender === 'male').length;
+            const girls = students.filter(s => s.gender === 'female').length;
+            
+            // Statistikani hero sectionda ko'rsatish
+            const statsHtml = `
+                <div class="stat-item">
+                    <span class="stat-number">${students.length}</span>
+                    <span class="stat-label">Jami o'quvchilar</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">${boys}</span>
+                    <span class="stat-label">O'g'il bolalar</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">${girls}</span>
+                    <span class="stat-label">Qiz bolalar</span>
+                </div>
+            `;
+            document.querySelector('.hero-stats').innerHTML = statsHtml;
+        }
+
+        // Sahifa yuklanganda
+        window.onload = function() {
+            if (currentUser) {
+                document.getElementById('authContainer').style.display = 'none';
+                document.getElementById('mainContainer').style.display = 'block';
+                document.getElementById('usernameDisplay').textContent = currentUser.fullName || currentUser.username;
+                document.getElementById('welcomeMessage').textContent = `Xush kelibsiz, ${currentUser.fullName || currentUser.username}!`;
+                showStudents();
+                updateStats();
+            } else {
+                document.getElementById('authContainer').style.display = 'flex';
+                document.getElementById('mainContainer').style.display = 'none';
+            }
+        }
+
+        // Modalni yopish
+        window.onclick = function(event) {
+            const modal = document.getElementById('studentModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Enter tugmasi
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                if (document.getElementById('loginCard').style.display !== 'none') {
+                    login();
+                } else if (document.getElementById('registerCard').style.display !== 'none') {
+                    register();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

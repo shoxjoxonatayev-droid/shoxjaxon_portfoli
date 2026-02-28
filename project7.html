@@ -1,0 +1,1757 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTest | Maktab mini-testlari</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Background animation */
+        .bg-bubbles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 8s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-20px) translateX(10px); }
+            50% { transform: translateY(-30px) translateX(-10px); }
+            75% { transform: translateY(-10px) translateX(20px); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Modern glassmorphism card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px 30px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            animation: slideInDown 0.5s ease;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            transform: rotate(-5deg);
+            transition: 0.3s;
+        }
+
+        .logo:hover .logo-icon {
+            transform: rotate(0deg);
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f8f9fa;
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: 2px solid #e0e0e0;
+            transition: 0.3s;
+        }
+
+        .user-badge:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .user-info {
+            line-height: 1.4;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .user-class {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .logout-btn {
+            background: white;
+            border: 2px solid #ff4757;
+            color: #ff4757;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logout-btn:hover {
+            background: #ff4757;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 71, 87, 0.3);
+        }
+
+        /* Auth Forms */
+        .auth-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: white;
+            border-radius: 40px;
+            padding: 50px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.6s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
+            background-size: 200% 100%;
+            animation: gradient 3s linear infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .auth-header h1 {
+            font-size: 36px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .auth-header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+
+        .input-wrapper input, .input-wrapper select {
+            width: 100%;
+            padding: 16px 20px 16px 55px;
+            border: 2px solid #e0e0e0;
+            border-radius: 20px;
+            font-size: 16px;
+            transition: 0.3s;
+            background: #f8f9fa;
+        }
+
+        .input-wrapper input:focus, .input-wrapper select:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 5px rgba(102, 126, 234, 0.1);
+        }
+
+        .input-wrapper input:focus + i {
+            color: #764ba2;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .auth-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .auth-link {
+            text-align: center;
+            margin-top: 25px;
+            color: #666;
+        }
+
+        .auth-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .auth-link a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .alert {
+            padding: 16px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .alert-error {
+            background: #fee;
+            color: #c33;
+            border-left: 5px solid #c33;
+        }
+
+        .alert-success {
+            background: #efe;
+            color: #3c3;
+            border-left: 5px solid #3c3;
+        }
+
+        /* Dashboard */
+        .dashboard-title {
+            color: white;
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            animation: fadeInLeft 0.5s ease;
+        }
+
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .subject-card {
+            background: white;
+            border-radius: 30px;
+            padding: 30px;
+            cursor: pointer;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease;
+            animation-fill-mode: both;
+        }
+
+        .subject-card:nth-child(1) { animation-delay: 0.1s; }
+        .subject-card:nth-child(2) { animation-delay: 0.2s; }
+        .subject-card:nth-child(3) { animation-delay: 0.3s; }
+        .subject-card:nth-child(4) { animation-delay: 0.4s; }
+        .subject-card:nth-child(5) { animation-delay: 0.5s; }
+        .subject-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .subject-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .subject-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: 50%;
+            transform: translate(30px, -30px);
+            transition: 0.4s;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .subject-card:hover::after {
+            transform: translate(20px, -20px) scale(1.5);
+        }
+
+        .subject-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+            margin-bottom: 25px;
+            transition: 0.3s;
+        }
+
+        .subject-card:hover .subject-icon {
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        .subject-card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subject-card p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .subject-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 2px dashed #e0e0e0;
+        }
+
+        .stats-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .stat-item i {
+            font-size: 14px;
+        }
+
+        .start-test-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .start-test-btn:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Test Page */
+        .test-wrapper {
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .test-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .test-info h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .test-meta {
+            display: flex;
+            gap: 20px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .meta-item i {
+            color: #667eea;
+        }
+
+        .progress-container {
+            width: 300px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: #e0e0e0;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 20px;
+            transition: width 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .question-container {
+            margin-bottom: 30px;
+        }
+
+        .question-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .question-text {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .option-item {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 20px;
+            padding: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            animation: slideInRight 0.3s ease;
+            animation-fill-mode: both;
+        }
+
+        .option-item:nth-child(1) { animation-delay: 0.1s; }
+        .option-item:nth-child(2) { animation-delay: 0.2s; }
+        .option-item:nth-child(3) { animation-delay: 0.3s; }
+        .option-item:nth-child(4) { animation-delay: 0.4s; }
+
+        .option-item:hover {
+            border-color: #667eea;
+            background: #f0f3ff;
+            transform: translateX(10px);
+        }
+
+        .option-item.selected {
+            border-color: #667eea;
+            background: #f0f3ff;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .option-marker {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #667eea;
+            margin-right: 20px;
+            transition: 0.3s;
+        }
+
+        .option-item.selected .option-marker {
+            background: #667eea;
+            color: white;
+        }
+
+        .option-content {
+            flex: 1;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .test-navigation {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .nav-btn {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:not(:disabled) {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-btn.prev-btn {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .nav-btn.next-btn, .nav-btn.submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Result Page */
+        .result-wrapper {
+            background: white;
+            border-radius: 40px;
+            padding: 60px;
+            text-align: center;
+            animation: scaleIn 0.5s ease;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .result-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .result-circle {
+            width: 280px;
+            height: 280px;
+            margin: 30px auto;
+            position: relative;
+        }
+
+        .circle-progress {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(#667eea 0deg, #764ba2 0deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fillProgress 1.5s ease-out forwards;
+        }
+
+        @keyframes fillProgress {
+            0% { background: conic-gradient(#667eea 0deg, #764ba2 0deg); }
+        }
+
+        .circle-inner {
+            width: 220px;
+            height: 220px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: inset 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .score-number {
+            font-size: 64px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+        }
+
+        .score-total {
+            font-size: 24px;
+            color: #666;
+        }
+
+        .result-message {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+            margin: 20px 0;
+            animation: fadeInUp 0.5s ease 0.3s both;
+        }
+
+        .result-advice {
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 18px;
+            animation: fadeInUp 0.5s ease 0.4s both;
+        }
+
+        .result-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.5s ease 0.5s both;
+        }
+
+        .result-stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .result-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            animation: fadeInUp 0.5s ease 0.6s both;
+        }
+
+        .action-btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .action-btn.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .action-btn.secondary {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 3px solid #e0e0e0;
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .auth-card {
+                padding: 30px;
+            }
+            
+            .subjects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .test-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .progress-container {
+                width: 100%;
+            }
+            
+            .question-text {
+                font-size: 20px;
+            }
+            
+            .result-wrapper {
+                padding: 30px;
+            }
+            
+            .result-circle {
+                width: 220px;
+                height: 220px;
+            }
+            
+            .circle-inner {
+                width: 170px;
+                height: 170px;
+            }
+            
+            .score-number {
+                font-size: 48px;
+            }
+            
+            .result-actions {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: 20px;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .user-menu {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .user-badge {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .logout-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .dashboard-title {
+                font-size: 32px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated background -->
+    <div class="bg-bubbles" id="bubbles"></div>
+
+    <div id="app" class="container"></div>
+
+    <script>
+        // Background bubbles
+        function createBubbles() {
+            const bubblesContainer = document.getElementById('bubbles');
+            for (let i = 0; i < 20; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                const size = Math.random() * 100 + 50;
+                bubble.style.width = size + 'px';
+                bubble.style.height = size + 'px';
+                bubble.style.left = Math.random() * 100 + '%';
+                bubble.style.top = Math.random() * 100 + '%';
+                bubble.style.animationDelay = Math.random() * 5 + 's';
+                bubble.style.animationDuration = Math.random() * 5 + 5 + 's';
+                bubblesContainer.appendChild(bubble);
+            }
+        }
+
+        // Ma'lumotlar bazasi
+        const STORAGE = {
+            USERS: 'edutest_users',
+            USER: 'edutest_current_user',
+            RESULTS: 'edutest_results'
+        };
+
+        // Testlar
+        const TESTS = {
+            matematika: {
+                name: 'Matematika',
+                icon: 'fa-calculator',
+                color: '#667eea',
+                description: '5-sinf matematika testlari',
+                questions: [
+                    {
+                        question: '123 + 456 = ?',
+                        options: ['579', '589', '569', '559'],
+                        correct: 0
+                    },
+                    {
+                        question: '789 - 345 = ?',
+                        options: ['444', '454', '434', '424'],
+                        correct: 0
+                    },
+                    {
+                        question: '12 × 8 = ?',
+                        options: ['96', '86', '106', '76'],
+                        correct: 0
+                    },
+                    {
+                        question: '144 ÷ 12 = ?',
+                        options: ['12', '14', '10', '16'],
+                        correct: 0
+                    },
+                    {
+                        question: '25 × 4 = ?',
+                        options: ['100', '90', '110', '120'],
+                        correct: 0
+                    }
+                ]
+            },
+            onaTili: {
+                name: 'Ona tili',
+                icon: 'fa-book-open',
+                color: '#ff6b6b',
+                description: '5-sinf ona tili testlari',
+                questions: [
+                    {
+                        question: 'Qaysi so\'z ot?',
+                        options: ['Kitob', 'O\'qi', 'Chiroyli', 'Tez'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Qaysi so\'z sifat?',
+                        options: ['Yaxshi', 'Yugur', 'Stol', 'Uy'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Qaysi so\'z fe\'l?',
+                        options: ['Bordi', 'Olma', 'Issiq', 'Uch'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Kelishik qo\'shimchasi qaysi?',
+                        options: ['-ning', '-chi', '-gina', '-roq'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Qaysi gap sodda gap?',
+                        options: ['Men maktabga bordim', 'Keldim va ketdim', 'Uyga borib kitob o\'qidim', 'Quyosh chiqdi va havo isidi'],
+                        correct: 0
+                    }
+                ]
+            },
+            inglizTili: {
+                name: 'Ingliz tili',
+                icon: 'fa-language',
+                color: '#4ecdc4',
+                description: '5-sinf ingliz tili testlari',
+                questions: [
+                    {
+                        question: '"Olma" ingliz tilida?',
+                        options: ['Apple', 'Orange', 'Banana', 'Grape'],
+                        correct: 0
+                    },
+                    {
+                        question: '"Cat" so\'zining ma\'nosi?',
+                        options: ['It', 'Mushuk', 'Sigir', 'Ot'],
+                        correct: 1
+                    },
+                    {
+                        question: '"Good morning" qanday tarjima qilinadi?',
+                        options: ['Xayrli kech', 'Xayrli tong', 'Xayrli kun', 'Salom'],
+                        correct: 1
+                    },
+                    {
+                        question: '"I am a student" tarjimasi?',
+                        options: ['Men o\'qituvchiman', 'Men shifokorman', 'Men o\'quvchiman', 'Men ishchiman'],
+                        correct: 2
+                    },
+                    {
+                        question: '"How are you?" so\'rog\'iga javob?',
+                        options: ['I am fine', 'Goodbye', 'Thank you', 'Hello'],
+                        correct: 0
+                    }
+                ]
+            },
+            fizika: {
+                name: 'Fizika',
+                icon: 'fa-bolt',
+                color: '#f9ca24',
+                description: '7-sinf fizika testlari',
+                questions: [
+                    {
+                        question: 'Tezlik formulasi qaysi?',
+                        options: ['v = s/t', 'v = s × t', 'v = t/s', 'v = m/s'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Kuch birligi?',
+                        options: ['N', 'kg', 'm', 's'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Yorug\'lik tezligi?',
+                        options: ['300 000 km/s', '150 000 km/s', '400 000 km/s', '200 000 km/s'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Ovoz tezligi?',
+                        options: ['330 m/s', '300 m/s', '400 m/s', '500 m/s'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Nyutonning 1-qonuni?',
+                        options: ['Inersiya qonuni', 'Kuch qonuni', 'Harakat qonuni', 'Tortishish qonuni'],
+                        correct: 0
+                    }
+                ]
+            },
+            kimyo: {
+                name: 'Kimyo',
+                icon: 'fa-flask',
+                color: '#a55eea',
+                description: '7-sinf kimyo testlari',
+                questions: [
+                    {
+                        question: 'Suvning kimyoviy formulasi?',
+                        options: ['H2O', 'CO2', 'O2', 'H2'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Kislorodning belgisi?',
+                        options: ['O', 'K', 'C', 'N'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Tuzning formulasi?',
+                        options: ['NaCl', 'HCl', 'NaOH', 'Na2CO3'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Vodorodning belgisi?',
+                        options: ['H', 'V', 'He', 'O'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Havo tarkibidagi gaz?',
+                        options: ['Azot', 'Kislorod', 'Vodorod', 'Geliy'],
+                        correct: 0
+                    }
+                ]
+            },
+            biologiya: {
+                name: 'Biologiya',
+                icon: 'fa-leaf',
+                color: '#6ab04c',
+                description: '6-sinf biologiya testlari',
+                questions: [
+                    {
+                        question: 'Inson yuragi necha kamerali?',
+                        options: ['4', '2', '3', '5'],
+                        correct: 0
+                    },
+                    {
+                        question: 'O\'simliklar nima bilan oziqlanadi?',
+                        options: ['Fotosintez', 'Ovqat', 'Suv', 'Havo'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Miya necha foiz kislorod sarflaydi?',
+                        options: ['20%', '10%', '30%', '40%'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Inson skeleti necha suyakdan iborat?',
+                        options: ['206', '306', '106', '256'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Qon aylanish sistemasi markazi?',
+                        options: ['Yurak', 'Miya', 'Jigar', 'O\'pka'],
+                        correct: 0
+                    }
+                ]
+            }
+        };
+
+        // Boshlang'ich sozlamalar
+        function init() {
+            createBubbles();
+            if (!localStorage.getItem(STORAGE.USERS)) {
+                localStorage.setItem(STORAGE.USERS, JSON.stringify([]));
+            }
+            if (!localStorage.getItem(STORAGE.RESULTS)) {
+                localStorage.setItem(STORAGE.RESULTS, JSON.stringify([]));
+            }
+            
+            // Test user yaratish
+            const users = JSON.parse(localStorage.getItem(STORAGE.USERS));
+            if (users.length === 0) {
+                users.push({
+                    fullname: 'Test User',
+                    class: '5-A',
+                    email: 'test@test.com',
+                    password: '123456'
+                });
+                localStorage.setItem(STORAGE.USERS, JSON.stringify(users));
+            }
+            
+            checkAuth();
+        }
+
+        // Auth tekshirish
+        function checkAuth() {
+            const user = JSON.parse(localStorage.getItem(STORAGE.USER));
+            if (user) {
+                showDashboard();
+            } else {
+                showLogin();
+            }
+        }
+
+        // Login sahifasi
+        function showLogin() {
+            document.getElementById('app').innerHTML = `
+                <div class="auth-wrapper">
+                    <div class="auth-card">
+                        <div class="auth-header">
+                            <h1>EduTest</h1>
+                            <p>Maktab mini-testlari</p>
+                        </div>
+                        <div id="alert" class="alert" style="display: none;">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span></span>
+                        </div>
+                        <form onsubmit="handleLogin(event)">
+                            <div class="input-group">
+                                <label>Email</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-envelope"></i>
+                                    <input type="email" id="email" placeholder="Emailingizni kiriting" required>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label>Parol</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-lock"></i>
+                                    <input type="password" id="password" placeholder="Parolingizni kiriting" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="auth-btn">
+                                <i class="fas fa-sign-in-alt"></i>
+                                Kirish
+                            </button>
+                        </form>
+                        <div class="auth-link">
+                            Akkountingiz yo'qmi? 
+                            <a href="#" onclick="showRegister()">Ro'yxatdan o'tish</a>
+                        </div>
+                        <div class="auth-link" style="margin-top: 10px;">
+                            <small>Test: test@test.com / 123456</small>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Register sahifasi
+        window.showRegister = function() {
+            document.getElementById('app').innerHTML = `
+                <div class="auth-wrapper">
+                    <div class="auth-card">
+                        <div class="auth-header">
+                            <h1>EduTest</h1>
+                            <p>Yangi akkount yaratish</p>
+                        </div>
+                        <div id="alert" class="alert" style="display: none;">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span></span>
+                        </div>
+                        <form onsubmit="handleRegister(event)">
+                            <div class="input-group">
+                                <label>Ism familiya</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-user"></i>
+                                    <input type="text" id="fullname" placeholder="Ism familiyangiz" required>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label>Sinf</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-graduation-cap"></i>
+                                    <input type="text" id="class" placeholder="Masalan: 5-A" required>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label>Email</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-envelope"></i>
+                                    <input type="email" id="email" placeholder="Emailingiz" required>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label>Parol</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-lock"></i>
+                                    <input type="password" id="password" placeholder="Parol (kamida 6 belgi)" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="auth-btn">
+                                <i class="fas fa-user-plus"></i>
+                                Ro'yxatdan o'tish
+                            </button>
+                        </form>
+                        <div class="auth-link">
+                            Akkountingiz bormi? 
+                            <a href="#" onclick="showLogin()">Tizimga kirish</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        };
+
+        // Login handle
+        window.handleLogin = function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            const users = JSON.parse(localStorage.getItem(STORAGE.USERS));
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                localStorage.setItem(STORAGE.USER, JSON.stringify(user));
+                showDashboard();
+            } else {
+                const alert = document.getElementById('alert');
+                alert.style.display = 'flex';
+                alert.className = 'alert alert-error';
+                alert.querySelector('span').textContent = 'Email yoki parol noto\'g\'ri';
+            }
+        };
+
+        // Register handle
+        window.handleRegister = function(e) {
+            e.preventDefault();
+            const fullname = document.getElementById('fullname').value;
+            const className = document.getElementById('class').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (password.length < 6) {
+                const alert = document.getElementById('alert');
+                alert.style.display = 'flex';
+                alert.className = 'alert alert-error';
+                alert.querySelector('span').textContent = 'Parol kamida 6 belgidan iborat bo\'lishi kerak';
+                return;
+            }
+            
+            const users = JSON.parse(localStorage.getItem(STORAGE.USERS));
+            
+            if (users.find(u => u.email === email)) {
+                const alert = document.getElementById('alert');
+                alert.style.display = 'flex';
+                alert.className = 'alert alert-error';
+                alert.querySelector('span').textContent = 'Bu email allaqachon ro\'yxatdan o\'tgan';
+                return;
+            }
+            
+            const newUser = { fullname, class: className, email, password };
+            users.push(newUser);
+            localStorage.setItem(STORAGE.USERS, JSON.stringify(users));
+            localStorage.setItem(STORAGE.USER, JSON.stringify(newUser));
+            
+            showDashboard();
+        };
+
+        // Dashboard
+        function showDashboard() {
+            const user = JSON.parse(localStorage.getItem(STORAGE.USER));
+            
+            let subjectsHtml = '';
+            for (let [key, subject] of Object.entries(TESTS)) {
+                subjectsHtml += `
+                    <div class="subject-card animate__animated animate__fadeInUp" onclick="startTest('${key}')">
+                        <div class="subject-icon">
+                            <i class="fas ${subject.icon}"></i>
+                        </div>
+                        <h3>${subject.name}</h3>
+                        <p>${subject.description}</p>
+                        <div class="subject-stats">
+                            <div class="stats-left">
+                                <div class="stat-item">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span>${subject.questions.length} ta savol</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>15 min</span>
+                                </div>
+                            </div>
+                            <button class="start-test-btn" onclick="event.stopPropagation(); startTest('${key}')">
+                                <span>Boshlash</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('app').innerHTML = `
+                <div class="header animate__animated animate__fadeInDown">
+                    <div class="logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="logo-text">EduTest</div>
+                    </div>
+                    <div class="user-menu">
+                        <div class="user-badge">
+                            <div class="user-avatar">
+                                ${user.fullname.charAt(0)}
+                            </div>
+                            <div class="user-info">
+                                <div class="user-name">${user.fullname}</div>
+                                <div class="user-class">${user.class}</div>
+                            </div>
+                        </div>
+                        <button class="logout-btn" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Chiqish</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <h1 class="dashboard-title animate__animated animate__fadeInLeft">
+                    <i class="fas fa-book"></i> Fanlar
+                </h1>
+                
+                <div class="subjects-grid">
+                    ${subjectsHtml}
+                </div>
+            `;
+        }
+
+        // Testni boshlash
+        window.startTest = function(subjectKey) {
+            const subject = TESTS[subjectKey];
+            localStorage.setItem('current_test', JSON.stringify({
+                subject: subjectKey,
+                answers: new Array(subject.questions.length).fill(null),
+                currentQuestion: 0
+            }));
+            showTest(subjectKey);
+        };
+
+        // Test sahifasi
+        function showTest(subjectKey) {
+            const subject = TESTS[subjectKey];
+            const testData = JSON.parse(localStorage.getItem('current_test'));
+            const q = testData.currentQuestion;
+            const question = subject.questions[q];
+            
+            let optionsHtml = '';
+            const letters = ['A', 'B', 'C', 'D'];
+            question.options.forEach((opt, index) => {
+                const isSelected = testData.answers[q] === index;
+                optionsHtml += `
+                    <div class="option-item ${isSelected ? 'selected' : ''}" onclick="selectAnswer(${q}, ${index})">
+                        <div class="option-marker">${letters[index]}</div>
+                        <div class="option-content">${opt}</div>
+                        ${isSelected ? '<i class="fas fa-check-circle" style="color: #667eea; margin-left: 10px;"></i>' : ''}
+                    </div>
+                `;
+            });
+            
+            document.getElementById('app').innerHTML = `
+                <div class="header animate__animated animate__fadeInDown">
+                    <div class="logo">
+                        <div class="logo-icon">
+                            <i class="fas ${subject.icon}"></i>
+                        </div>
+                        <div class="logo-text">${subject.name}</div>
+                    </div>
+                    <div class="user-menu">
+                        <button class="logout-btn" onclick="showDashboard()">
+                            <i class="fas fa-home"></i>
+                            <span>Bosh sahifa</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="test-wrapper animate__animated animate__fadeIn">
+                    <div class="test-header">
+                        <div class="test-info">
+                            <h2>${subject.name} testi</h2>
+                            <div class="test-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span>${q + 1} / ${subject.questions.length}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-star"></i>
+                                    <span>${testData.answers.filter(a => a !== null).length} ta javob</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Test progressi</span>
+                                <span>${Math.round(((q + 1) / subject.questions.length) * 100)}%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${((q + 1) / subject.questions.length) * 100}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="question-container">
+                        <div class="question-number">Savol ${q + 1}</div>
+                        <div class="question-text">${question.question}</div>
+                        
+                        <div class="options-grid">
+                            ${optionsHtml}
+                        </div>
+                    </div>
+                    
+                    <div class="test-navigation">
+                        <button class="nav-btn prev-btn" onclick="prevQuestion()" ${q === 0 ? 'disabled' : ''}>
+                            <i class="fas fa-arrow-left"></i>
+                            <span>Oldingi</span>
+                        </button>
+                        
+                        ${q === subject.questions.length - 1 ? 
+                            '<button class="nav-btn submit-btn" onclick="submitTest()"><i class="fas fa-check-circle"></i> Testni yakunlash</button>' : 
+                            '<button class="nav-btn next-btn" onclick="nextQuestion()"><span>Keyingi</span> <i class="fas fa-arrow-right"></i></button>'}
+                    </div>
+                </div>
+            `;
+            
+            // Progress circle animatsiyasi
+            const progressFill = document.querySelector('.progress-fill');
+            if (progressFill) {
+                progressFill.style.width = `${((q + 1) / subject.questions.length) * 100}%`;
+            }
+        }
+
+        // Javobni tanlash
+        window.selectAnswer = function(questionIndex, answerIndex) {
+            const testData = JSON.parse(localStorage.getItem('current_test'));
+            testData.answers[questionIndex] = answerIndex;
+            localStorage.setItem('current_test', JSON.stringify(testData));
+            
+            const subjectKey = testData.subject;
+            showTest(subjectKey);
+        };
+
+        // Oldingi savol
+        window.prevQuestion = function() {
+            const testData = JSON.parse(localStorage.getItem('current_test'));
+            if (testData.currentQuestion > 0) {
+                testData.currentQuestion--;
+                localStorage.setItem('current_test', JSON.stringify(testData));
+                
+                const subjectKey = testData.subject;
+                showTest(subjectKey);
+            }
+        };
+
+        // Keyingi savol
+        window.nextQuestion = function() {
+            const testData = JSON.parse(localStorage.getItem('current_test'));
+            const subject = TESTS[testData.subject];
+            
+            if (testData.currentQuestion < subject.questions.length - 1) {
+                testData.currentQuestion++;
+                localStorage.setItem('current_test', JSON.stringify(testData));
+                
+                const subjectKey = testData.subject;
+                showTest(subjectKey);
+            }
+        };
+
+        // Testni yakunlash
+        window.submitTest = function() {
+            const testData = JSON.parse(localStorage.getItem('current_test'));
+            const subject = TESTS[testData.subject];
+            
+            // Javob berilmagan savollarni tekshirish
+            const unanswered = testData.answers.filter(a => a === null).length;
+            if (unanswered > 0) {
+                if (!confirm(`${unanswered} ta savolga javob bermagansiz. Testni yakunlaymizmi?`)) {
+                    return;
+                }
+            }
+            
+            // Ballarni hisoblash
+            let correct = 0;
+            testData.answers.forEach((answer, index) => {
+                if (answer === subject.questions[index].correct) {
+                    correct++;
+                }
+            });
+            
+            const total = subject.questions.length;
+            const percentage = Math.round((correct / total) * 100);
+            
+            // Natijani saqlash
+            const user = JSON.parse(localStorage.getItem(STORAGE.USER));
+            const results = JSON.parse(localStorage.getItem(STORAGE.RESULTS));
+            results.push({
+                userId: user.email,
+                subject: testData.subject,
+                correct: correct,
+                total: total,
+                percentage: percentage,
+                date: new Date().toLocaleString()
+            });
+            localStorage.setItem(STORAGE.RESULTS, JSON.stringify(results));
+            
+            // Xabar va maslahat
+            let message = '';
+            let advice = '';
+            let icon = '';
+            
+            if (percentage >= 90) {
+                message = 'Mukammal! 🌟';
+                advice = 'Siz bu fanni juda yaxshi bilasiz!';
+                icon = 'fa-crown';
+            } else if (percentage >= 80) {
+                message = 'Ajoyib! 🎉';
+                advice = 'Yaxshi natija, shunday davom eting!';
+                icon = 'fa-star';
+            } else if (percentage >= 70) {
+                message = 'Yaxshi! 👍';
+                advice = 'Yaxshi natija, biroz takrorlash kerak';
+                icon = 'fa-smile';
+            } else if (percentage >= 60) {
+                message = 'Qoniqarli 📚';
+                advice = 'Ko\'proq mashq qilish kerak';
+                icon = 'fa-meh';
+            } else if (percentage >= 50) {
+                message = 'Qoniqarsiz 💪';
+                advice = 'Darsliklarni takrorlang';
+                icon = 'fa-frown';
+            } else {
+                message = 'Qayta urunish kerak 📖';
+                advice = 'Mavzuni qayta o\'rganib chiqing';
+                icon = 'fa-sad-tear';
+            }
+            
+            // Progress degree (360 * percentage / 100)
+            const degree = (percentage / 100) * 360;
+            
+            document.getElementById('app').innerHTML = `
+                <div class="header animate__animated animate__fadeInDown">
+                    <div class="logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="logo-text">Test natijasi</div>
+                    </div>
+                </div>
+                
+                <div class="result-wrapper">
+                    <div class="result-badge">
+                        <i class="fas ${subject.icon}"></i> ${subject.name}
+                    </div>
+                    
+                    <div class="result-circle">
+                        <div class="circle-progress" style="background: conic-gradient(#667eea ${degree}deg, #764ba2 ${degree}deg)">
+                            <div class="circle-inner">
+                                <span class="score-number">${correct}</span>
+                                <span class="score-total">/${total}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-message">
+                        <i class="fas ${icon}"></i> ${message}
+                    </div>
+                    <div class="result-advice">${advice}</div>
+                    
+                    <div class="result-stats">
+                        <div class="result-stat">
+                            <div class="stat-value">${correct}</div>
+                            <div class="stat-label">To'g'ri javoblar</div>
+                        </div>
+                        <div class="result-stat">
+                            <div class="stat-value">${total - correct}</div>
+                            <div class="stat-label">Noto'g'ri javoblar</div>
+                        </div>
+                        <div class="result-stat">
+                            <div class="stat-value">${percentage}%</div>
+                            <div class="stat-label">Foiz</div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-actions">
+                        <button class="action-btn primary" onclick="startTest('${testData.subject}')">
+                            <i class="fas fa-redo-alt"></i>
+                            Qayta topshirish
+                        </button>
+                        <button class="action-btn secondary" onclick="showDashboard()">
+                            <i class="fas fa-home"></i>
+                            Bosh sahifa
+                        </button>
+                    </div>
+                </div>
+            `;
+        };
+
+        // Chiqish
+        window.logout = function() {
+            localStorage.removeItem(STORAGE.USER);
+            localStorage.removeItem('current_test');
+            showLogin();
+        };
+
+        // Sahifa yuklanganda
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
